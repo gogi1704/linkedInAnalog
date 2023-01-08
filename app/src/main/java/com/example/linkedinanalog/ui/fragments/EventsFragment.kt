@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.ui
+package com.example.linkedinanalog.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.linkedinanalog.R
 
-class MyProfileFragment : Fragment() {
+
+class EventsFragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +21,7 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_profile, container, false)
+        return inflater.inflate(R.layout.fragment_events, container, false)
     }
 
 

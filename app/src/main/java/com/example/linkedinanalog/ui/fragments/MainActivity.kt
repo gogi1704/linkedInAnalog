@@ -1,13 +1,9 @@
-package com.example.linkedinanalog
+package com.example.linkedinanalog.ui.fragments
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.linkedinanalog.databinding.ActivityMainBinding
-import com.example.linkedinanalog.ui.EventsFragment
-import com.example.linkedinanalog.ui.MyProfileFragment
-import com.example.linkedinanalog.ui.PostsFragment
 import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 

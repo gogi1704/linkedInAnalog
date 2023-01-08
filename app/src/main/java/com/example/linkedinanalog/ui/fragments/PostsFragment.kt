@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.ui
+package com.example.linkedinanalog.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
