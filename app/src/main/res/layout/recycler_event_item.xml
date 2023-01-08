@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+
+    <TextView
+        android:id="@+id/text_AuthorJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="OOO 'GAZprom'"
+        app:layout_constraintStart_toStartOf="@+id/text_AuthorName"
+        app:layout_constraintTop_toBottomOf="@id/text_AuthorName" />
+
+    <ImageView
+        android:id="@+id/imageAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <TextView
+        android:id="@+id/text_AuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Vasya Stepanenko"
+        app:layout_constraintStart_toEndOf="@+id/imageAvatar"
+        app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
+
+    <TextView
+        android:id="@+id/eventStart_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Start event : "
+        app:layout_constraintStart_toStartOf="@+id/text_AuthorJob"
+        app:layout_constraintTop_toBottomOf="@+id/text_AuthorJob" />
+
+    <TextView
+        android:id="@+id/eventStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="02.02.2023"
+        app:layout_constraintBottom_toBottomOf="@+id/eventStart_hint"
+        app:layout_constraintStart_toEndOf="@+id/eventStart_hint"
+        app:layout_constraintTop_toTopOf="@+id/eventStart_hint" />
+
+    <TextView
+        android:id="@+id/published_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Published : "
+        android:textSize="8sp"
+        app:layout_constraintEnd_toStartOf="@+id/published"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/published"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4sp"
+        android:text="01.01.2023"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/eventType_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Event type : "
+        app:layout_constraintStart_toStartOf="@+id/eventStart_hint"
+        app:layout_constraintTop_toBottomOf="@+id/eventStart_hint" />
+
+    <TextView
+        android:id="@+id/eventType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Online"
+        app:layout_constraintStart_toEndOf="@+id/eventType_hint"
+        app:layout_constraintTop_toTopOf="@id/eventType_hint" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/userCard_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="eventType_hint,eventType,imageAvatar"
+        tools:layout_editor_absoluteX="160dp"
+        tools:layout_editor_absoluteY="102dp" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="4dp"
+        android:text="Content"
+        app:layout_constraintTop_toBottomOf="@id/button_speakers"
+        tools:layout_editor_absoluteX="261dp"
+        tools:layout_editor_absoluteY="65dp"
+        tools:text="userCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrier" />
+
+    <ImageView
+        android:id="@+id/button_speakers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@color/grey"
+        android:padding="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_participants"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
+        app:srcCompat="@drawable/ic_baseline_speaker_group_24" />
+
+    <ImageView
+        android:id="@+id/button_participants"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:background="@color/grey"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_speakers"
+        app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
+        app:srcCompat="@drawable/ic_participants_24"
+        tools:layout_editor_absoluteY="60dp" />
+
+    <TextView
+        android:id="@+id/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:ellipsize="end"
+        android:linksClickable="true"
+        android:maxLines="1"
+        android:text="https://github.com/netology-code/and-diploma"
+
+        app:layout_constraintStart_toEndOf="@id/link_hint"
+        app:layout_constraintTop_toTopOf="@id/link_hint"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/link_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Link : "
+        app:layout_constraintStart_toStartOf="@id/content"
+        app:layout_constraintTop_toBottomOf="@id/content"
+        tools:layout_editor_absoluteX="317dp"
+        tools:layout_editor_absoluteY="42dp" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_Link"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="link,link_hint" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
