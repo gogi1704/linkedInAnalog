@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/text_AuthorName"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Published : "
-        android:textSize="8sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/published"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,7 +68,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4sp"
         android:text="01.01.2023"
-        android:textSize="8sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -121,7 +121,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_participants"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
-        app:srcCompat="@drawable/ic_baseline_speaker_group_24" />
+        android:src="@drawable/ic_baseline_speaker_group_24" />
 
     <ImageView
         android:id="@+id/button_participants"
@@ -133,7 +133,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_speakers"
         app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
-        app:srcCompat="@drawable/ic_participants_24"
+        android:src="@drawable/ic_participants_24"
         tools:layout_editor_absoluteY="60dp" />
 
     <TextView

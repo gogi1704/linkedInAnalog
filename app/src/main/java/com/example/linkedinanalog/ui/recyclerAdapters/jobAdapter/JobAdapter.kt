@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.ui.recyclerAdapters
+package com.example.linkedinanalog.ui.recyclerAdapters.jobAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.databinding.RecyclerJobItemBinding
 
 
-class JobAdapter : ListAdapter<JobModel, JobAdapter.JobViewHolder>(DiffUtilCallback()) {
+class JobAdapter : ListAdapter<JobModel, JobAdapter.JobViewHolder>(JobDiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {

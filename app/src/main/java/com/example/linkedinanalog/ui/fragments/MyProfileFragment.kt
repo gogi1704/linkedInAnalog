@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.databinding.FragmentMyProfileBinding
-import com.example.linkedinanalog.ui.recyclerAdapters.JobAdapter
+import com.example.linkedinanalog.ui.recyclerAdapters.jobAdapter.JobAdapter
 
 class MyProfileFragment : Fragment() {
     val list = listOf(
