@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.PostsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Posts Fragment" />
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recycler_post"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      tools:listitem="@layout/recycler_post_item"
+      />
 
 </FrameLayout>
