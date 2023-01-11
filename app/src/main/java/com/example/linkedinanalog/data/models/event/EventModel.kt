@@ -2,6 +2,7 @@ package com.example.linkedinanalog.data.models.event
 
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
+import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.data.models.user.UsersPreview
 
 data class EventModel(
@@ -23,5 +24,5 @@ data class EventModel(
     val attachment: Attachment?,
     val link: String?,
     val ownedByMe:Boolean,
-    val users:List<UsersPreview>
+    val users:UserModel
     )

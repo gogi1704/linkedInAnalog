@@ -1,7 +1,7 @@
-package com.example.linkedinanalog.api
+package com.example.linkedinanalog.api.di
 
-import android.os.Build
 import com.example.linkedinanalog.BuildConfig
+import com.example.linkedinanalog.api.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 class ApiModule {
 
     companion object {
-        private const val BASE_URL = "netomedia.ru/"
+        private const val BASE_URL = "https://netomedia.ru/"
     }
 
     @Singleton
@@ -46,7 +47,7 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit) {} //TODO
+    fun provideApiService(retrofit: Retrofit):ApiService  = retrofit.create()
 
 
 }

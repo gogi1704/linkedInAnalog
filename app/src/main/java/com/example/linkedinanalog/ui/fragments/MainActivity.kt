@@ -1,13 +1,16 @@
 package com.example.linkedinanalog.ui.fragments
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.linkedinanalog.databinding.ActivityMainBinding
 import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : FragmentActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: PagerAdapter
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: ActivityMainBinding
