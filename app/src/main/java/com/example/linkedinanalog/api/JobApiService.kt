@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.api.di
+package com.example.linkedinanalog.api
 
 import com.example.linkedinanalog.data.models.job.JobModel
 import retrofit2.Response

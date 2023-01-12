@@ -13,16 +13,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPagerAdapter: PagerAdapter
     private lateinit var viewPager: ViewPager2
-    private lateinit var binding: ActivityMainBinding
-    private val fragments = listOf(PostsFragment() , EventsFragment() , MyProfileFragment() )
-    private val fragmentsNames = listOf("Posts" , "Events" , "My profile")
+    private lateinit var binding:ActivityMainBinding
+    private val fragments = listOf(PostsFragment(), EventsFragment(), MyProfileFragment())
+    private val fragmentsNames = listOf("Posts", "Events", "My profile")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater )
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewPager = binding.viewPager
-        viewPagerAdapter = PagerAdapter(this , fragments)
+        viewPagerAdapter = PagerAdapter(this, fragments)
         viewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.tabBar, viewPager) { tab, position ->
             tab.text = fragmentsNames[position]
