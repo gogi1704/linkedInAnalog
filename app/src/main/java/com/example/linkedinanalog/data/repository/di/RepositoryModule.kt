@@ -1,7 +1,9 @@
 package com.example.linkedinanalog.data.repository.di
 
-import com.example.linkedinanalog.data.repository.EventRepository
+import com.example.linkedinanalog.data.repository.Repository
 import com.example.linkedinanalog.data.repository.EventRepositoryImpl
+import com.example.linkedinanalog.data.repository.JobRepositoryImpl
+import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,7 +17,15 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsPostRepository(impl: EventRepositoryImpl): EventRepository
+    fun bindsEventRepository(impl: EventRepositoryImpl): Repository
+
+    @Binds
+    @Singleton
+    fun bindsPostRepository(impl: PostRepositoryImpl): Repository
+
+    @Binds
+    @Singleton
+    fun bindsJobRepository(impl: JobRepositoryImpl): Repository
 
 
 }

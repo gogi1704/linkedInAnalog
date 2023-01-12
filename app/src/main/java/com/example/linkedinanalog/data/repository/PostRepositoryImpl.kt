@@ -1,26 +1,23 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.example.linkedinanalog.api.EventApiService
-import com.example.linkedinanalog.data.models.event.EventModel
+import com.example.linkedinanalog.api.PostApiService
+import com.example.linkedinanalog.data.models.post.PostModel
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor(private val apiService: EventApiService) :
-    Repository {
+class PostRepositoryImpl @Inject constructor(private val apiService: PostApiService) : Repository {
 
-    var data = listOf<EventModel>()
+   private var data = listOf<PostModel>()
         set(value) {
             field = value
             liveData.value = value
         }
     val liveData = MutableLiveData(data)
-
     override suspend fun getAll() {
-        val response = apiService.getAllEvents()
+        val response = apiService.getAllPosts()
         if (response.isSuccessful) {
             val body = response.body()
             data = body ?: listOf()
         } else throw Exception()
-
     }
 }

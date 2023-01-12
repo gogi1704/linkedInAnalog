@@ -1,26 +1,25 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.example.linkedinanalog.api.EventApiService
-import com.example.linkedinanalog.data.models.event.EventModel
+import com.example.linkedinanalog.api.di.JobApiService
+import com.example.linkedinanalog.data.models.job.JobModel
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor(private val apiService: EventApiService) :
+class JobRepositoryImpl @Inject constructor(private val apiService: JobApiService) :
     Repository {
-
-    var data = listOf<EventModel>()
+    var data = listOf<JobModel>()
         set(value) {
             field = value
-            liveData.value = value
+            liveData.value = field
         }
+
     val liveData = MutableLiveData(data)
 
     override suspend fun getAll() {
-        val response = apiService.getAllEvents()
+        val response = apiService.getAllJobs()
         if (response.isSuccessful) {
             val body = response.body()
             data = body ?: listOf()
-        } else throw Exception()
-
+        } else data = emptyList()
     }
 }

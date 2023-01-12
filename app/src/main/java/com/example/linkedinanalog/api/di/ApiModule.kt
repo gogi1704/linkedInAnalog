@@ -1,7 +1,8 @@
 package com.example.linkedinanalog.api.di
 
 import com.example.linkedinanalog.BuildConfig
-import com.example.linkedinanalog.api.ApiService
+import com.example.linkedinanalog.api.EventApiService
+import com.example.linkedinanalog.api.PostApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,7 +48,17 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit):ApiService  = retrofit.create()
+    fun provideEventApiService(retrofit: Retrofit): EventApiService = retrofit.create()
+
+
+    @Singleton
+    @Provides
+    fun providePostApiService(retrofit: Retrofit): PostApiService = retrofit.create()
+
+
+    @Singleton
+    @Provides
+    fun providesJobApiService(retrofit: Retrofit): JobApiService = retrofit.create()
 
 
 }

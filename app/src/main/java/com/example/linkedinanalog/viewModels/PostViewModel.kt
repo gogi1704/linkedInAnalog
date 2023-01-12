@@ -4,26 +4,25 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.linkedinanalog.data.models.event.EventModel
-import com.example.linkedinanalog.data.repository.EventRepositoryImpl
+import com.example.linkedinanalog.data.models.post.PostModel
+import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EventViewModel @Inject constructor(
+class PostViewModel @Inject constructor(
     application: Application,
-    private val repository: EventRepositoryImpl
+    private val repository: PostRepositoryImpl
 ) : AndroidViewModel(application) {
 
-    val liveData:MutableLiveData<List<EventModel>>
-    get() {
-        return repository.liveData
-    }
+    val liveData:MutableLiveData<List<PostModel>>
+    get() = repository.liveData
 
-    fun getEvents() {
+    fun getAllPosts() {
         viewModelScope.launch {
             repository.getAll()
         }
     }
+
 }
