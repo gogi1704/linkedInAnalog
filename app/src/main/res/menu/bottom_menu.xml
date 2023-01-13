@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Posts"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_more_horiz_24"
+        android:title="Posts" />
+    <item
+        android:id="@+id/Events"
+        android:enabled="true"
+
+        android:icon="@drawable/ic_participants_24"
+        android:title="Events" />
+    <item
+        android:id="@+id/My_profile"
+        android:enabled="true"
+
+        android:icon="@drawable/ic_baseline_speaker_group_24"
+        android:title="My profile" />
+</menu>

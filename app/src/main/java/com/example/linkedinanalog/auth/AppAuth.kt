@@ -13,6 +13,8 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
     private val idKey = "id"
     private val tokenKey = "token"
 
+
+
     private val _authStateFlow: MutableStateFlow<AuthState>
 
     init {
@@ -46,15 +48,17 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
     }
 
     @Synchronized
-    fun removeAuth(){
+    fun removeAuth() {
         _authStateFlow.value = AuthState()
-        with(prefs.edit()){
+        with(prefs.edit()) {
             clear()
             commit()
         }
     }
 
-    fun isAuth(): Boolean {
-        return _authStateFlow.value != AuthState()
-    }
+    val isAuth: Boolean
+    get() = _authStateFlow.value != AuthState()
+//    fun isAuth(): Boolean {
+//        return _authStateFlow.value != AuthState()
+//    }
 }
