@@ -25,6 +25,6 @@ interface AuthApiService {
     ): Response<AuthState>
 
     @GET("/api/users/{id}/")
-    suspend fun getUserById(@Path("id") id: Int): Response<UserModel>
+    suspend fun getUserById(@Path("id") id: Long): Response<UserModel>
 
 }

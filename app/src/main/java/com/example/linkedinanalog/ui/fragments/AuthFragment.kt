@@ -13,11 +13,13 @@ import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.AuthViewModel.Companion.AUTH_BUNDLE_KEY
 import com.example.linkedinanalog.viewModels.AuthViewModel.Companion.AUTH_BUNDLE_VALUE_REG
 import com.example.linkedinanalog.viewModels.AuthViewModel.Companion.AUTH_BUNDLE_VALUE_SIGN_IN
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AuthFragment : Fragment() {
     private lateinit var binding: FragmentAuthBinding
     private val viewModel: AuthViewModel by activityViewModels()
+
 
     override
 
@@ -57,7 +59,6 @@ class AuthFragment : Fragment() {
                     )
                     findNavController().navigateUp()
                 }
-
             }
 
         }

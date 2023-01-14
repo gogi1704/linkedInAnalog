@@ -1,6 +1,7 @@
 package com.example.linkedinanalog.auth
 
 import android.content.Context
+import com.example.linkedinanalog.data.models.user.UserModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
     private val idKey = "id"
     private val tokenKey = "token"
 
-
+//    val myUserId:Int
+//    get() = prefs.getInt(idKey , -1)
 
     private val _authStateFlow: MutableStateFlow<AuthState>
 
@@ -57,8 +59,6 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
     }
 
     val isAuth: Boolean
-    get() = _authStateFlow.value != AuthState()
-//    fun isAuth(): Boolean {
-//        return _authStateFlow.value != AuthState()
-//    }
+        get() = _authStateFlow.value != AuthState()
+
 }

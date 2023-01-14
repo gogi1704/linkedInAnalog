@@ -9,7 +9,6 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
-import com.example.linkedinanalog.auth.AuthState
 import com.example.linkedinanalog.databinding.FragmentMyProfileBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.recyclerAdapters.jobAdapter.JobAdapter
@@ -36,34 +35,40 @@ class MyProfileFragment : Fragment() {
         binding.recyclerJob.adapter = adapter
 
         with(binding) {
+            menuButton.setOnClickListener {
+                showAuthMenu(authViewModel.isAuth)
+            }
 
-
-            showAuthMenu(authViewModel.isAuth)
         }
 
 
 
-        authViewModel.liveData.observe(viewLifecycleOwner) {
-            //TODO
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
+            authViewModel.updateMyUser()
+            jobViewModel.getAllJobs()
         }
 
         jobViewModel.liveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+            if (it.isEmpty()) {
+                binding.textEmpty.visibility = View.VISIBLE
+            } else {
+                binding.textEmpty.visibility = View.GONE
+                adapter.submitList(it)
+            }
+
         }
 
-
-
-
+        authViewModel.userLiveData.observe(viewLifecycleOwner) {
+            with(binding) {
+                imageAvatar.loadAvatar(it.avatar.toString())
+                textUserName.text = it.name
+            }
+        }
 
 
         return binding.root
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        jobViewModel.getAllJobs()
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     private fun showAuthMenu(isAuth: Boolean) {
         if (!isAuth) {
@@ -80,6 +85,7 @@ class MyProfileFragment : Fragment() {
                                         AUTH_BUNDLE_VALUE_SIGN_IN
                                     )
                                 })
+
                             true
                         }
                         R.id.registration -> {
@@ -96,6 +102,7 @@ class MyProfileFragment : Fragment() {
                     }
 
                 }
+
             }.show()
 
         } else {
@@ -111,7 +118,6 @@ class MyProfileFragment : Fragment() {
                             false
                         }
                     }
-
 
                 }
             }.show()
