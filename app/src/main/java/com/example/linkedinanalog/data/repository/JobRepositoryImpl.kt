@@ -1,7 +1,7 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.example.linkedinanalog.api.di.JobApiService
+import com.example.linkedinanalog.api.JobApiService
 import com.example.linkedinanalog.data.models.job.JobModel
 import javax.inject.Inject
 

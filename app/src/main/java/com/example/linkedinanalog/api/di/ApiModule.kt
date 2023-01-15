@@ -1,8 +1,11 @@
 package com.example.linkedinanalog.api.di
 
 import com.example.linkedinanalog.BuildConfig
+import com.example.linkedinanalog.api.AuthApiService
 import com.example.linkedinanalog.api.EventApiService
+import com.example.linkedinanalog.api.JobApiService
 import com.example.linkedinanalog.api.PostApiService
+import com.example.linkedinanalog.auth.AppAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,10 +36,20 @@ class ApiModule {
 
     @Singleton
     @Provides
-    fun provideOkHTTP(logging: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .addInterceptor(logging)
-        .build()
+    fun provideOkHTTP(logging: HttpLoggingInterceptor, appAuth: AppAuth): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(logging)
+            .addInterceptor { chain ->
+                appAuth.authStateFlow.value.token?.let { token ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", token)
+                        .build()
+                    return@addInterceptor chain.proceed(newRequest)
+                }
+                chain.proceed(chain.request())
+            }
+            .build()
 
     @Singleton
     @Provides
@@ -59,6 +72,11 @@ class ApiModule {
     @Singleton
     @Provides
     fun providesJobApiService(retrofit: Retrofit): JobApiService = retrofit.create()
+
+
+    @Singleton
+    @Provides
+    fun providesAuthApiService(retrofit: Retrofit): AuthApiService = retrofit.create()
 
 
 }
