@@ -3,13 +3,14 @@ package com.example.linkedinanalog.ui.recyclerAdapters.postAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 
-class PostAdapter : ListAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
+class PostAdapter : PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -19,7 +20,7 @@ class PostAdapter : ListAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffU
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position)!!)
     }
 
     class PostViewHolder(private val binding: RecyclerPostItemBinding) :

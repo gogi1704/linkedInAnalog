@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
 import com.example.linkedinanalog.viewModels.PostViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class PostsFragment : Fragment() {
 
@@ -27,8 +29,16 @@ class PostsFragment : Fragment() {
         binding.recyclerPost.adapter = adapter
 
 
-        viewModel.liveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+//        viewModel.liveData.observe(viewLifecycleOwner) {
+//            adapter.submitList(it)
+//        }
+
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.pagingData.collectLatest {
+                adapter.submitData(it)
+            }
+
         }
 
 

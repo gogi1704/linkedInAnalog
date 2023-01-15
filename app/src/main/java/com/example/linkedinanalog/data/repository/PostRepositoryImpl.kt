@@ -1,13 +1,30 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.linkedinanalog.api.PostApiService
+import com.example.linkedinanalog.data.db.dao.PostDao
+import com.example.linkedinanalog.data.db.entity.PostEntity
+import com.example.linkedinanalog.data.db.entity.toEntity
 import com.example.linkedinanalog.data.models.post.PostModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.*
 
-class PostRepositoryImpl @Inject constructor(private val apiService: PostApiService) : Repository {
 
-   private var data = listOf<PostModel>()
+class PostRepositoryImpl @Inject constructor(
+    private val apiService: PostApiService,
+    private val postDao: PostDao
+) : Repository {
+
+    val pagingData: Flow<PagingData<PostEntity>> = Pager(
+        PagingConfig(5, enablePlaceholders = false)
+    ) {
+        postDao.getPagingData()
+    }.flow
+
+    private var data = listOf<PostModel>()
         set(value) {
             field = value
             liveData.value = value
@@ -18,6 +35,8 @@ class PostRepositoryImpl @Inject constructor(private val apiService: PostApiServ
         if (response.isSuccessful) {
             val body = response.body()
             data = body ?: listOf()
+            postDao.insertPost(data.toEntity())
+
         } else throw Exception()
     }
 }
