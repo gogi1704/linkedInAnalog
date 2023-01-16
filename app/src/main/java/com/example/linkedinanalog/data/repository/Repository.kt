@@ -1,5 +1,9 @@
 package com.example.linkedinanalog.data.repository
 
-interface Repository {
+import com.example.linkedinanalog.data.models.post.PostModel
+
+interface Repository<T> {
    suspend fun getAll()
+   suspend fun addItem(item: T)
 }
+

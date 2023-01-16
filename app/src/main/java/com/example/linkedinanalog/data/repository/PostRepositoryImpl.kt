@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.*
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
     private val postDao: PostDao
-) : Repository {
+) : Repository<PostModel> {
 
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
         PagingConfig(5, enablePlaceholders = false)
@@ -30,6 +30,9 @@ class PostRepositoryImpl @Inject constructor(
             liveData.value = value
         }
     val liveData = MutableLiveData(data)
+
+
+
     override suspend fun getAll() {
         val response = apiService.getAllPosts()
         if (response.isSuccessful) {
@@ -38,5 +41,9 @@ class PostRepositoryImpl @Inject constructor(
             postDao.insertPost(data.toEntity())
 
         } else throw Exception()
+    }
+
+    override suspend fun addItem(postModel: PostModel) {
+        TODO("Not yet implemented")
     }
 }
