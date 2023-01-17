@@ -8,17 +8,20 @@ import com.example.linkedinanalog.data.db.entity.PostEntity
 interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(post:PostEntity)
+    suspend fun insertPost(post: PostEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(posts:List<PostEntity>)
+    suspend fun insertPost(posts: List<PostEntity>)
 
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getPagingData(): PagingSource<Int, PostEntity>
 
-
-
-
+    @Query(
+        """
+        DELETE FROM PostEntity WHERE id = :id
+    """
+    )
+    suspend fun deletePost(id: Long)
 
 
 }

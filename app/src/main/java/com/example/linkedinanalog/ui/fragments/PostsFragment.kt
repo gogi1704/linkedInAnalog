@@ -11,12 +11,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
+import com.example.linkedinanalog.ui.constans.OPEN_FRAGMENT_KEY
+import com.example.linkedinanalog.ui.constans.POST_OPEN
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
+import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapterListener
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import okhttp3.internal.notify
 
 @AndroidEntryPoint
 class PostsFragment : Fragment() {
@@ -31,18 +35,29 @@ class PostsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
-        adapter = PostAdapter()
+
+        adapter = PostAdapter(object : PostAdapterListener{
+            override fun deletePost(id:Long) {
+               postViewModel.deletePost(id)
+            }
+
+            override fun updatePost() {
+                TODO("Not yet implemented")
+            }
+        })
+
         binding.recyclerPost.adapter = adapter
 
+
         binding.fbCreatePost.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_createFragment , Bundle().apply {
-                putString("OPEN_FRAGMENT_KEY" , "POST")
-            })
+            findNavController().navigate(
+                R.id.action_homeFragment_to_createFragment,
+                Bundle().apply {
+                    putString(OPEN_FRAGMENT_KEY, POST_OPEN)
+                })
         }
 
-//        viewModel.liveData.observe(viewLifecycleOwner) {
-//            adapter.submitList(it)
-//        }
+
 
 
         lifecycleScope.launchWhenCreated {

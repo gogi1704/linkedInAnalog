@@ -27,4 +27,8 @@ class EventRepositoryImpl @Inject constructor(private val apiService: EventApiSe
     override suspend fun addItem(item: EventModel) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteItem(id: Long) {
+        TODO("Not yet implemented")
+    }
 }

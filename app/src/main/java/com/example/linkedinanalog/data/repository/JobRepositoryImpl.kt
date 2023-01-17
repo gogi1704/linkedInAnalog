@@ -26,4 +26,8 @@ class JobRepositoryImpl @Inject constructor(private val apiService: JobApiServic
     override suspend fun addItem(item: JobModel) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun deleteItem(id: Long) {
+        TODO("Not yet implemented")
+    }
 }

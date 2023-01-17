@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
@@ -35,14 +36,14 @@ class PostViewModel @Inject constructor(
 
 
     private var photoModel = PhotoModel()
-    set(value) {
-        field = value
-        _photoLiveData.value = value
-    }
+        set(value) {
+            field = value
+            _photoLiveData.value = value
+        }
     private val _photoLiveData = MutableLiveData(photoModel)
 
     val photoLiveData
-    get() = _photoLiveData
+        get() = _photoLiveData
 
 
     fun getAllPosts() {
@@ -53,15 +54,25 @@ class PostViewModel @Inject constructor(
 
     fun addPost(post: PostCreateRequest) {
         viewModelScope.launch {
-            repository.addItem(post)
+            if (post.attachment == null) {
+                repository.addItem(post)
+            } else
+                repository.addItemWithAttachments(post, MediaUpload(photoLiveData.value?.file!!))
+        }
+
+        photoLiveData.value = PhotoModel()
+    }
+
+    fun deletePost(id:Long){
+        viewModelScope.launch {
+            repository.deleteItem(id)
         }
     }
 
 
-
-
-    fun changePhoto(uri: Uri?, file: File?){
-        photoModel = PhotoModel(uri , file )
+    fun changePhoto(uri: Uri?, file: File?) {
+        photoModel = PhotoModel(uri, file)
     }
+
 
 }

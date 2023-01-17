@@ -8,28 +8,19 @@ import com.example.linkedinanalog.api.PostApiService
 import com.example.linkedinanalog.data.db.dao.PostDao
 import com.example.linkedinanalog.data.db.entity.PostEntity
 import com.example.linkedinanalog.data.db.entity.toEntity
-import com.example.linkedinanalog.data.models.Attachment
-import com.example.linkedinanalog.data.models.Coordinates
+import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
-import retrofit2.http.POST
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
     private val postDao: PostDao
 ) : Repository<PostCreateRequest> {
-
-//    private val postRequest = PostCreateRequest(
-//        id = -1,
-//        content = "",
-//        coords = Coordinates("", ""),
-//        link = "",
-//        attachment = Attachment(null , null),
-//        mentionIds = emptyList()
-//    )
 
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
         PagingConfig(5, enablePlaceholders = false)
@@ -46,6 +37,7 @@ class PostRepositoryImpl @Inject constructor(
 
 
     override suspend fun getAll() {
+        //todo
         val response = apiService.getAllPosts()
         if (response.isSuccessful) {
             val body = response.body()
@@ -59,9 +51,35 @@ class PostRepositoryImpl @Inject constructor(
         //todo
         val response = apiService.addPost(item)
         if (response.isSuccessful) {
-            response
-            postDao.insertPost(PostEntity.fromDto(response.body()!!))
+            val body = response.body()
+            postDao.insertPost(PostEntity.fromDto(body!!))
         } else {
+            response
+        }
+    }
+
+
+    suspend fun addItemWithAttachments(postModel: PostCreateRequest, mediaUpload: MediaUpload){
+        val media = uploadImage(mediaUpload)
+        val post = postModel.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
+        addItem(post)
+
+    }
+
+    suspend fun uploadImage(upload: MediaUpload): Media {
+        //todo
+        val media = MultipartBody.Part.createFormData(
+            "file", upload.file.name, upload.file.asRequestBody()
+        )
+        val response = apiService.upLoadImage(media)
+        return response.body()!!
+    }
+
+    override suspend fun deleteItem(id: Long) {
+        val response = apiService.removePost(id)
+        if (response.isSuccessful){
+            postDao.deletePost(id)
+        }else {
             response
         }
     }

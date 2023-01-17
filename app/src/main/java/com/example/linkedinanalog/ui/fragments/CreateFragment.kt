@@ -17,6 +17,8 @@ import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.AttachmentType
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
+import com.example.linkedinanalog.ui.constans.OPEN_FRAGMENT_KEY
+import com.example.linkedinanalog.ui.constans.POST_OPEN
 import com.example.linkedinanalog.viewModels.PostViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
@@ -51,9 +53,9 @@ class CreateFragment : Fragment() {
                 }
             }
 
-        when (requireArguments().getString("OPEN_FRAGMENT_KEY")) {
+        when (requireArguments().getString(OPEN_FRAGMENT_KEY)) {
             //todo
-            "POST" -> {
+            POST_OPEN -> {
                 with(binding) {
                     buttonCreatingComplete.setOnClickListener {
                         val post = PostCreateRequest(
@@ -62,12 +64,7 @@ class CreateFragment : Fragment() {
                             link = textLink.text.toString(),
 
                             //todo
-                            attachment = if (postViewModel.photoLiveData.value?.uri != null) {
-                                Attachment(
-                                    postViewModel.photoLiveData.value?.uri.toString(),
-                                    AttachmentType.IMAGE
-                                )
-                            } else null ,
+                            attachment = Attachment("" , AttachmentType.IMAGE),
                             mentionIds = listOf()
                         )
                         postViewModel.addPost(post)
