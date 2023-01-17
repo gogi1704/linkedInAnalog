@@ -56,7 +56,7 @@ data class PostEntity(
             } else null,
             mentionedMe = mentionedMe,
             likeByMe = likeByMe,
-            attachment = if (attachment?.length!! <= 0) gson.fromJson(
+            attachment = if (attachment != null) gson.fromJson(
                 attachment,
                 Attachment::class.java
             ) else null,

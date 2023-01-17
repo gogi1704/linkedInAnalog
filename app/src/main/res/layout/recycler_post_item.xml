@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_margin="4dp">
 
     <TextView
         android:id="@+id/text_AuthorJob"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:text="OOO 'GAZprom'"
+        app:layout_constraintEnd_toStartOf="@+id/button_menu"
         app:layout_constraintStart_toStartOf="@+id/text_AuthorName"
         app:layout_constraintTop_toBottomOf="@id/text_AuthorName" />
 
@@ -19,16 +21,18 @@
         android:id="@+id/imageAvatar"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_launcher_foreground" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_AuthorName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:text="Vasya Stepanenko"
+        app:layout_constraintEnd_toStartOf="@id/button_menu"
         app:layout_constraintStart_toEndOf="@+id/imageAvatar"
         app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
 
@@ -40,8 +44,8 @@
         android:layout_marginTop="4dp"
         android:text="Published : "
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/published"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/content"
+        app:layout_constraintEnd_toStartOf="@+id/published" />
 
     <TextView
         android:id="@+id/published"
@@ -51,8 +55,8 @@
         android:layout_marginEnd="4sp"
         android:text="01.01.2023"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/content"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/userCard_barrier"
@@ -108,5 +112,25 @@
         android:visibility="gone"
         app:constraint_referenced_ids="link,link_hint"
         tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_menu"
+        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_baseline_more_horiz_24"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/attachment_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/link"
+        app:srcCompat="@drawable/avatar_placeholder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

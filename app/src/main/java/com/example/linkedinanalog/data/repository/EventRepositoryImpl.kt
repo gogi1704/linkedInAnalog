@@ -6,7 +6,7 @@ import com.example.linkedinanalog.data.models.event.EventModel
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(private val apiService: EventApiService) :
-    Repository {
+    Repository<EventModel> {
 
     var data = listOf<EventModel>()
         set(value) {
@@ -22,5 +22,9 @@ class EventRepositoryImpl @Inject constructor(private val apiService: EventApiSe
             data = body ?: listOf()
         } else throw Exception()
 
+    }
+
+    override suspend fun addItem(item: EventModel) {
+        TODO("Not yet implemented")
     }
 }

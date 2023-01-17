@@ -1,16 +1,21 @@
 package com.example.linkedinanalog.viewModels
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
+import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.File
+import java.net.URI
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +24,6 @@ class PostViewModel @Inject constructor(
     private val repository: PostRepositoryImpl
 ) : AndroidViewModel(application) {
 
-    val liveData:MutableLiveData<List<PostModel>>
-    get() = repository.liveData
-
     private val _pagingData = repository.pagingData.cachedIn(viewModelScope).map {
         it.map { post ->
             post.toDto()
@@ -29,12 +31,37 @@ class PostViewModel @Inject constructor(
     }
 
     val pagingData
-    get() = _pagingData
+        get() = _pagingData
+
+
+    private var photoModel = PhotoModel()
+    set(value) {
+        field = value
+        _photoLiveData.value = value
+    }
+    private val _photoLiveData = MutableLiveData(photoModel)
+
+    val photoLiveData
+    get() = _photoLiveData
+
 
     fun getAllPosts() {
         viewModelScope.launch {
             repository.getAll()
         }
+    }
+
+    fun addPost(post: PostCreateRequest) {
+        viewModelScope.launch {
+            repository.addItem(post)
+        }
+    }
+
+
+
+
+    fun changePhoto(uri: Uri?, file: File?){
+        photoModel = PhotoModel(uri , file )
     }
 
 }

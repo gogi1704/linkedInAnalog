@@ -6,7 +6,7 @@ import com.example.linkedinanalog.data.models.job.JobModel
 import javax.inject.Inject
 
 class JobRepositoryImpl @Inject constructor(private val apiService: JobApiService) :
-    Repository {
+    Repository<JobModel> {
     var data = listOf<JobModel>()
         set(value) {
             field = value
@@ -21,5 +21,9 @@ class JobRepositoryImpl @Inject constructor(private val apiService: JobApiServic
             val body = response.body()
             data = body ?: listOf()
         } else data = emptyList()
+    }
+
+    override suspend fun addItem(item: JobModel) {
+        TODO("Not yet implemented")
     }
 }

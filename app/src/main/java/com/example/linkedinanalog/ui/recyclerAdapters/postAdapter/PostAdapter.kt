@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
+import com.example.linkedinanalog.ui.extensions.loadFitCenter
+import com.example.linkedinanalog.ui.extensions.loadImage
 
-class PostAdapter : PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
+class PostAdapter :
+    PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -38,6 +41,15 @@ class PostAdapter : PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(Pos
                     groupLink.visibility = View.VISIBLE
                     link.text = item.link
                 }
+
+                if (item.ownedByMe) {
+                    buttonMenu.visibility = View.VISIBLE
+                } else buttonMenu.visibility = View.GONE
+
+                if (item.attachment != null){
+                    attachmentImage.visibility = View.VISIBLE
+                    attachmentImage.loadFitCenter(item.attachment.url.toString())
+                } else attachmentImage.visibility = View.GONE
 
             }
         }

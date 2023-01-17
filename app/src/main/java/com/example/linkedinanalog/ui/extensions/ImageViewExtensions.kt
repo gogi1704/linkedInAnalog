@@ -12,3 +12,20 @@ fun ImageView.loadAvatar(url: String) {
         .circleCrop()
         .into(this)
 }
+
+fun ImageView.loadImage(url: String) {
+    Glide.with(this)
+        .load(url)
+        .placeholder(R.drawable.ic_error_download)
+        .timeout(10_000)
+        .into(this)
+}
+
+fun ImageView.loadFitCenter(url: String) {
+    Glide.with(this)
+        .load(url)
+        .timeout(10_000)
+        .fitCenter()
+        .into(this)
+
+}

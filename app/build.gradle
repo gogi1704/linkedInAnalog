@@ -41,6 +41,7 @@ android {
 apply plugin: 'dagger.hilt.android.plugin'
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-cast-framework:21.2.0'
     def nav_version = "2.5.3"
     def recyclerview_version = "1.2.1"
     def glide_version = "4.14.1"
@@ -103,4 +104,7 @@ dependencies {
     //Paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
     implementation "androidx.room:room-paging:$room_version"
+
+    //ImagePicker
+    implementation 'com.github.Dhaval2404:ImagePicker:2.1'
 }
