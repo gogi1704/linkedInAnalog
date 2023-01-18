@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.AttachmentType
+import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
 import com.example.linkedinanalog.ui.constans.OPEN_FRAGMENT_KEY
@@ -62,9 +63,11 @@ class CreateFragment : Fragment() {
                             content = textContent.text.toString(),
                             coords = null,
                             link = textLink.text.toString(),
-
                             //todo
-                            attachment = Attachment("" , AttachmentType.IMAGE),
+                            attachment = if (postViewModel.photoLiveData.value != PhotoModel()) Attachment(
+                                "",
+                                AttachmentType.IMAGE
+                            ) else null,
                             mentionIds = listOf()
                         )
                         postViewModel.addPost(post)

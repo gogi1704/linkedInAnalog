@@ -16,6 +16,7 @@ import com.example.linkedinanalog.ui.constans.POST_OPEN
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapterListener
+import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostsLoadStateAdapter
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,24 +30,33 @@ class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
     private lateinit var adapter: PostAdapter
     private val postViewModel: PostViewModel by activityViewModels()
-    private val authViewModel: AuthViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
 
-        adapter = PostAdapter(object : PostAdapterListener{
-            override fun deletePost(id:Long) {
-               postViewModel.deletePost(id)
+        adapter = PostAdapter(object : PostAdapterListener {
+            override fun deletePost(id: Long) {
+                postViewModel.deletePost(id)
             }
 
             override fun updatePost() {
                 TODO("Not yet implemented")
             }
         })
-
-        binding.recyclerPost.adapter = adapter
+        binding.recyclerPost.adapter = adapter.withLoadStateHeaderAndFooter(header =
+        PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
+            override fun onRetry() {
+                adapter.retry()
+            }
+        }),
+            footer = PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
+                override fun onRetry() {
+                    adapter.retry()
+                }
+            })
+        )
 
 
         binding.fbCreatePost.setOnClickListener {
@@ -67,9 +77,6 @@ class PostsFragment : Fragment() {
 
         }
 
-        authViewModel.userLiveData.observe(viewLifecycleOwner) {
-
-        }
 
 
 

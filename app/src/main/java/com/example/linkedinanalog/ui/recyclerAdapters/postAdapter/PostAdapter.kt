@@ -19,14 +19,16 @@ interface PostAdapterListener {
     fun updatePost()
 }
 
+
 class PostAdapter(private val listener: PostAdapterListener) :
     PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
             RecyclerPostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, listener)
+        return PostViewHolder(binding, listener )
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -35,7 +37,7 @@ class PostAdapter(private val listener: PostAdapterListener) :
 
     class PostViewHolder(
         private val binding: RecyclerPostItemBinding,
-        private val listener: PostAdapterListener
+        private val listener: PostAdapterListener,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: PostModel) {

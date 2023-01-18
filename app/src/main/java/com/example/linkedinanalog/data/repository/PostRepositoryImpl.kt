@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
+//TODO create posts newerCount and swipeRefresh
+
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
@@ -23,7 +25,7 @@ class PostRepositoryImpl @Inject constructor(
 ) : Repository<PostCreateRequest> {
 
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-        PagingConfig(5, enablePlaceholders = false)
+        PagingConfig(3, enablePlaceholders = false)
     ) {
         postDao.getPagingData()
     }.flow
