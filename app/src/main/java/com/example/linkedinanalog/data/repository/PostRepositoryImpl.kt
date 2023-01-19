@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
-//TODO create posts newerCount and swipeRefresh
+
 
 
 class PostRepositoryImpl @Inject constructor(
@@ -31,7 +31,7 @@ class PostRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-       config =  PagingConfig(3),
+       config =  PagingConfig(6),
         remoteMediator = PostsRemoteMediator(apiService , db , postDao , keyDao ),
         pagingSourceFactory = postDao::pagingSource
     ).flow

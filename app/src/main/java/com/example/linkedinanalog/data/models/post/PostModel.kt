@@ -23,4 +23,6 @@ data class PostModel(
     val ownedByMe: Boolean,
     val users: UserModel
 
-)
+){
+    fun toPostCreateRequest():PostCreateRequest = PostCreateRequest(id , content , coords , link , attachment , mentionsIds)
+}

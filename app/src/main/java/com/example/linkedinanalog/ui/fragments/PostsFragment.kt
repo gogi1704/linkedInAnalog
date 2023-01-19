@@ -12,25 +12,24 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
+import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
-import com.example.linkedinanalog.ui.constans.OPEN_FRAGMENT_KEY
-import com.example.linkedinanalog.ui.constans.POST_OPEN
-import com.example.linkedinanalog.ui.extensions.loadAvatar
+import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapterListener
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostsLoadStateAdapter
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import okhttp3.internal.notify
 
 @AndroidEntryPoint
 class PostsFragment : Fragment() {
-
-
     private lateinit var binding: FragmentPostsBinding
     private lateinit var adapter: PostAdapter
+    private val authViewModel:AuthViewModel by activityViewModels()
     private val postViewModel: PostViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +42,12 @@ class PostsFragment : Fragment() {
                 postViewModel.deletePost(id)
             }
 
-            override fun updatePost() {
-                TODO("Not yet implemented")
+            override fun updatePost(post:PostCreateRequest) {
+                findNavController().navigate(R.id.action_homeFragment_to_createFragment , Bundle().apply {
+                    putString(OPEN_FRAGMENT_KEY , POST_OPEN)
+                    putString(JOB_KEY , UPDATE)
+                    putString(ITEM_KEY , Gson().toJson(post))
+                })
             }
         })
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
@@ -62,6 +65,7 @@ class PostsFragment : Fragment() {
                 R.id.action_homeFragment_to_createFragment,
                 Bundle().apply {
                     putString(OPEN_FRAGMENT_KEY, POST_OPEN)
+                    putString(JOB_KEY, CREATE)
                 })
         }
 
@@ -73,6 +77,10 @@ class PostsFragment : Fragment() {
                 adapter.submitData(it)
             }
 
+        }
+
+        authViewModel.authLiveData.observe(viewLifecycleOwner){
+            adapter.refresh()
         }
 
         postViewModel.newerCount.observe(viewLifecycleOwner) {

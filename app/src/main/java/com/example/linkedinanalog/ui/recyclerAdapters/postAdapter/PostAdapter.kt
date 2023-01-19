@@ -8,6 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
+import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
@@ -16,7 +17,7 @@ import com.example.linkedinanalog.ui.extensions.loadImage
 
 interface PostAdapterListener {
     fun deletePost(id:Long)
-    fun updatePost()
+    fun updatePost(post:PostCreateRequest)
 }
 
 
@@ -70,7 +71,7 @@ class PostAdapter(private val listener: PostAdapterListener) :
                         setOnMenuItemClickListener { itemView ->
                             when (itemView.itemId) {
                                 R.id.Update -> {
-                                    listener.updatePost()
+                                    listener.updatePost(item.toPostCreateRequest())
                                     return@setOnMenuItemClickListener true
                                 }
 
