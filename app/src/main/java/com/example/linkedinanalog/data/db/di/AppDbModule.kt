@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.PostDao
+import com.example.linkedinanalog.data.db.dao.PostRemoteKeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +30,8 @@ class DbModule {
     @Singleton
     @Provides
     fun providePostDao(appDb: AppDb): PostDao = appDb.postDao()
+
+    @Singleton
+    @Provides
+    fun providePostRemoteKeyDao(appDb: AppDb):PostRemoteKeyDao = appDb.postRemoteKeyDao()
 }

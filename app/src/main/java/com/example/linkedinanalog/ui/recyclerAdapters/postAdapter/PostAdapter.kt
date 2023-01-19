@@ -32,7 +32,7 @@ class PostAdapter(private val listener: PostAdapterListener) :
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        getItem(position)?.let { holder.bind(it) }
     }
 
     class PostViewHolder(

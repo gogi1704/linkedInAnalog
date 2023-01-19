@@ -2,9 +2,7 @@ package com.example.linkedinanalog.viewModels
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.linkedinanalog.data.models.MediaUpload
@@ -13,6 +11,8 @@ import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
@@ -34,6 +34,9 @@ class PostViewModel @Inject constructor(
     val pagingData
         get() = _pagingData
 
+    private val data:MutableLiveData<List<PostModel>>
+    get() = repository.liveData
+
 
     private var photoModel = PhotoModel()
         set(value) {
@@ -44,6 +47,15 @@ class PostViewModel @Inject constructor(
 
     val photoLiveData
         get() = _photoLiveData
+
+    val newerCount: LiveData<Int> = data.switchMap {
+        val id = it.firstOrNull()?.id?.toLong() ?: 0L
+        repository.getNewerItems((id))
+            .catch { }
+            .asLiveData(Dispatchers.Default)
+    }
+
+
 
 
     fun getAllPosts() {

@@ -1,16 +1,19 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.linkedinanalog.api.PostApiService
+import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.PostDao
+import com.example.linkedinanalog.data.db.dao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.PostEntity
 import com.example.linkedinanalog.data.db.entity.toEntity
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
+import com.example.linkedinanalog.data.remoteMediators.PostsRemoteMediator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
@@ -21,14 +24,18 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
+    db: AppDb,
+    keyDao: PostRemoteKeyDao,
     private val postDao: PostDao
 ) : Repository<PostCreateRequest> {
 
+    @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-        PagingConfig(3, enablePlaceholders = false)
-    ) {
-        postDao.getPagingData()
-    }.flow
+       config =  PagingConfig(3),
+        remoteMediator = PostsRemoteMediator(apiService , db , postDao , keyDao ),
+        pagingSourceFactory = postDao::pagingSource
+    ).flow
+
 
     private var data = listOf<PostModel>()
         set(value) {
@@ -61,7 +68,7 @@ class PostRepositoryImpl @Inject constructor(
     }
 
 
-    suspend fun addItemWithAttachments(postModel: PostCreateRequest, mediaUpload: MediaUpload){
+    suspend fun addItemWithAttachments(postModel: PostCreateRequest, mediaUpload: MediaUpload) {
         val media = uploadImage(mediaUpload)
         val post = postModel.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
         addItem(post)
@@ -78,11 +85,31 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteItem(id: Long) {
+        //TODO
         val response = apiService.removePost(id)
-        if (response.isSuccessful){
+        if (response.isSuccessful) {
             postDao.deletePost(id)
-        }else {
+        } else {
             response
         }
     }
+
+    override fun getNewerItems(id: Long): Flow<Int> = flow {
+        while (true) {
+            delay(10_000)
+            val response = apiService.getNewer(id)
+            if (!response.isSuccessful) {
+                throw Exception()
+            }
+                val body = response.body() ?: throw Exception()
+                postDao.insertPost(body.toEntity())
+                emit(body.size)
+
+
+        }
+    }
+        .catch { }
+        .flowOn(Dispatchers.Default)
+
+
 }

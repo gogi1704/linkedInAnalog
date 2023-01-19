@@ -3,6 +3,7 @@ package com.example.linkedinanalog.data.repository
 import androidx.lifecycle.MutableLiveData
 import com.example.linkedinanalog.api.JobApiService
 import com.example.linkedinanalog.data.models.job.JobModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class JobRepositoryImpl @Inject constructor(private val apiService: JobApiService) :
@@ -28,6 +29,10 @@ class JobRepositoryImpl @Inject constructor(private val apiService: JobApiServic
     }
 
     override suspend fun deleteItem(id: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getNewerItems(id: Long): Flow<Int> {
         TODO("Not yet implemented")
     }
 }

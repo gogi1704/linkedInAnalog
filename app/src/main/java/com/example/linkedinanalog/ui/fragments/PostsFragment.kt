@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
@@ -45,13 +47,9 @@ class PostsFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         })
-        binding.recyclerPost.adapter = adapter.withLoadStateHeaderAndFooter(header =
-        PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
-            override fun onRetry() {
-                adapter.retry()
-            }
-        }),
-            footer = PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
+        binding.recyclerPost.adapter = adapter.withLoadStateHeader(
+            header =
+            PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
                 override fun onRetry() {
                     adapter.retry()
                 }
@@ -77,6 +75,23 @@ class PostsFragment : Fragment() {
 
         }
 
+        postViewModel.newerCount.observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+        }
+
+        lifecycleScope.launchWhenCreated {
+            adapter.loadStateFlow.collectLatest { state ->
+                binding.swiperefresh.isRefreshing =
+                    state.refresh is LoadState.Loading ||
+                            state.prepend is LoadState.Loading ||
+                            state.append is LoadState.Loading
+            }
+        }
+
+
+        binding.swiperefresh.setOnRefreshListener {
+            adapter.refresh()
+        }
 
 
 
@@ -103,6 +118,8 @@ class PostsFragment : Fragment() {
                     super.onScrollStateChanged(recyclerView, newState)
                 }
             })
+
+
         }
         super.onViewCreated(view, savedInstanceState)
     }
