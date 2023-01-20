@@ -40,7 +40,6 @@ class PostRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.Default)
 
 
-
 //    private var data = listOf<PostModel>()
 //        set(value) {
 //            field = value
@@ -114,6 +113,21 @@ class PostRepositoryImpl @Inject constructor(
     }
         .catch { }
         .flowOn(Dispatchers.Default)
+
+    override suspend fun likeItem(id: Long, likeByMe: Boolean) {
+
+        if (likeByMe) {
+            val response = apiService.dislikePost(id)
+            if (!response.isSuccessful) {
+                response
+            }
+        } else {
+            val response = apiService.likePost(id)
+            if (response.isSuccessful) {
+                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = true)))
+            }
+        }
+    }
 
 
 }

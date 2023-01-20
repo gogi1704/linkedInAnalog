@@ -6,6 +6,11 @@
             android:id="@+id/sign_out"
             android:title="Sign out" />
 
+        <item
+            android:id="@+id/add_job"
+            android:title="Add job"
+            />
+
     </group>
 
 

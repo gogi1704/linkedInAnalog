@@ -28,6 +28,12 @@ interface PostApiService {
     @POST("/api/media/")
     suspend fun upLoadImage(@Part media: MultipartBody.Part): Response<Media>
 
+    @POST("/api/posts/{id}/likes/")
+    suspend fun likePost(@Path("id") id:Long):Response<PostModel>
+
+    @DELETE("/api/posts/{id}/likes/")
+    suspend fun dislikePost(@Path("id") id:Long):Response<PostModel>
+
     @DELETE("/api/posts/{id}/")
     suspend fun removePost(@Path("id") id: Long): Response<Unit>
 

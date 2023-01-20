@@ -7,6 +7,7 @@ interface Repository<T> {
    suspend fun getAll()
    suspend fun addItem(item: T)
    suspend fun deleteItem(id:Long)
+   suspend fun likeItem(id: Long , likeByMe:Boolean)
     fun getNewerItems(id: Long):Flow<Int>
 }
 

@@ -43,6 +43,10 @@ class PostsFragment : Fragment() {
                 postViewModel.deletePost(id)
             }
 
+            override fun likePost(id: Long, likeByMe: Boolean) {
+                postViewModel.like(id, likeByMe)
+            }
+
             override fun updatePost(post: PostCreateRequest) {
                 findNavController().navigate(
                     R.id.action_homeFragment_to_createFragment,
@@ -94,7 +98,7 @@ class PostsFragment : Fragment() {
 
 
         postViewModel.dataFlow.observe(viewLifecycleOwner) {
-            adapter.refresh()
+
         }
 
 
@@ -103,6 +107,7 @@ class PostsFragment : Fragment() {
             postViewModel.pagingData.collectLatest {
                 adapter.submitData(it)
             }
+            adapter.refresh()
         }
 
 

@@ -93,5 +93,11 @@ class PostViewModel @Inject constructor(
         photoModel = PhotoModel(uri, file)
     }
 
+    fun like(id:Long , likeByMe:Boolean){
+        viewModelScope.launch {
+            repository.likeItem(id , likeByMe)
+        }
+    }
+
 
 }

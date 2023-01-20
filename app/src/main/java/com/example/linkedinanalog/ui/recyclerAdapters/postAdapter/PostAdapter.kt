@@ -15,6 +15,7 @@ import com.example.linkedinanalog.ui.extensions.loadFitCenter
 
 interface PostAdapterListener {
     fun deletePost(id:Long)
+    fun likePost(id:Long , likeByMe:Boolean)
     fun updatePost(post:PostCreateRequest)
 }
 
@@ -61,6 +62,13 @@ class PostAdapter(private val listener: PostAdapterListener) :
                     attachmentImage.visibility = View.VISIBLE
                     attachmentImage.loadFitCenter(item.attachment.url.toString())
                 } else attachmentImage.visibility = View.GONE
+
+                buttonLike.isChecked = item.likedByMe
+                buttonLike.text = if(item.likeOwnerIds?.size == null) "0" else item.likeOwnerIds.size.toString()
+
+                buttonLike.setOnClickListener {
+                    listener.likePost(item.id.toLong() , item.likedByMe)
+                }
 
 
                 buttonMenu.setOnClickListener {

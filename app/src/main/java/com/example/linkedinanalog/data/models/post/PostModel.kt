@@ -18,7 +18,7 @@ data class PostModel(
     val likeOwnerIds: List<Int>?,
     val mentionsIds: List<Int>?,
     val mentionedMe: Boolean,
-    val likeByMe: Boolean,
+    val likedByMe: Boolean,
     val attachment: Attachment?,
     val ownedByMe: Boolean,
     val users: UserModel

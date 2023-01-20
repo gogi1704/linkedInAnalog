@@ -36,4 +36,8 @@ class EventRepositoryImpl @Inject constructor(private val apiService: EventApiSe
     override fun getNewerItems(id: Long): Flow<Int> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun likeItem(id: Long, likeByMe: Boolean) {
+        TODO("Not yet implemented")
+    }
 }
