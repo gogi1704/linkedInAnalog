@@ -3,6 +3,7 @@ package com.example.linkedinanalog.data.db.dao
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.linkedinanalog.data.db.entity.PostEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
@@ -18,6 +19,9 @@ interface PostDao {
 
     @Query("SELECT * FROM PostEntity ORDER BY id DESC")
     fun getPagingData(): PagingSource<Int, PostEntity>
+
+    @Query("SELECT * FROM PostEntity")
+    fun getAll():Flow<List<PostEntity>>
 
     @Query(
         """

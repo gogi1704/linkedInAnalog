@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
@@ -13,7 +12,6 @@ import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.extensions.loadFitCenter
-import com.example.linkedinanalog.ui.extensions.loadImage
 
 interface PostAdapterListener {
     fun deletePost(id:Long)

@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
@@ -29,7 +30,7 @@ import okhttp3.internal.notify
 class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
     private lateinit var adapter: PostAdapter
-    private val authViewModel:AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
     private val postViewModel: PostViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +43,14 @@ class PostsFragment : Fragment() {
                 postViewModel.deletePost(id)
             }
 
-            override fun updatePost(post:PostCreateRequest) {
-                findNavController().navigate(R.id.action_homeFragment_to_createFragment , Bundle().apply {
-                    putString(OPEN_FRAGMENT_KEY , POST_OPEN)
-                    putString(JOB_KEY , UPDATE)
-                    putString(ITEM_KEY , Gson().toJson(post))
-                })
+            override fun updatePost(post: PostCreateRequest) {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_createFragment,
+                    Bundle().apply {
+                        putString(OPEN_FRAGMENT_KEY, POST_OPEN)
+                        putString(JOB_KEY, UPDATE)
+                        putString(ITEM_KEY, Gson().toJson(post))
+                    })
             }
         })
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
@@ -60,15 +63,39 @@ class PostsFragment : Fragment() {
         )
 
 
-        binding.fbCreatePost.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_homeFragment_to_createFragment,
-                Bundle().apply {
-                    putString(OPEN_FRAGMENT_KEY, POST_OPEN)
-                    putString(JOB_KEY, CREATE)
-                })
+
+        with(binding) {
+            fbCreatePost.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_createFragment,
+                    Bundle().apply {
+                        putString(OPEN_FRAGMENT_KEY, POST_OPEN)
+                        putString(JOB_KEY, CREATE)
+                    })
+            }
+            newPostsContainer.setOnClickListener {
+
+                newPostsContainer.visibility = View.GONE
+            }
         }
 
+
+//        lifecycleScope.launchWhenCreated {
+//            postViewModel.pagingData.collectLatest {
+//               // adapter.submitData(it)
+//            }
+//
+//        }
+
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
+            adapter.refresh()
+        }
+
+
+
+        postViewModel.dataFlow.observe(viewLifecycleOwner) {
+            adapter.refresh()
+        }
 
 
 
@@ -76,15 +103,17 @@ class PostsFragment : Fragment() {
             postViewModel.pagingData.collectLatest {
                 adapter.submitData(it)
             }
-
         }
 
-        authViewModel.authLiveData.observe(viewLifecycleOwner){
-            adapter.refresh()
-        }
 
+//        postViewModel.data.observe(viewLifecycleOwner) {
+//            //TODO get ALL create FLOW
+//            adapter.refresh()
+//        }
+//
         postViewModel.newerCount.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+
+
         }
 
         lifecycleScope.launchWhenCreated {
@@ -93,7 +122,10 @@ class PostsFragment : Fragment() {
                     state.refresh is LoadState.Loading ||
                             state.prepend is LoadState.Loading ||
                             state.append is LoadState.Loading
+
+
             }
+
         }
 
 
@@ -110,7 +142,7 @@ class PostsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        postViewModel.getAllPosts()
+
         with(binding) {
             recyclerPost.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

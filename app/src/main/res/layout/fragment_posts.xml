@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.PostsFragment">
 
+
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
@@ -31,8 +33,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_baseline_create_24">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/new_posts_container"
+        android:layout_width="wrap_content"
+        android:background="@color/design_default_color_on_primary"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top">
+
+        <ImageView
+            android:id="@+id/imageView_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_up_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/new_posts_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEW POSTS"
+            android:layout_marginStart="4dp"
+            app:layout_constraintEnd_toEndOf="@id/imageView_up"
+            app:layout_constraintStart_toEndOf="@id/newPosts_count"
+            app:layout_constraintTop_toBottomOf="@id/imageView_up" />
+        <TextView
+            android:id="@+id/newPosts_count"
+            tools:text="22"
+            app:layout_constraintTop_toBottomOf="@id/imageView_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/imageView_up"
+            app:layout_constraintEnd_toStartOf="@id/new_posts_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

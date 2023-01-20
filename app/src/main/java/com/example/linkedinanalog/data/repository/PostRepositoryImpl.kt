@@ -7,6 +7,7 @@ import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.PostDao
 import com.example.linkedinanalog.data.db.dao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.PostEntity
+import com.example.linkedinanalog.data.db.entity.toDto
 import com.example.linkedinanalog.data.db.entity.toEntity
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
@@ -20,8 +21,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
 
-
-
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
     db: AppDb,
@@ -31,29 +30,34 @@ class PostRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-       config =  PagingConfig(6),
-        remoteMediator = PostsRemoteMediator(apiService , db , postDao , keyDao ),
+        config = PagingConfig(6),
+        remoteMediator = PostsRemoteMediator(apiService, db, postDao, keyDao),
         pagingSourceFactory = postDao::pagingSource
     ).flow
 
+    val dataFlow: Flow<List<PostModel>> = postDao.getAll().map {
+        it.toDto()
+    }.flowOn(Dispatchers.Default)
 
-    private var data = listOf<PostModel>()
-        set(value) {
-            field = value
-            liveData.value = value
-        }
-    val liveData = MutableLiveData(data)
+
+
+//    private var data = listOf<PostModel>()
+//        set(value) {
+//            field = value
+//            liveData.value = value
+//        }
+//    val liveData = MutableLiveData(data)
 
 
     override suspend fun getAll() {
-        //todo
-        val response = apiService.getAllPosts()
-        if (response.isSuccessful) {
-            val body = response.body()
-            data = body ?: listOf()
-            postDao.insertPost(data.toEntity())
-
-        } //else throw Exception()
+//        //todo
+//        val response = apiService.getAllPosts()
+//        if (response.isSuccessful) {
+//            val body = response.body()
+//            data = body ?: listOf()
+//            postDao.insertPost(data.toEntity())
+//
+//        } //else throw Exception()
     }
 
     override suspend fun addItem(item: PostCreateRequest) {
@@ -101,9 +105,9 @@ class PostRepositoryImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw Exception()
             }
-                val body = response.body() ?: throw Exception()
-                postDao.insertPost(body.toEntity())
-                emit(body.size)
+            val body = response.body() ?: throw Exception()
+            postDao.insertPost(body.toEntity())
+            emit(body.size)
 
 
         }

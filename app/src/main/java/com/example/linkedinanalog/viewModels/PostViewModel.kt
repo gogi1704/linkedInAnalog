@@ -33,11 +33,16 @@ class PostViewModel @Inject constructor(
         }
     }
 
+       private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
+
+    val dataFlow: LiveData<List<PostModel>>
+        get() = _dataFlow
+
     val pagingData
         get() = _pagingData
 
-    private val data: MutableLiveData<List<PostModel>>
-        get() = repository.liveData
+//    val data: MutableLiveData<List<PostModel>>
+//        get() = repository.liveData
 
 
     private var photoModel = PhotoModel()
@@ -50,8 +55,8 @@ class PostViewModel @Inject constructor(
     val photoLiveData
         get() = _photoLiveData
 
-    val newerCount: LiveData<Int> = data.switchMap {
-        val id = it.firstOrNull()?.id?.toLong() ?: 0L
+    val newerCount: LiveData<Int> = _dataFlow.switchMap {
+        val id = it.lastOrNull()?.id?.toLong() ?: 0L
         repository.getNewerItems((id))
             .catch { }
             .asLiveData(Dispatchers.Default)
