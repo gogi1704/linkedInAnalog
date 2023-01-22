@@ -67,6 +67,8 @@ class CreateFragment : Fragment() {
                 }
             }
 
+
+
         when (requireArguments().getString(OPEN_FRAGMENT_KEY)) {
             //todo
             POST_OPEN -> {

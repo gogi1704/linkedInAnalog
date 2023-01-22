@@ -82,7 +82,7 @@ class PostRepositoryImpl @Inject constructor(
         val media = MultipartBody.Part.createFormData(
             "file", upload.file.name, upload.file.asRequestBody()
         )
-        val response = apiService.upLoadImage(media)
+        val response = apiService.upLoadMedia(media)
         return response.body()!!
     }
 

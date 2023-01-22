@@ -1,13 +1,16 @@
 package com.example.linkedinanalog.viewModels
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.auth.AppAuth
 import com.example.linkedinanalog.auth.AuthState
+import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserModel
+import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -34,9 +37,24 @@ class AuthViewModel @Inject constructor(
     val authLiveData: LiveData<AuthState>
         get() = repository.authData
 
-    fun registerUser(login: String, pass: String, name: String, file: File?) {
+    private var photoModel = PhotoModel()
+        set(value) {
+            field = value
+            _photoLiveData.value = value
+        }
+
+    private val _photoLiveData = MutableLiveData(photoModel)
+    val photoLiveData
+        get() = _photoLiveData
+
+
+    fun registerUser(user: UserRequestModel) {
         viewModelScope.launch {
-            val register = repository.registerUser(login, pass, name, file)
+            val register = if (user.avatar == null) {
+                repository.registerUser(user)
+            } else
+                repository.registerWithAvatar(user)
+
             appAuth.setAuth(register.id, register.token!!)
         }
 
@@ -51,11 +69,10 @@ class AuthViewModel @Inject constructor(
 
     }
 
-//    fun getUserById(id:Long){
-//        viewModelScope.launch {
-//            myUser = repository.getUserById(id)
-//        }
-//    }
+    fun changePhoto(uri: Uri?, file: File?) {
+        photoModel = PhotoModel(uri, file)
+    }
+
 
     fun updateMyUser() {
         viewModelScope.launch {

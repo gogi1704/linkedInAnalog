@@ -26,7 +26,7 @@ interface PostApiService {
 
     @Multipart
     @POST("/api/media/")
-    suspend fun upLoadImage(@Part media: MultipartBody.Part): Response<Media>
+    suspend fun upLoadMedia(@Part media: MultipartBody.Part): Response<Media>
 
     @POST("/api/posts/{id}/likes/")
     suspend fun likePost(@Path("id") id:Long):Response<PostModel>

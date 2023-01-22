@@ -4,17 +4,27 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.linkedinanalog.api.AuthApiService
+import com.example.linkedinanalog.api.MediaApiService
+import com.example.linkedinanalog.api.UserApiService
 import com.example.linkedinanalog.auth.AppAuth
 import com.example.linkedinanalog.auth.AuthState
+import com.example.linkedinanalog.data.models.Media
+import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.user.UserModel
+import com.example.linkedinanalog.data.models.user.UserRequestModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Dispatcher
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.Response
 import java.io.File
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
+    private val mediaApiService: MediaApiService,
+    private val userApiService: UserApiService,
     private val auth: AppAuth,
     @ApplicationContext private val context: Context
 ) {
@@ -25,11 +35,31 @@ class AuthRepository @Inject constructor(
     val isAuth: Boolean
         get() = auth.isAuth
 
-    suspend fun registerUser(login: String, pass: String, name: String, file: File?): AuthState {
-        val response = authApiService.registerUser(login, pass, name, file)
+    suspend fun registerUser(user: UserRequestModel): AuthState {
+        val response = authApiService.registerUser(user.login, user.pass, user.name, user.avatar)
         if (response.isSuccessful) {
             return response.body()!!
-        } else return AuthState()
+        } else throw Exception()
+
+    }
+
+    suspend fun registerWithAvatar(user: UserRequestModel): AuthState {
+        val mediaUpLoad = MediaUpload(user.avatar!!)
+       // val media = uploadImage(mediaUpLoad)
+        val response =
+            authApiService.registerUser(user.login, user.pass, user.name, mediaUpLoad.file)
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else throw Exception()
+    }
+
+    suspend fun uploadImage(upload: MediaUpload): Media {
+        //todo
+        val media = MultipartBody.Part.createFormData(
+            "file", upload.file.name, upload.file.asRequestBody()
+        )
+        val response = mediaApiService.upLoadMedia(media)
+        return response.body()!!
     }
 
     suspend fun authenticationUser(login: String, pass: String): AuthState {
@@ -41,7 +71,7 @@ class AuthRepository @Inject constructor(
     }
 
     private suspend fun getUserById(id: Long): UserModel {
-        val response = authApiService.getUserById(id)
+        val response = userApiService.getUserById(id)
         if (response.isSuccessful) {
             return response.body()!!
         } else throw Exception()
@@ -49,9 +79,9 @@ class AuthRepository @Inject constructor(
 
     suspend fun updateMyUser(): UserModel {
         val userId = context.getSharedPreferences("auth", Context.MODE_PRIVATE).getLong("id", 0)
-        return if (userId != 0L){
+        return if (userId != 0L) {
             getUserById(userId)
-        } else UserModel(0 , "" , "" , "")
+        } else UserModel(0, "", "", "")
 
     }
 

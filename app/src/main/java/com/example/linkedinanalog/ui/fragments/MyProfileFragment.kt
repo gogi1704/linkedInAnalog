@@ -81,7 +81,6 @@ class MyProfileFragment : Fragment() {
             with(binding) {
                 imageAvatar.loadAvatar(it.avatar.toString())
                 textUserName.text = it.name
-
             }
         }
 
