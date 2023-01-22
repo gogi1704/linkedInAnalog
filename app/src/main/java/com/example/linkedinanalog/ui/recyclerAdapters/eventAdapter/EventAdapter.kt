@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.databinding.RecyclerEventItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
+import com.example.linkedinanalog.ui.extensions.parseDateTime
 
 class EventAdapter :
     ListAdapter<EventModel, EventAdapter.EventViewHolder>(EventDiffUtilCallback()) {
@@ -33,7 +34,7 @@ class EventAdapter :
                 textAuthorJob.text = item.authorJob
                 eventStart.text = item.dateTime
                 eventType.text = item.type
-                published.text = item.published
+                published.parseDateTime(item.published)
                 content.text = item.content
                 if (item.link == null) {
                     groupLink.visibility = View.GONE

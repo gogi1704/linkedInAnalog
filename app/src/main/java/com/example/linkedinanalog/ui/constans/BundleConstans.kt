@@ -7,4 +7,5 @@ package com.example.linkedinanalog.ui.constans
 const val JOB_KEY = "JOB_KEY"
  const val UPDATE = "UPDATE"
  const val CREATE = "CREATE"
+
  const val ITEM_KEY = "ITEM_KEY"

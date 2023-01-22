@@ -10,6 +10,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentMyProfileBinding
+import com.example.linkedinanalog.ui.constans.CREATE
+import com.example.linkedinanalog.ui.constans.EVENT_OPEN
+import com.example.linkedinanalog.ui.constans.JOB_KEY
+import com.example.linkedinanalog.ui.constans.OPEN_FRAGMENT_KEY
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.recyclerAdapters.jobAdapter.JobAdapter
 import com.example.linkedinanalog.viewModels.AuthViewModel
@@ -39,13 +43,28 @@ class MyProfileFragment : Fragment() {
                 showAuthMenu(authViewModel.isAuth)
             }
 
+            buttonAddJob.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_createFragment,
+                    Bundle().apply {
+                        putString(OPEN_FRAGMENT_KEY , EVENT_OPEN)
+                        putString(JOB_KEY , CREATE)
+                    })
+            }
+
         }
+
+        //Date time и если не finish то отправлять null
 
 
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
-            authViewModel.updateMyUser()
-            jobViewModel.getAllJobs()
+            if (it.id != 0L){
+                authViewModel.updateMyUser()
+                jobViewModel.getAllJobs()
+                binding.buttonAddJob.visibility = View.VISIBLE
+            }
+
         }
 
         jobViewModel.liveData.observe(viewLifecycleOwner) {
@@ -62,6 +81,7 @@ class MyProfileFragment : Fragment() {
             with(binding) {
                 imageAvatar.loadAvatar(it.avatar.toString())
                 textUserName.text = it.name
+
             }
         }
 

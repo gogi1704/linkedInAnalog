@@ -7,11 +7,11 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.linkedinanalog.api.PostApiService
 import com.example.linkedinanalog.data.db.AppDb
-import com.example.linkedinanalog.data.db.dao.PostDao
-import com.example.linkedinanalog.data.db.dao.PostRemoteKeyDao
-import com.example.linkedinanalog.data.db.entity.PostEntity
-import com.example.linkedinanalog.data.db.entity.PostRemoteKeyEntity
-import com.example.linkedinanalog.data.db.entity.toEntity
+import com.example.linkedinanalog.data.db.dao.postDao.PostDao
+import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
+import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.PostRemoteKeyEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.toEntity
 
 @OptIn(ExperimentalPagingApi::class)
 class PostsRemoteMediator(

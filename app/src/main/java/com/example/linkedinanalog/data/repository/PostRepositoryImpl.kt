@@ -1,14 +1,13 @@
 package com.example.linkedinanalog.data.repository
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import com.example.linkedinanalog.api.PostApiService
 import com.example.linkedinanalog.data.db.AppDb
-import com.example.linkedinanalog.data.db.dao.PostDao
-import com.example.linkedinanalog.data.db.dao.PostRemoteKeyDao
-import com.example.linkedinanalog.data.db.entity.PostEntity
-import com.example.linkedinanalog.data.db.entity.toDto
-import com.example.linkedinanalog.data.db.entity.toEntity
+import com.example.linkedinanalog.data.db.dao.postDao.PostDao
+import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
+import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.toDto
+import com.example.linkedinanalog.data.db.entity.postEntity.toEntity
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel

@@ -67,11 +67,9 @@
         android:id="@+id/jobFinish_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:text="Finish : "
-        app:layout_constraintBottom_toBottomOf="@id/jobStart"
-        app:layout_constraintStart_toEndOf="@id/jobStart"
-        app:layout_constraintTop_toTopOf="@id/jobStart" />
+        app:layout_constraintStart_toStartOf="@+id/jobStart_hint"
+        app:layout_constraintTop_toBottomOf="@id/jobStart_hint" />
 
     <TextView
         android:id="@+id/jobFinish"
@@ -80,6 +78,8 @@
         android:layout_marginStart="4dp"
         android:text="-----"
         app:layout_constraintBottom_toBottomOf="@id/jobFinish_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/jobFinish_hint"
         app:layout_constraintTop_toTopOf="@id/jobFinish_hint" />
 
@@ -95,13 +95,17 @@
         android:layout_height="wrap_content"
         android:text="Link : "
         app:layout_constraintStart_toStartOf="@id/jobStart_hint"
-        app:layout_constraintTop_toBottomOf="@id/jobStart_hint" />
+        app:layout_constraintTop_toBottomOf="@id/jobFinish" />
 
     <TextView
         android:id="@+id/link"
-        android:layout_marginStart="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:autoLink="web"
+        android:ellipsize="end"
+        android:linksClickable="true"
+        android:maxLines="1"
         android:text="www.asdwdwe.ru"
         app:layout_constraintBottom_toBottomOf="@id/link_hint"
         app:layout_constraintStart_toEndOf="@id/link_hint"

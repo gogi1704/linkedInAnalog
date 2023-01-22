@@ -1,10 +1,10 @@
-package com.example.linkedinanalog.data.db.dao
+package com.example.linkedinanalog.data.db.dao.postDao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.linkedinanalog.data.db.entity.PostRemoteKeyEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.PostRemoteKeyEntity
 
 
 @Dao

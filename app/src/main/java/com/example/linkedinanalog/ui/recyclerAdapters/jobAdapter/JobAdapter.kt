@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.databinding.RecyclerJobItemBinding
+import com.example.linkedinanalog.ui.extensions.parseDate
 
 
 class JobAdapter : ListAdapter<JobModel, JobAdapter.JobViewHolder>(JobDiffUtilCallback()) {
@@ -26,8 +27,8 @@ class JobAdapter : ListAdapter<JobModel, JobAdapter.JobViewHolder>(JobDiffUtilCa
             with(binding) {
                 jobName.text = job.name
                 jobPosition.text = job.position
-                jobStart.text = job.start
-                jobFinish.text = job.finish ?: jobFinish.text
+                jobStart.parseDate(job.start)
+                jobFinish.parseDate(job.finish)
                 link.text = job.link
             }
         }

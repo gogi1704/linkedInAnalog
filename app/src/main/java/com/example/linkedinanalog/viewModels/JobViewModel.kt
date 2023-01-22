@@ -19,7 +19,6 @@ class JobViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
 
-
     val liveData: MutableLiveData<List<JobModel>>
         get() = jobRepository.liveData
 
@@ -27,6 +26,12 @@ class JobViewModel @Inject constructor(
 
         viewModelScope.launch {
             jobRepository.getAll()
+        }
+    }
+
+    fun addJob(job: JobModel) {
+        viewModelScope.launch {
+            jobRepository.addItem(job)
         }
     }
 

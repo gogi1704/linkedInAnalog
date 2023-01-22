@@ -1,8 +1,8 @@
-package com.example.linkedinanalog.data.db.dao
+package com.example.linkedinanalog.data.db.dao.postDao
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.example.linkedinanalog.data.db.entity.PostEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

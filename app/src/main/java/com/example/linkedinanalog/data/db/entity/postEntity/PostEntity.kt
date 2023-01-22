@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.data.db.entity
+package com.example.linkedinanalog.data.db.entity.postEntity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

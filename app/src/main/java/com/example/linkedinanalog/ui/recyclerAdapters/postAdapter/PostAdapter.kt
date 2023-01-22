@@ -12,6 +12,7 @@ import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.extensions.loadFitCenter
+import com.example.linkedinanalog.ui.extensions.parseDateTime
 
 interface PostAdapterListener {
     fun deletePost(id:Long)
@@ -45,7 +46,7 @@ class PostAdapter(private val listener: PostAdapterListener) :
                 textAuthorName.text = item.author
                 textAuthorJob.text = item.authorJob
                 imageAvatar.loadAvatar(item.authorAvatar.toString())
-                published.text = item.published
+                published.parseDateTime(item.published)
                 content.text = item.content
                 if (item.link == null) {
                     groupLink.visibility = View.GONE
