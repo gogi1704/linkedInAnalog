@@ -39,13 +39,6 @@ class PostRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.Default)
 
 
-//    private var data = listOf<PostModel>()
-//        set(value) {
-//            field = value
-//            liveData.value = value
-//        }
-//    val liveData = MutableLiveData(data)
-
 
     override suspend fun getAll() {
 //        //todo
@@ -114,11 +107,10 @@ class PostRepositoryImpl @Inject constructor(
         .flowOn(Dispatchers.Default)
 
     override suspend fun likeItem(id: Long, likeByMe: Boolean) {
-
         if (likeByMe) {
             val response = apiService.dislikePost(id)
-            if (!response.isSuccessful) {
-                response
+            if (response.isSuccessful) {
+                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = false)))
             }
         } else {
             val response = apiService.likePost(id)

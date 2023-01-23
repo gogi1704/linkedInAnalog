@@ -44,7 +44,6 @@ class CreateFragment : Fragment() {
     private val jobViewModel: JobViewModel by activityViewModels()
 
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -214,7 +213,6 @@ class CreateFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun showDateView(textInput: TextView) {
         val cal = Calendar.getInstance()
 

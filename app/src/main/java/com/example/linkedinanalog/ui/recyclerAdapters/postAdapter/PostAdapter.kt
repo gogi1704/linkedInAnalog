@@ -12,6 +12,7 @@ import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.extensions.loadFitCenter
+import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.extensions.parseDateTime
 
 interface PostAdapterListener {
@@ -61,7 +62,7 @@ class PostAdapter(private val listener: PostAdapterListener) :
 
                 if (item.attachment != null) {
                     attachmentImage.visibility = View.VISIBLE
-                    attachmentImage.loadFitCenter(item.attachment.url.toString())
+                    attachmentImage.loadImage(item.attachment.url.toString())
                 } else attachmentImage.visibility = View.GONE
 
                 buttonLike.isChecked = item.likedByMe

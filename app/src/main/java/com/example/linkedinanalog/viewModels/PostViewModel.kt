@@ -63,11 +63,11 @@ class PostViewModel @Inject constructor(
     }
 
 
-    fun getAllPosts() {
-        viewModelScope.launch {
-            repository.getAll()
-        }
-    }
+//    fun getAllPosts() {
+//        viewModelScope.launch {
+//            repository.getAll()
+//        }
+//    }
 
     fun addPost(post: PostCreateRequest) {
         viewModelScope.launch {

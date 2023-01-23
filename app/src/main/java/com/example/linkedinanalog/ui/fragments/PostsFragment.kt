@@ -57,11 +57,7 @@ class PostsFragment : Fragment() {
         })
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
             header =
-            PostsLoadStateAdapter(object : PostsLoadStateAdapter.OnInteractionListener {
-                override fun onRetry() {
-                    adapter.retry()
-                }
-            })
+            PostsLoadStateAdapter()
         )
 
 
@@ -76,29 +72,15 @@ class PostsFragment : Fragment() {
                     })
             }
             newPostsContainer.setOnClickListener {
-
+                recyclerPost.smoothScrollToPosition(0)
                 newPostsContainer.visibility = View.GONE
             }
         }
 
 
-//        lifecycleScope.launchWhenCreated {
-//            postViewModel.pagingData.collectLatest {
-//               // adapter.submitData(it)
-//            }
-//
-//        }
-
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             adapter.refresh()
         }
-
-
-
-        postViewModel.dataFlow.observe(viewLifecycleOwner) {
-
-        }
-
 
 
         lifecycleScope.launchWhenCreated {
@@ -108,16 +90,19 @@ class PostsFragment : Fragment() {
             adapter.refresh()
         }
 
-
-//        postViewModel.data.observe(viewLifecycleOwner) {
-//            //TODO get ALL create FLOW
-//            adapter.refresh()
-//        }
-//
         postViewModel.newerCount.observe(viewLifecycleOwner) {
-
-
+            if (it != 0) {
+               binding.newPostsContainer.visibility = View.VISIBLE
+                binding.newPostsCount.text = it.toString()
+            }
+            adapter.refresh()
         }
+
+        binding.swiperefresh.setOnRefreshListener {
+
+            adapter.refresh()
+        }
+
 
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest { state ->
@@ -126,18 +111,9 @@ class PostsFragment : Fragment() {
                             state.prepend is LoadState.Loading ||
                             state.append is LoadState.Loading
 
-
             }
 
         }
-
-
-        binding.swiperefresh.setOnRefreshListener {
-            adapter.refresh()
-        }
-
-
-
 
 
 

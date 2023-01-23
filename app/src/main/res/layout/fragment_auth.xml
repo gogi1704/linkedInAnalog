@@ -33,17 +33,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_clear_24"
-        app:layout_constraintEnd_toEndOf="@id/imageAvatar"
+        app:layout_constraintEnd_toEndOf="@id/add_imageAvatar"
+        app:layout_constraintStart_toStartOf="@id/add_PhotoAvatar"
+        app:layout_constraintTop_toBottomOf="@id/imageAvatar" />
+
+    <ImageView
+        android:id="@+id/add_PhotoAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_a_photo_24"
         app:layout_constraintStart_toStartOf="@id/imageAvatar"
         app:layout_constraintTop_toBottomOf="@id/imageAvatar" />
 
     <ImageView
-        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
-        app:layout_constraintStart_toStartOf="@id/imageAvatar"
-        android:src="@drawable/ic_add_image_24"
         android:id="@+id/add_imageAvatar"
+        android:src="@drawable/ic_add_image_24"
+        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
+        app:layout_constraintEnd_toEndOf="@id/imageAvatar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/inputLogin"
@@ -74,10 +82,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="OK"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputName"
-        tools:text="Sign In" />
+         />
 
     <EditText
         android:id="@+id/inputName"
@@ -111,6 +120,6 @@
         android:id="@+id/group_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="inputName,input_repeatPass" />
+        app:constraint_referenced_ids="inputName,input_repeatPass , imageAvatar , add_imageAvatar , deleteImage , add_PhotoAvatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

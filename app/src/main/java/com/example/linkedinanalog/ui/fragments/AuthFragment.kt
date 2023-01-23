@@ -30,7 +30,7 @@ class AuthFragment : Fragment() {
     private lateinit var binding: FragmentAuthBinding
     private val authViewModel: AuthViewModel by activityViewModels()
 
-    val pickPhotoLauncher =
+    private val pickPhotoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
                 ImagePicker.RESULT_ERROR -> {
@@ -58,9 +58,11 @@ class AuthFragment : Fragment() {
             when (requireArguments().getString(AUTH_BUNDLE_KEY)) {
                 AUTH_BUNDLE_VALUE_REG -> {
                     binding.groupRegister.visibility = View.VISIBLE
+                    binding.authTitle.text = "Registration"
                 }
                 AUTH_BUNDLE_VALUE_SIGN_IN -> {
                     binding.groupRegister.visibility = View.GONE
+                    binding.authTitle.text = "Sign in"
                 }
             }
 
@@ -89,11 +91,19 @@ class AuthFragment : Fragment() {
                 }
             }
 
-            addImageAvatar.setOnClickListener {
+            addPhotoAvatar.setOnClickListener {
                 ImagePicker.with(this@AuthFragment)
                     .crop()
                     .compress(2048)
                     .provider(ImageProvider.CAMERA)
+                    .createIntent { pickPhotoLauncher.launch(it) }
+            }
+
+            addImageAvatar.setOnClickListener {
+                ImagePicker.with(this@AuthFragment)
+                    .crop()
+                    .compress(2048)
+                    .provider(ImageProvider.GALLERY)
                     .createIntent { pickPhotoLauncher.launch(it) }
             }
 

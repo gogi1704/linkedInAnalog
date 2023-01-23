@@ -16,7 +16,7 @@ fun ImageView.loadAvatar(url: String) {
 fun ImageView.loadImage(url: String) {
     Glide.with(this)
         .load(url)
-        .placeholder(R.drawable.ic_error_download)
+        .placeholder(R.drawable.ic_baseline_downloading_24)
         .timeout(10_000)
         .into(this)
 }
