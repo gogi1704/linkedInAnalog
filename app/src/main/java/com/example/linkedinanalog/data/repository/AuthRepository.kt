@@ -31,7 +31,7 @@ class AuthRepository @Inject constructor(
         get() = auth.isAuth
 
     suspend fun registerUser(user: UserRequestModel): AuthState {
-        val response = authApiService.registerUser(user.login, user.pass, user.name, user.avatar)
+        val response = authApiService.registerUser(user.login, user.pass, user.name, null)
         if (response.isSuccessful) {
             return response.body()!!
         } else throw Exception()
@@ -40,9 +40,11 @@ class AuthRepository @Inject constructor(
 
     suspend fun registerWithAvatar(user: UserRequestModel): AuthState {
         val mediaUpLoad = MediaUpload(user.avatar!!)
-       // val media = uploadImage(mediaUpLoad)
+        val media = MultipartBody.Part.createFormData(
+        "file", mediaUpLoad.file.name, mediaUpLoad.file.asRequestBody()
+        )
         val response =
-            authApiService.registerUser(user.login, user.pass, user.name, mediaUpLoad.file)
+            authApiService.registerUser(user.login, user.pass, user.name, media)
         if (response.isSuccessful) {
             return response.body()!!
         } else throw Exception()

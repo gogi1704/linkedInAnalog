@@ -1,21 +1,25 @@
 package com.example.linkedinanalog.api
 
 import com.example.linkedinanalog.auth.AuthState
+import com.example.linkedinanalog.data.models.Media
 import com.example.linkedinanalog.data.models.user.UserModel
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 import java.io.File
 
 interface AuthApiService {
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/api/users/registration/")
     suspend fun registerUser(
-        @Field("login") login: String,
-        @Field("password") password: String,
-        @Field("name") name: String,
-        @Field("file") file: File?
+        @Part("login") login: String,
+        @Part("password") password: String,
+        @Part("name") name: String,
+        @Part file: MultipartBody.Part?
     ): Response<AuthState>
+
+   // suspend fun upLoadMedia(@Part media: MultipartBody.Part): Response<Media>
 
     @FormUrlEncoded
     @POST("/api/users/authentication/")
