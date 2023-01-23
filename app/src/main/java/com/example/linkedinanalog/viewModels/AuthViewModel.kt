@@ -31,6 +31,13 @@ class AuthViewModel @Inject constructor(
         }
     val userLiveData = MutableLiveData(myUser)
 
+    private var showUser = UserModel(-1, "", "", "")
+        set(value) {
+            field = value
+            showUserLiveData.value = value
+        }
+    val showUserLiveData = MutableLiveData(showUser)
+
     val isAuth: Boolean
         get() = repository.isAuth
 
@@ -77,6 +84,12 @@ class AuthViewModel @Inject constructor(
     fun updateMyUser() {
         viewModelScope.launch {
             myUser = repository.updateMyUser()
+        }
+    }
+
+    fun getUserById(id:Long){
+        viewModelScope.launch {
+            showUser = repository.getUserById(id)
         }
     }
 

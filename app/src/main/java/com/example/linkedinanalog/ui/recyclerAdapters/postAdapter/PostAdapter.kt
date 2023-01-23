@@ -16,9 +16,10 @@ import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.extensions.parseDateTime
 
 interface PostAdapterListener {
-    fun deletePost(id:Long)
-    fun likePost(id:Long , likeByMe:Boolean)
-    fun updatePost(post:PostCreateRequest)
+    fun deletePost(id: Long)
+    fun likePost(id: Long, likeByMe: Boolean)
+    fun updatePost(post: PostCreateRequest)
+    fun showUser(id: Long)
 }
 
 
@@ -26,11 +27,10 @@ class PostAdapter(private val listener: PostAdapterListener) :
     PagingDataAdapter<PostModel, PostAdapter.PostViewHolder>(PostDiffUtilCallback()) {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding =
             RecyclerPostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, listener )
+        return PostViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -66,10 +66,15 @@ class PostAdapter(private val listener: PostAdapterListener) :
                 } else attachmentImage.visibility = View.GONE
 
                 buttonLike.isChecked = item.likedByMe
-                buttonLike.text = if(item.likeOwnerIds?.size == null) "0" else item.likeOwnerIds.size.toString()
+                buttonLike.text =
+                    if (item.likeOwnerIds?.size == null) "0" else item.likeOwnerIds.size.toString()
 
                 buttonLike.setOnClickListener {
-                    listener.likePost(item.id.toLong() , item.likedByMe)
+                    listener.likePost(item.id.toLong(), item.likedByMe)
+                }
+
+                imageAvatar.setOnClickListener {
+                    listener.showUser(item.authorId.toLong())
                 }
 
 

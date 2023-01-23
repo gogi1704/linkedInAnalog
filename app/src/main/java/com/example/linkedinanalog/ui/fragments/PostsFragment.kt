@@ -54,6 +54,12 @@ class PostsFragment : Fragment() {
                         putString(ITEM_KEY, Gson().toJson(post))
                     })
             }
+
+            override fun showUser(id: Long) {
+                findNavController().navigate(R.id.action_homeFragment_to_showUserFragment , Bundle().apply {
+                    putLong(SHOW_USER_KEY , id)
+                })
+            }
         })
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
             header =

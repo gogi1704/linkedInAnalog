@@ -40,7 +40,7 @@ class PostRepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun getAll() {
+    override suspend fun getAll(): List<PostCreateRequest> {
 //        //todo
 //        val response = apiService.getAllPosts()
 //        if (response.isSuccessful) {
@@ -49,6 +49,7 @@ class PostRepositoryImpl @Inject constructor(
 //            postDao.insertPost(data.toEntity())
 //
 //        } //else throw Exception()
+        return listOf()
     }
 
     override suspend fun addItem(item: PostCreateRequest) {

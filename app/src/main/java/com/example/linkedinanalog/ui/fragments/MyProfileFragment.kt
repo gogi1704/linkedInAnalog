@@ -67,7 +67,7 @@ class MyProfileFragment : Fragment() {
 
         }
 
-        jobViewModel.liveData.observe(viewLifecycleOwner) {
+        jobViewModel.myJobLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.textEmpty.visibility = View.VISIBLE
             } else {

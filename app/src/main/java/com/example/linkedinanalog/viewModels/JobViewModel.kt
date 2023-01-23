@@ -18,14 +18,30 @@ class JobViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    private var myJobData = listOf<JobModel>()
+        set(value) {
+            field = value
+            myJobLiveData.value = field
+        }
+    val myJobLiveData = MutableLiveData(myJobData)
 
-    val liveData: MutableLiveData<List<JobModel>>
-        get() = jobRepository.liveData
+    private var userShowJobData = listOf<JobModel>()
+        set(value) {
+            field = value
+            userShowJobLiveData.value = field
+        }
+    val userShowJobLiveData = MutableLiveData(userShowJobData)
+
 
     fun getAllJobs() {
-
         viewModelScope.launch {
-            jobRepository.getAll()
+            myJobData = jobRepository.getAll()
+        }
+    }
+
+    fun getJobById(id: Long) {
+        viewModelScope.launch() {
+            userShowJobData = jobRepository.getJobById(id)
         }
     }
 

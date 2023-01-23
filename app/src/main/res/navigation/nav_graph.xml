@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_homeFragment_to_createFragment"
             app:destination="@id/createFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_showUserFragment"
+            app:destination="@id/showUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFragment"
@@ -31,6 +34,15 @@
         android:label="CreateFragment" >
         <action
             android:id="@+id/action_createFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showUserFragment"
+        android:name="com.example.linkedinanalog.ui.fragments.ShowUserFragment"
+        android:label="fragment_show_user"
+        tools:layout="@layout/fragment_show_user" >
+        <action
+            android:id="@+id/action_showUserFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

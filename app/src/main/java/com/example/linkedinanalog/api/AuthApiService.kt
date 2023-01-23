@@ -24,6 +24,6 @@ interface AuthApiService {
         @Field("password") password: String,
     ): Response<AuthState>
 
-
-
+    @GET("/api/users/{id}/")
+    suspend fun getUserById(@Path("id") id: Long): Response<UserModel>
 }

@@ -1,6 +1,5 @@
 package com.example.linkedinanalog.data.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.example.linkedinanalog.api.JobApiService
 import com.example.linkedinanalog.data.models.job.JobModel
 import kotlinx.coroutines.flow.Flow
@@ -8,24 +7,31 @@ import javax.inject.Inject
 
 class JobRepositoryImpl @Inject constructor(private val apiService: JobApiService) :
     Repository<JobModel> {
-    var data = listOf<JobModel>()
-        set(value) {
-            field = value
-            liveData.value = field
-        }
 
-    val liveData = MutableLiveData(data)
 
-    override suspend fun getAll() {
-        val response = apiService.getAllJobs()
+    override suspend fun getAll():List<JobModel> {
+        //todo
+        val response = apiService.getAllMyJobs()
         if (response.isSuccessful) {
             val body = response.body()
-            data = body ?: listOf()
-        } else data = emptyList()
+           return body ?: listOf()
+        } else return  emptyList()
     }
 
     override suspend fun addItem(item: JobModel) {
-       apiService.addJob(item)
+        val response = apiService.addJob(item)
+        if (response.isSuccessful){
+
+        } else throw Exception()
+
+    }
+
+    suspend fun getJobById(id:Long):List<JobModel>{
+        //todo
+        val response = apiService.getJobById(id)
+        if (response.isSuccessful){
+            return response.body()!!
+        }else throw Exception()
     }
 
     override suspend fun deleteItem(id: Long) {
