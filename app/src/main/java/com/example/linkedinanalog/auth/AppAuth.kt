@@ -14,9 +14,6 @@ class AppAuth @Inject constructor(@ApplicationContext private val context: Conte
     private val idKey = "id"
     private val tokenKey = "token"
 
-//    val myUserId:Int
-//    get() = prefs.getInt(idKey , -1)
-
     private val _authStateFlow: MutableStateFlow<AuthState>
 
     init {

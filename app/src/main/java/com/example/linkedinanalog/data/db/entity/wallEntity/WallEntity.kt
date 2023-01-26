@@ -1,16 +1,16 @@
-package com.example.linkedinanalog.data.db.entity.postEntity
+package com.example.linkedinanalog.data.db.entity.wallEntity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.google.gson.Gson
 
-
 @Entity
-data class PostEntity(
+data class WallEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val authorId: Int,
@@ -28,8 +28,7 @@ data class PostEntity(
     val attachment: String?,//
     val ownedByMe: Boolean,
     val users: String//
-) {
-
+){
     fun toDto(): PostModel {
         val gson = Gson()
         return PostModel(
@@ -67,7 +66,7 @@ data class PostEntity(
 
     companion object {
         private val gson = Gson()
-        fun fromDto(post: PostModel) = PostEntity(
+        fun fromDto(post: PostModel) = WallEntity(
             post.id,
             post.authorId,
             post.author,
@@ -91,5 +90,6 @@ data class PostEntity(
 
 }
 
-fun List<PostEntity>.toDto(): List<PostModel> = map { it.toDto() }
-fun List<PostModel>.toPostEntity(): List<PostEntity> = map(PostEntity::fromDto)
+fun List<WallEntity>.toDto(): List<PostModel> = map { it.toDto() }
+fun List<PostModel>.toWallEntity(): List<WallEntity> = map { WallEntity.fromDto(it) }
+

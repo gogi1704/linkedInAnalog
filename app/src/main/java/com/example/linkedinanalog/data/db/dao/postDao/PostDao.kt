@@ -1,8 +1,14 @@
 package com.example.linkedinanalog.data.db.dao.postDao
 
 import androidx.paging.PagingSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+
+import androidx.room.Query
+
 import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
+import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,8 +23,8 @@ interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPost(posts: List<PostEntity>)
 
-    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
-    fun getPagingData(): PagingSource<Int, PostEntity>
+//    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
+//    fun getPagingData(): PagingSource<Int, PostEntity>
 
     @Query("SELECT * FROM PostEntity")
     fun getAll():Flow<List<PostEntity>>

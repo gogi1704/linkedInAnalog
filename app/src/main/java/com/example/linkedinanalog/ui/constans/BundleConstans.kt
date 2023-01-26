@@ -11,3 +11,5 @@ const val CREATE = "CREATE"
 const val ITEM_KEY = "ITEM_KEY"
 
 const val SHOW_USER_KEY = "SHOW_USER_KEY"
+
+const val USER_ID_PREFS = "USER_ID_PREFS"

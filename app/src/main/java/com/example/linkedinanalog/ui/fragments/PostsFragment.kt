@@ -1,5 +1,6 @@
 package com.example.linkedinanalog.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,6 @@ import com.example.linkedinanalog.viewModels.PostViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import okhttp3.internal.notify
 
 @AndroidEntryPoint
 class PostsFragment : Fragment() {
@@ -56,9 +56,15 @@ class PostsFragment : Fragment() {
             }
 
             override fun showUser(id: Long) {
-                findNavController().navigate(R.id.action_homeFragment_to_showUserFragment , Bundle().apply {
-                    putLong(SHOW_USER_KEY , id)
-                })
+                requireContext().getSharedPreferences(USER_ID_PREFS, Context.MODE_PRIVATE)
+                    .edit().putLong(SHOW_USER_KEY, id)
+                    .apply()
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_showUserFragment,
+                    Bundle().apply {
+                        putLong(SHOW_USER_KEY, id)
+                    })
+
             }
         })
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
@@ -98,7 +104,7 @@ class PostsFragment : Fragment() {
 
         postViewModel.newerCount.observe(viewLifecycleOwner) {
             if (it != 0) {
-               binding.newPostsContainer.visibility = View.VISIBLE
+                binding.newPostsContainer.visibility = View.VISIBLE
                 binding.newPostsCount.text = it.toString()
             }
             adapter.refresh()

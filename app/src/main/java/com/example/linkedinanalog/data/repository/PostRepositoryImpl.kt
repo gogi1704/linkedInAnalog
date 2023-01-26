@@ -7,7 +7,7 @@ import com.example.linkedinanalog.data.db.dao.postDao.PostDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import com.example.linkedinanalog.data.db.entity.postEntity.toDto
-import com.example.linkedinanalog.data.db.entity.postEntity.toEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.toPostEntity
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
@@ -29,7 +29,7 @@ class PostRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-        config = PagingConfig(6),
+        config = PagingConfig(7),
         remoteMediator = PostsRemoteMediator(apiService, db, postDao, keyDao),
         pagingSourceFactory = postDao::pagingSource
     ).flow
@@ -98,7 +98,7 @@ class PostRepositoryImpl @Inject constructor(
                 throw Exception()
             }
             val body = response.body() ?: throw Exception()
-            postDao.insertPost(body.toEntity())
+            postDao.insertPost(body.toPostEntity())
             emit(body.size)
 
 

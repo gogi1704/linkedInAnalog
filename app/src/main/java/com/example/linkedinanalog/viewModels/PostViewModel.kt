@@ -33,16 +33,12 @@ class PostViewModel @Inject constructor(
         }
     }
 
-       private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
-
-    val dataFlow: LiveData<List<PostModel>>
-        get() = _dataFlow
-
     val pagingData
         get() = _pagingData
 
-//    val data: MutableLiveData<List<PostModel>>
-//        get() = repository.liveData
+
+       private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
+
 
 
     private var photoModel = PhotoModel()

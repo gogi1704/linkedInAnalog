@@ -11,7 +11,7 @@ import com.example.linkedinanalog.data.db.dao.postDao.PostDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import com.example.linkedinanalog.data.db.entity.postEntity.PostRemoteKeyEntity
-import com.example.linkedinanalog.data.db.entity.postEntity.toEntity
+import com.example.linkedinanalog.data.db.entity.postEntity.toPostEntity
 
 @OptIn(ExperimentalPagingApi::class)
 class PostsRemoteMediator(
@@ -24,6 +24,8 @@ class PostsRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
+
+
 
         try {
             val response = when (loadType) {
@@ -86,7 +88,7 @@ class PostsRemoteMediator(
                 }
 
 
-                postDao.insertPost(body.toEntity())
+                postDao.insertPost(body.toPostEntity())
             }
             return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
         } catch (e: Exception) {

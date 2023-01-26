@@ -6,6 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.ShowUserFragment">
 
+    <Button
+        android:id="@+id/button_userJobs"
+        android:text="User jobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_userWall"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <ImageView
         android:id="@+id/imageAvatar"
@@ -45,7 +54,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_job"
+        android:id="@+id/recycler_userWall"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"

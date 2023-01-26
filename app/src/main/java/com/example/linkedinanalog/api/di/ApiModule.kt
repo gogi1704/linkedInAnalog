@@ -80,5 +80,9 @@ class ApiModule {
     @Provides
     fun providesMediaApiService(retrofit: Retrofit): MediaApiService = retrofit.create()
 
+    @Singleton
+    @Provides
+    fun providesWallApiService(retrofit: Retrofit): WallApiService = retrofit.create()
+
 
 }
