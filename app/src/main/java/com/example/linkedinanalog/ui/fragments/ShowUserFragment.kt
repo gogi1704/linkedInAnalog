@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.linkedinanalog.data.repository.WallRepository
 import com.example.linkedinanalog.databinding.FragmentShowUserBinding
 import com.example.linkedinanalog.ui.constans.SHOW_USER_KEY
 import com.example.linkedinanalog.ui.constans.USER_ID_PREFS
@@ -17,18 +17,18 @@ import com.example.linkedinanalog.ui.recyclerAdapters.jobAdapter.JobAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.wallAdapter.WallAdapter
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.JobViewModel
-import com.example.linkedinanalog.viewModels.PostViewModel
 import com.example.linkedinanalog.viewModels.WallViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ShowUserFragment : Fragment() {
     private lateinit var binding: FragmentShowUserBinding
-    private lateinit var adapter: WallAdapter
+    private lateinit var wallAdapter: WallAdapter
+    private lateinit var jobAdapter: JobAdapter
     private val authViewModel: AuthViewModel by activityViewModels()
     private val wallViewModel: WallViewModel by activityViewModels()
+    private val jobViewModel: JobViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,35 +42,44 @@ class ShowUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentShowUserBinding.inflate(layoutInflater, container, false)
-        adapter = WallAdapter(object : WallAdapter.WallAdapterListener {
+        jobAdapter = JobAdapter()
+        wallAdapter = WallAdapter(object : WallAdapter.WallAdapterListener {
             override fun likePost(id: Long, likedByMe: Boolean) {
                 wallViewModel.like(id, likedByMe)
             }
 
         })
-        binding.recyclerUserWall.adapter = adapter
+        binding.recyclerUserWall.adapter = wallAdapter
+        binding.jobsRecycler.adapter = jobAdapter
         authViewModel.getUserById(requireArguments().getLong(SHOW_USER_KEY))
-        //  wallViewModel.getAll(requireArguments().getLong(SHOW_USER_KEY))
 
 
         authViewModel.showUserLiveData.observe(viewLifecycleOwner) {
             with(binding) {
                 textUserName.text = it.name
                 imageAvatar.loadAvatar(it.avatar ?: "")
+
+                buttonUserJobs.setOnClickListener {
+                    jobViewModel.getJobById(requireArguments().getLong(SHOW_USER_KEY))
+                    groupJobs.visibility = View.VISIBLE
+                }
+
+                buttonCloseJobs.setOnClickListener {
+                    groupJobs.visibility = View.GONE
+                }
             }
+
         }
 
-//        wallViewModel.wallLiveData.observe(viewLifecycleOwner) {
-//            //adapter.submitList(it)
-//        }
+        jobViewModel.userShowJobLiveData.observe(viewLifecycleOwner) {
+            jobAdapter.submitList(it)
+        }
 
-//        wallViewModel.wallDataFlow.observe(viewLifecycleOwner){
-//            adapter.submitList(it)
-////        }
+
 
         lifecycleScope.launchWhenCreated {
             wallViewModel.pagingData.collectLatest {
-                adapter.submitData(it)
+                wallAdapter.submitData(it)
 
             }
         }
@@ -82,11 +91,11 @@ class ShowUserFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter.refresh()
+        wallAdapter.refresh()
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onPause() {
+    override fun onStop() {
         requireContext().applicationContext.getSharedPreferences(
             USER_ID_PREFS,
             Context.MODE_PRIVATE
@@ -94,6 +103,6 @@ class ShowUserFragment : Fragment() {
             .edit()
             .clear()
             .apply()
-        super.onPause()
+        super.onStop()
     }
 }

@@ -23,16 +23,6 @@ class WallViewModel @Inject constructor(
 ) :
     AndroidViewModel(application) {
 
-//    private var wallData = listOf<PostModel>()
-//        set(value) {
-//            field = value
-//            _wallLiveData.value = value
-//        }
-//
-//    private val _wallLiveData = MutableLiveData(wallData)
-//    val wallLiveData
-//        get() = _wallLiveData
-
     private val _pagingData = wallRepository.pagingData.cachedIn(viewModelScope).map {
         it.map { post ->
             post.toDto()
@@ -43,25 +33,11 @@ class WallViewModel @Inject constructor(
         get() = _pagingData
 
 
-//    private val _dataFlow = postRepository.dataFlow.asLiveData(Dispatchers.Default)
-//
-//
-//    val wallDataFlow: LiveData<List<PostModel>>
-//        get() = _dataFlow
-
-    fun getAll(id: Long) {
-        viewModelScope.launch {
-            // wallData = wallRepository.getAll(id)
-        }
-    }
-
     fun removeAll() {
         viewModelScope.launch {
             wallRepository.removeAll()
         }
     }
-
-
 
     fun like(id: Long, likeByMe: Boolean) {
         viewModelScope.launch {

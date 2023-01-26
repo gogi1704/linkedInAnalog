@@ -51,9 +51,7 @@ class WallAdapter(private val listener: WallAdapterListener) :
                     link.text = item.link
                 }
 
-                if (item.ownedByMe) {
-                    buttonMenu.visibility = View.VISIBLE
-                } else buttonMenu.visibility = View.GONE
+                buttonMenu.visibility = View.GONE
 
                 if (item.attachment != null) {
                     attachmentImage.visibility = View.VISIBLE
