@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
+import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
 import com.example.linkedinanalog.viewModels.EventViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,10 +24,6 @@ class EventsFragment : Fragment() {
     private lateinit var binding: FragmentEventsBinding
     private val adapter: EventAdapter = EventAdapter()
     private val viewModel: EventViewModel by activityViewModels()
-
-
-
-
 
 
     override fun onCreateView(
@@ -38,6 +36,17 @@ class EventsFragment : Fragment() {
 
         viewModel.liveData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        with(binding) {
+            fbCreateEvent.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_createFragment,
+                    Bundle().apply {
+                        putString(OPEN_FRAGMENT_KEY, EVENT_OPEN)
+                        putString(JOB_KEY, CREATE)
+                    })
+            }
         }
 
         return binding.root

@@ -16,17 +16,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.linkedinanalog.data.models.Attachment
-import com.example.linkedinanalog.data.models.AttachmentType
+import com.example.linkedinanalog.data.models.*
+import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
+import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.extensions.loadImage
+import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
+import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserListener
+import com.example.linkedinanalog.viewModels.AuthViewModel
+import com.example.linkedinanalog.viewModels.EventViewModel
 import com.example.linkedinanalog.viewModels.JobViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -42,6 +48,8 @@ class CreateFragment : Fragment() {
     private lateinit var binding: FragmentCreateBinding
     private val postViewModel: PostViewModel by activityViewModels()
     private val jobViewModel: JobViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
+    private val eventViewModel: EventViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -49,6 +57,7 @@ class CreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateBinding.inflate(layoutInflater, container, false)
+
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 when (it.resultCode) {
@@ -72,14 +81,15 @@ class CreateFragment : Fragment() {
             //todo
             POST_OPEN -> {
                 binding.postGroup.visibility = View.VISIBLE
+                binding.buttonPanel.visibility = View.VISIBLE
                 when (requireArguments().getString(JOB_KEY)) {
                     CREATE -> {
                         with(binding) {
                             buttonCreatingComplete.setOnClickListener {
                                 val postRequest = PostCreateRequest(
-                                    content = textContent.text.toString(),
+                                    content = textContentPost.text.toString(),
                                     coords = null,
-                                    link = textLink.text.toString(),
+                                    link = textLinkPost.text.toString(),
                                     attachment = if (postViewModel.photoLiveData.value != PhotoModel()) Attachment(
                                         "",
                                         AttachmentType.IMAGE
@@ -97,11 +107,11 @@ class CreateFragment : Fragment() {
                             PostCreateRequest::class.java
                         )
                         with(binding) {
-                            textContent.setText(post.content)
-                            textLink.setText(post.link)
+                            textContentPost.setText(post.content)
+                            textLinkPost.setText(post.link)
                             if (post.attachment != null) {
                                 postViewModel.changePhoto(uri = post.attachment.url?.toUri(), null)
-                                image.loadImage(post.attachment.url!!)
+                                imagePost.loadImage(post.attachment.url!!)
                             }
 
                             buttonCreatingComplete.setOnClickListener {
@@ -116,9 +126,9 @@ class CreateFragment : Fragment() {
                                 }
                                 val postRequest = PostCreateRequest(
                                     id = post.id,
-                                    content = textContent.text.toString(),
+                                    content = textContentPost.text.toString(),
                                     coords = null,
-                                    link = textLink.text.toString(),
+                                    link = textLinkPost.text.toString(),
                                     attachment = if (postViewModel.photoLiveData.value == PhotoModel()) null else attachment,
                                     mentionIds = listOf()
                                 )
@@ -131,8 +141,9 @@ class CreateFragment : Fragment() {
                 }
             }
 
-            EVENT_OPEN -> {
+            JOB_OPEN -> {
                 binding.jobGroup.visibility = View.VISIBLE
+                binding.buttonPanel.visibility = View.GONE
                 when (requireArguments().getString(JOB_KEY)) {
                     CREATE -> {
                         with(binding) {
@@ -166,8 +177,82 @@ class CreateFragment : Fragment() {
 
             }
 
+            EVENT_OPEN -> {
+                with(binding) {
+                    eventGroup.visibility = View.VISIBLE
+                    val adapter = UserAdapter(object : UserListener {
+                        override fun clickCheckBox(user: UserModel) {
+                            eventViewModel.addToChooseList(user.id)
+                        }
+                    })
+                    usersRecyclerView.adapter = adapter
+
+                    authViewModel.usersLiveData.observe(viewLifecycleOwner) {
+                        adapter.submitList(it)
+                    }
+                }
+
+                when (requireArguments().getString(JOB_KEY)) {
+                    CREATE -> {
+                        with(binding) {
+                            btOnline.setOnClickListener {
+                                it.background.alpha = 100
+                                btOffline.background.alpha = 0
+                            }
+                            btOffline.setOnClickListener {
+                                it.background.alpha = 100
+                                btOnline.background.alpha = 0
+                            }
+
+                            imageViewDeleteEvent.setOnClickListener {
+                                postViewModel.changePhoto(null, null)
+                            }
+
+                            btChooseSpeakers.setOnClickListener {
+                                if (usersRecyclerContainer.isVisible) {
+                                    btChooseSpeakers.text = "Choose speakers"
+                                    usersRecyclerContainer.visibility = View.GONE
+
+                                } else {
+                                    btChooseSpeakers.text = "CLOSE"
+                                    usersRecyclerContainer.visibility = View.VISIBLE
+                                }
+                                authViewModel.getAllUsers()
+                            }
+
+                            buttonCreatingComplete.setOnClickListener {
+                                val isMediaContains =
+                                    postViewModel.photoLiveData.value != PhotoModel()
+                                val upLoad =
+                                    if (isMediaContains) MediaUpload(postViewModel.photoLiveData.value?.file!!) else null
+                                val type =
+                                    if (btOnline.background.alpha == 100) EventType.ONLINE else
+                                        EventType.OFFLINE
+                                eventViewModel.createEvent(
+                                    EventCreateRequest(
+                                        -1, textContentEvent.text.toString(),
+                                        dateTime.text.toString(), null, type,
+                                        if (isMediaContains) Attachment(
+                                            "",
+                                            AttachmentType.IMAGE
+                                        ) else null,
+                                        textLinkEvent.text.toString(),
+                                        listOf()
+                                    ), mediaUpload = upLoad
+                                )
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+
 
         }
+
+
 
         with(binding) {
             takeImage.setOnClickListener {
@@ -192,7 +277,7 @@ class CreateFragment : Fragment() {
                     .createIntent { pickPhotoLauncher.launch(it) }
             }
 
-            imageViewDelete.setOnClickListener {
+            imageViewDeletePost.setOnClickListener {
                 postViewModel.changePhoto(null, null)
             }
         }
@@ -200,11 +285,23 @@ class CreateFragment : Fragment() {
 
 
         postViewModel.photoLiveData.observe(viewLifecycleOwner) {
-            if (it.uri == null) {
-                binding.photoContainer.visibility = View.GONE
-            } else
-                binding.photoContainer.visibility = View.VISIBLE
-            binding.image.setImageURI(it.uri)
+            if (binding.eventGroup.isVisible) {
+                if (it.uri == null) {
+                    binding.photoContainerEvent.visibility = View.GONE
+                } else {
+                    binding.photoContainerEvent.visibility = View.VISIBLE
+                    binding.imageEvent.setImageURI(it.uri)
+                }
+            } else if (binding.postGroup.isVisible) {
+                if (it.uri == null) {
+                    binding.photoContainerPost.visibility = View.GONE
+                } else {
+                    binding.photoContainerPost.visibility = View.VISIBLE
+                    binding.imagePost.setImageURI(it.uri)
+
+                }
+            }
+
         }
 
 
@@ -216,13 +313,15 @@ class CreateFragment : Fragment() {
     private fun showDateView(textInput: TextView) {
         val cal = Calendar.getInstance()
 
-        DatePickerDialog(requireContext(),
+        DatePickerDialog(
+            requireContext(),
             { _, year, month, dayOfMonth ->
-                val editedMonth =if (month < 10) "0${month+1}" else "${month+1}"
-                val editedDay =if (dayOfMonth < 10) "0${dayOfMonth+1}" else "${dayOfMonth+1}"
+                val editedMonth = if (month < 10) "0${month + 1}" else "${month + 1}"
+                val editedDay = if (dayOfMonth < 10) "0${dayOfMonth + 1}" else "${dayOfMonth + 1}"
                 val date = "$year-$editedMonth-$editedDay"
                 textInput.text = date
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
 
     }
 

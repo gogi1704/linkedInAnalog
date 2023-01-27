@@ -33,7 +33,7 @@ class EventAdapter :
                 textAuthorName.text = item.author
                 textAuthorJob.text = item.authorJob
                 eventStart.text = item.dateTime
-                eventType.text = item.type
+                eventType.text = item.type.toString()
                 published.parseDateTime(item.published)
                 content.text = item.content
                 if (item.link == null) {

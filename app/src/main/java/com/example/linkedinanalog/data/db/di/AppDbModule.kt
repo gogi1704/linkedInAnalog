@@ -3,6 +3,7 @@ package com.example.linkedinanalog.data.db.di
 import android.content.Context
 import androidx.room.Room
 import com.example.linkedinanalog.data.db.AppDb
+import com.example.linkedinanalog.data.db.dao.userDao.UserDao
 import com.example.linkedinanalog.data.db.dao.jobDao.JobDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
@@ -13,7 +14,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Job
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -50,5 +50,9 @@ class DbModule {
     @Singleton
     @Provides
     fun provideJobDao(appDb: AppDb): JobDao = appDb.jobDao()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(appDb: AppDb): UserDao = appDb.userDao()
 
 }

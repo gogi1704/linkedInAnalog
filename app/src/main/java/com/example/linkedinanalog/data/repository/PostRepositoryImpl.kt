@@ -1,6 +1,7 @@
 package com.example.linkedinanalog.data.repository
 
 import androidx.paging.*
+import com.example.linkedinanalog.api.MediaApiService
 import com.example.linkedinanalog.api.PostApiService
 import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.postDao.PostDao
@@ -22,6 +23,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 class PostRepositoryImpl @Inject constructor(
     private val apiService: PostApiService,
+    private val mediaApiService: MediaApiService,
     db: AppDb,
     keyDao: PostRemoteKeyDao,
     private val postDao: PostDao
@@ -76,7 +78,7 @@ class PostRepositoryImpl @Inject constructor(
         val media = MultipartBody.Part.createFormData(
             "file", upload.file.name, upload.file.asRequestBody()
         )
-        val response = apiService.upLoadMedia(media)
+        val response = mediaApiService.upLoadMedia(media)
         return response.body()!!
     }
 

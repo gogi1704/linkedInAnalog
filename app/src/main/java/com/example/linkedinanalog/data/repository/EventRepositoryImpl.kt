@@ -2,11 +2,24 @@ package com.example.linkedinanalog.data.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.linkedinanalog.api.EventApiService
+import com.example.linkedinanalog.api.MediaApiService
+import com.example.linkedinanalog.data.models.Attachment
+import com.example.linkedinanalog.data.models.AttachmentType
+import com.example.linkedinanalog.data.models.Media
+import com.example.linkedinanalog.data.models.MediaUpload
+import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.event.EventModel
+import com.example.linkedinanalog.data.models.post.PostCreateRequest
+import com.example.linkedinanalog.data.models.user.UserModel
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
-class EventRepositoryImpl @Inject constructor(private val apiService: EventApiService) :
+class EventRepositoryImpl @Inject constructor(
+    private val eventApiService: EventApiService,
+    private val mediaApiService: MediaApiService
+) :
     Repository<EventModel> {
 
     var data = listOf<EventModel>()
@@ -16,19 +29,55 @@ class EventRepositoryImpl @Inject constructor(private val apiService: EventApiSe
         }
     val liveData = MutableLiveData(data)
 
-    override suspend fun getAll():List<EventModel> {
-        val response = apiService.getAllEvents()
+
+    private val chooseList = mutableListOf<Int>()
+
+
+    fun addChooseUser(userId: Int) {
+        if (chooseList.contains(userId)) {
+            chooseList.remove(userId)
+        } else
+            chooseList.add(userId)
+    }
+
+    override suspend fun getAll(): List<EventModel> {
+        val response = eventApiService.getAllEvents()
         if (response.isSuccessful) {
             val body = response.body()
-            data= body!!
-           return  body
+            data = body!!
+            return body
         } else throw Exception()
 
     }
 
     override suspend fun addItem(item: EventModel) {
-        TODO("Not yet implemented")
+
     }
+
+    suspend fun createEvent(item: EventCreateRequest) {
+        //todo
+        val response = eventApiService.createEvent(item.copy(speakerIds = chooseList))
+        if (response.isSuccessful) {
+            response.body()
+            chooseList.clear()
+        } else throw Exception()
+    }
+    suspend fun createWithAttachments(event: EventCreateRequest, mediaUpload: MediaUpload?){
+        val media = uploadImage(mediaUpload!!)
+        val eventCopy = event.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
+        createEvent(eventCopy)
+
+    }
+    suspend fun uploadImage(upload: MediaUpload): Media {
+        //todo
+        val media = MultipartBody.Part.createFormData(
+            "file", upload.file.name, upload.file.asRequestBody()
+        )
+        val response = mediaApiService.upLoadMedia(media)
+        return response.body()!!
+    }
+
+
 
     override suspend fun deleteItem(id: Long) {
         TODO("Not yet implemented")

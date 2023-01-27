@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.linkedinanalog.api.AuthApiService
-import com.example.linkedinanalog.api.MediaApiService
 import com.example.linkedinanalog.auth.AppAuth
 import com.example.linkedinanalog.auth.AuthState
-import com.example.linkedinanalog.data.models.Media
+import com.example.linkedinanalog.data.db.dao.userDao.UserDao
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
     private val authApiService: AuthApiService,
-    private val mediaApiService: MediaApiService,
+    private val userDao: UserDao,
     private val auth: AppAuth,
     @ApplicationContext private val context: Context
 ) {
@@ -29,6 +28,7 @@ class AuthRepository @Inject constructor(
 
     val isAuth: Boolean
         get() = auth.isAuth
+
 
     suspend fun registerUser(user: UserRequestModel): AuthState {
         val response = authApiService.registerUser(user.login, user.pass, user.name, null)
@@ -41,7 +41,7 @@ class AuthRepository @Inject constructor(
     suspend fun registerWithAvatar(user: UserRequestModel): AuthState {
         val mediaUpLoad = MediaUpload(user.avatar!!)
         val media = MultipartBody.Part.createFormData(
-        "file", mediaUpLoad.file.name, mediaUpLoad.file.asRequestBody()
+            "file", mediaUpLoad.file.name, mediaUpLoad.file.asRequestBody()
         )
         val response =
             authApiService.registerUser(user.login, user.pass, user.name, media)
@@ -50,14 +50,14 @@ class AuthRepository @Inject constructor(
         } else throw Exception()
     }
 
-    suspend fun uploadImage(upload: MediaUpload): Media {
-        //todo
-        val media = MultipartBody.Part.createFormData(
-            "file", upload.file.name, upload.file.asRequestBody()
-        )
-        val response = mediaApiService.upLoadMedia(media)
-        return response.body()!!
-    }
+//    suspend fun uploadImage(upload: MediaUpload): Media {
+//        //todo
+//        val media = MultipartBody.Part.createFormData(
+//            "file", upload.file.name, upload.file.asRequestBody()
+//        )
+//        val response = mediaApiService.upLoadMedia(media)
+//        return response.body()!!
+//    }
 
     suspend fun authenticationUser(login: String, pass: String): AuthState {
         val response = authApiService.authenticationUser(login, pass)
@@ -67,7 +67,15 @@ class AuthRepository @Inject constructor(
 
     }
 
-     suspend fun getUserById(id: Long): UserModel {
+    suspend fun getAllUsers(): List<UserModel> {
+        val response = authApiService.getAllUsers()
+        if (response.isSuccessful){
+            userDao.insert(response.body()!!.map { it.toEntity() })
+            return response.body()!!
+        }else throw Exception()
+    }
+
+    suspend fun getUserById(id: Long): UserModel {
         val response = authApiService.getUserById(id)
         if (response.isSuccessful) {
             return response.body()!!
@@ -81,6 +89,8 @@ class AuthRepository @Inject constructor(
         } else UserModel(0, "", "", "")
 
     }
+
+
 
     fun signOut() {
         auth.removeAuth()
