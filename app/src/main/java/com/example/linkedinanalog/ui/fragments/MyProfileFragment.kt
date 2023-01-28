@@ -51,15 +51,14 @@ class MyProfileFragment : Fragment() {
 
         }
 
-        //Date time и если не finish то отправлять null
-
-
-
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             if (it.id != 0L){
                 authViewModel.updateMyUser()
                 jobViewModel.getAllJobs()
                 binding.buttonAddJob.visibility = View.VISIBLE
+            }else {
+                binding.buttonAddJob.visibility = View.GONE
+                jobViewModel.clearMyUserJob()
             }
 
         }
@@ -69,9 +68,8 @@ class MyProfileFragment : Fragment() {
                 binding.textEmpty.visibility = View.VISIBLE
             } else {
                 binding.textEmpty.visibility = View.GONE
-                adapter.submitList(it)
             }
-
+            adapter.submitList(it)
         }
 
         authViewModel.userLiveData.observe(viewLifecycleOwner) {

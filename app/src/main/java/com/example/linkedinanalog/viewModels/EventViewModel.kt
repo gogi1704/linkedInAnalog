@@ -18,11 +18,16 @@ class EventViewModel @Inject constructor(
     private val eventRepository: EventRepositoryImpl
 ) : AndroidViewModel(application) {
 
-
-    val liveData: MutableLiveData<List<EventModel>>
-        get() {
-            return eventRepository.liveData
+    var eventData = listOf<EventModel>()
+        set(value) {
+            field = value
+            _liveData.value = value
         }
+    private val _liveData = MutableLiveData(eventData)
+
+    val liveData
+        get() = _liveData
+
 
     fun addToChooseList(id: Int) {
         eventRepository.addChooseUser(id)
@@ -48,7 +53,7 @@ class EventViewModel @Inject constructor(
 
     fun getEvents() {
         viewModelScope.launch {
-            eventRepository.getAll()
+            eventData = eventRepository.getAll()
         }
     }
 }

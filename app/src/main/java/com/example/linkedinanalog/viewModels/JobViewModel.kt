@@ -32,6 +32,10 @@ class JobViewModel @Inject constructor(
         }
     val userShowJobLiveData = MutableLiveData(userShowJobData)
 
+    fun clearMyUserJob(){
+        myJobData = listOf()
+    }
+
 
     fun getAllJobs() {
         viewModelScope.launch {

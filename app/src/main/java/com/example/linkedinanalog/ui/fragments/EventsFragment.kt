@@ -45,7 +45,7 @@ class EventsFragment : Fragment() {
 
             override fun participateByMe(id: Long, isParticipatedByMe: Boolean) {
                 eventViewModel.participantByMe(id, isParticipatedByMe)
-
+                eventViewModel.getEvents()
             }
 
         })
@@ -53,11 +53,6 @@ class EventsFragment : Fragment() {
 
         binding.recyclerEvent.adapter = eventAdapter
         binding.participantsRecycler.adapter = userAdapter
-
-
-        eventViewModel.liveData.observe(viewLifecycleOwner) {
-            eventAdapter.submitList(it)
-        }
 
         with(binding) {
             fbCreateEvent.setOnClickListener {
@@ -71,6 +66,10 @@ class EventsFragment : Fragment() {
             buttonClose.setOnClickListener {
                 usersShowGroup.visibility = View.GONE
             }
+        }
+
+        eventViewModel.liveData.observe(viewLifecycleOwner) {
+            eventAdapter.submitList(it)
         }
 
         authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {

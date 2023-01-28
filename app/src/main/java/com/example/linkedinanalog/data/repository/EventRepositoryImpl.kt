@@ -20,13 +20,6 @@ class EventRepositoryImpl @Inject constructor(
 ) :
     Repository<EventModel> {
 
-    var data = listOf<EventModel>()
-        set(value) {
-            field = value
-            liveData.value = value
-        }
-    val liveData = MutableLiveData(data)
-
 
     private val chooseList = mutableListOf<Int>()
 
@@ -41,9 +34,7 @@ class EventRepositoryImpl @Inject constructor(
     override suspend fun getAll(): List<EventModel> {
         val response = eventApiService.getAllEvents()
         if (response.isSuccessful) {
-            val body = response.body()
-            data = body!!
-            return body
+            return response.body()!!
         } else throw Exception()
 
     }

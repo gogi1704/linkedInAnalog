@@ -16,7 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
-
+private val emptyUser = UserModel(-1, "", "", "")
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     application: Application,
@@ -24,14 +24,14 @@ class AuthViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : AndroidViewModel(application) {
 
-    private var myUser = UserModel(-1, "", "", "")
+    private var myUser = emptyUser
         set(value) {
             field = value
             userLiveData.value = value
         }
     val userLiveData = MutableLiveData(myUser)
 
-    private var showUser = UserModel(-1, "", "", "")
+    private var showUser = emptyUser
         set(value) {
             field = value
             showUserLiveData.value = value
@@ -65,7 +65,7 @@ class AuthViewModel @Inject constructor(
     val photoLiveData
         get() = _photoLiveData
 
-    var participantsOrSpeakersData = mutableListOf<UserModel>()
+    private var participantsOrSpeakersData = mutableListOf<UserModel>()
         set(value) {
             field = value
             _participantsOrSpeakerLiveData.value = value
@@ -123,7 +123,6 @@ class AuthViewModel @Inject constructor(
 
     fun getUsersList(listId: List<Int>) {
         val list = mutableListOf<UserModel>()
-       // val myId = repository.authData.value?.id?.toInt()
         for (user in usersData) {
             for (id in listId) {
                 if (user.id == id ) {
@@ -136,6 +135,7 @@ class AuthViewModel @Inject constructor(
 
     fun signOut() {
         repository.signOut()
+        myUser = emptyUser
     }
 
     companion object {
