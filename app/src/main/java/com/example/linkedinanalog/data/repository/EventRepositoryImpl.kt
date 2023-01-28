@@ -9,8 +9,6 @@ import com.example.linkedinanalog.data.models.Media
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.event.EventModel
-import com.example.linkedinanalog.data.models.post.PostCreateRequest
-import com.example.linkedinanalog.data.models.user.UserModel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -50,9 +48,6 @@ class EventRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun addItem(item: EventModel) {
-
-    }
 
     suspend fun createEvent(item: EventCreateRequest) {
         //todo
@@ -62,12 +57,14 @@ class EventRepositoryImpl @Inject constructor(
             chooseList.clear()
         } else throw Exception()
     }
-    suspend fun createWithAttachments(event: EventCreateRequest, mediaUpload: MediaUpload?){
+
+    suspend fun createWithAttachments(event: EventCreateRequest, mediaUpload: MediaUpload?) {
         val media = uploadImage(mediaUpload!!)
         val eventCopy = event.copy(attachment = Attachment(media.url, AttachmentType.IMAGE))
         createEvent(eventCopy)
 
     }
+
     suspend fun uploadImage(upload: MediaUpload): Media {
         //todo
         val media = MultipartBody.Part.createFormData(
@@ -77,7 +74,22 @@ class EventRepositoryImpl @Inject constructor(
         return response.body()!!
     }
 
+    suspend fun participantByMe(id: Long, isParticipatedByMe: Boolean) {
+        val response = if (isParticipatedByMe) {
+            eventApiService.participantByMeFalse(id)
+        } else {
+            eventApiService.participantByMeTrue(id)
+        }
+        if (response.isSuccessful) {
 
+        } else throw Exception()
+
+    }
+
+
+    override suspend fun addItem(item: EventModel) {
+//todo
+    }
 
     override suspend fun deleteItem(id: Long) {
         TODO("Not yet implemented")

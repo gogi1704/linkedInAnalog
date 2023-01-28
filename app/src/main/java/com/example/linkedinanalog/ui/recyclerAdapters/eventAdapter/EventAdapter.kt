@@ -8,16 +8,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.databinding.RecyclerEventItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
+import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.extensions.parseDateTime
 
-class EventAdapter :
+interface EventListener {
+    fun showSpeakers(listId: List<Int>)
+    fun showParticipants(listId: List<Int>)
+    fun participateByMe(id: Long , isParticipatedByMe: Boolean)
+}
+
+class EventAdapter(private val listener: EventListener) :
     ListAdapter<EventModel, EventAdapter.EventViewHolder>(EventDiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val binding =
             RecyclerEventItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return EventViewHolder(binding)
+        return EventViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
@@ -25,7 +32,10 @@ class EventAdapter :
     }
 
 
-    class EventViewHolder(private val binding: RecyclerEventItemBinding) :
+    class EventViewHolder(
+        private val binding: RecyclerEventItemBinding,
+        private val listener: EventListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EventModel) {
             with(binding) {
@@ -42,7 +52,22 @@ class EventAdapter :
                     groupLink.visibility = View.VISIBLE
                     link.text = item.link
                 }
+                if (item.attachment != null) {
+                    attachmentImage.visibility = View.VISIBLE
+                    attachmentImage.loadImage(item.attachment.url.toString())
+                } else attachmentImage.visibility = View.GONE
 
+                buttonSpeakers.setOnClickListener {
+                    listener.showSpeakers(item.speakerIds ?: listOf())
+                }
+
+                buttonParticipants.setOnClickListener {
+                    listener.showParticipants(item.participantsIds ?: listOf())
+                }
+                checkBoxParticipatedByMe.isChecked = item.participatedByMe
+                checkBoxParticipatedByMe.setOnClickListener {
+                    listener.participateByMe(item.id.toLong() , item.participatedByMe)
+                }
             }
         }
     }

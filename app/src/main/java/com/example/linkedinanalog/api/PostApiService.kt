@@ -9,8 +9,6 @@ import retrofit2.http.*
 
 interface PostApiService {
 
-    @GET("/api/posts/")
-    suspend fun getAllPosts(): Response<List<PostModel>>
 
     @GET("/api/posts/latest/")
     suspend fun getLatest(@Query("count") count: Int): Response<List<PostModel>>

@@ -21,8 +21,6 @@ interface AuthApiService {
         @Part file: MultipartBody.Part?
     ): Response<AuthState>
 
-    // suspend fun upLoadMedia(@Part media: MultipartBody.Part): Response<Media>
-
     @FormUrlEncoded
     @POST("/api/users/authentication/")
     suspend fun authenticationUser(

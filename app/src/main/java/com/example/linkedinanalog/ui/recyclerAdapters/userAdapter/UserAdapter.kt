@@ -1,6 +1,7 @@
 package com.example.linkedinanalog.ui.recyclerAdapters.userAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
@@ -10,10 +11,10 @@ import com.example.linkedinanalog.databinding.RecyclerUserItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 
 interface UserListener {
-    fun clickCheckBox(user:UserModel)
+    fun clickCheckBox(user: UserModel)
 }
 
-class UserAdapter(private val userListener: UserListener) :
+class UserAdapter(private val userListener: UserListener?) :
     ListAdapter<UserModel, UserAdapter.UserViewHolder>(UserDiffUtilCallback()) {
 
 
@@ -30,7 +31,7 @@ class UserAdapter(private val userListener: UserListener) :
 
     class UserViewHolder(
         private val binding: RecyclerUserItemBinding,
-        private val listener: UserListener
+        private val listener: UserListener?
     ) : ViewHolder(binding.root) {
         fun bind(item: UserModel?) {
             with(binding) {
@@ -38,11 +39,16 @@ class UserAdapter(private val userListener: UserListener) :
                     imageAvatar.loadAvatar(item.avatar ?: "")
                     textName.text = item.name
                     checkboxChooseUser.setOnClickListener {
-                        listener.clickCheckBox(item)
+                        listener?.clickCheckBox(item)
                     }
                 }
+                if (listener == null) {
+                    checkboxChooseUser.visibility = View.GONE
+                } else
+                    checkboxChooseUser.visibility = View.VISIBLE
 
             }
+
         }
     }
 }

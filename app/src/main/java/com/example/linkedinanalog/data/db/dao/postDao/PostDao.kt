@@ -23,9 +23,6 @@ interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPost(posts: List<PostEntity>)
 
-//    @Query("SELECT * FROM PostEntity ORDER BY id DESC")
-//    fun getPagingData(): PagingSource<Int, PostEntity>
-
     @Query("SELECT * FROM PostEntity")
     fun getAll():Flow<List<PostEntity>>
 

@@ -65,6 +65,15 @@ class AuthViewModel @Inject constructor(
     val photoLiveData
         get() = _photoLiveData
 
+    var participantsOrSpeakersData = mutableListOf<UserModel>()
+        set(value) {
+            field = value
+            _participantsOrSpeakerLiveData.value = value
+        }
+
+    private val _participantsOrSpeakerLiveData = MutableLiveData(participantsOrSpeakersData)
+    val participantsOrSpeakerLiveData
+        get() = _participantsOrSpeakerLiveData
 
 
     fun getAllUsers() {
@@ -110,6 +119,19 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             showUser = repository.getUserById(id)
         }
+    }
+
+    fun getUsersList(listId: List<Int>) {
+        val list = mutableListOf<UserModel>()
+       // val myId = repository.authData.value?.id?.toInt()
+        for (user in usersData) {
+            for (id in listId) {
+                if (user.id == id ) {
+                    list.add(user)
+                }
+            }
+        }
+        participantsOrSpeakersData = list
     }
 
     fun signOut() {

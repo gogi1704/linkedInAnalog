@@ -6,36 +6,57 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
-import com.example.linkedinanalog.data.models.Attachment
-import com.example.linkedinanalog.data.models.Coordinates
-import com.example.linkedinanalog.data.models.event.EventModel
-import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
+import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventListener
+import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
+import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.EventViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EventsFragment : Fragment() {
     private lateinit var binding: FragmentEventsBinding
-    private val adapter: EventAdapter = EventAdapter()
-    private val viewModel: EventViewModel by activityViewModels()
+    private lateinit var eventAdapter: EventAdapter
+    private lateinit var userAdapter: UserAdapter
+    private val eventViewModel: EventViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        authViewModel.getAllUsers()
         binding = FragmentEventsBinding.inflate(layoutInflater, container, false)
-        binding.recyclerEvent.adapter = adapter
+        eventAdapter = EventAdapter(object : EventListener {
+            override fun showSpeakers(listId: List<Int>) {
+                binding.usersShowGroup.visibility = View.VISIBLE
+                authViewModel.getUsersList(listId)
+            }
+
+            override fun showParticipants(listId: List<Int>) {
+                binding.usersShowGroup.visibility = View.VISIBLE
+                authViewModel.getUsersList(listId)
+            }
+
+            override fun participateByMe(id: Long, isParticipatedByMe: Boolean) {
+                eventViewModel.participantByMe(id, isParticipatedByMe)
+
+            }
+
+        })
+        userAdapter = UserAdapter(null)
+
+        binding.recyclerEvent.adapter = eventAdapter
+        binding.participantsRecycler.adapter = userAdapter
 
 
-        viewModel.liveData.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        eventViewModel.liveData.observe(viewLifecycleOwner) {
+            eventAdapter.submitList(it)
         }
 
         with(binding) {
@@ -47,13 +68,20 @@ class EventsFragment : Fragment() {
                         putString(JOB_KEY, CREATE)
                     })
             }
+            buttonClose.setOnClickListener {
+                usersShowGroup.visibility = View.GONE
+            }
+        }
+
+        authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {
+            userAdapter.submitList(it)
         }
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.getEvents()
+        eventViewModel.getEvents()
         super.onViewCreated(view, savedInstanceState)
     }
 

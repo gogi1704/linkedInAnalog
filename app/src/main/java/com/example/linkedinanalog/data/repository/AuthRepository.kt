@@ -26,6 +26,8 @@ class AuthRepository @Inject constructor(
         .asLiveData(Dispatchers.Default)
 
 
+
+
     val isAuth: Boolean
         get() = auth.isAuth
 
@@ -50,14 +52,6 @@ class AuthRepository @Inject constructor(
         } else throw Exception()
     }
 
-//    suspend fun uploadImage(upload: MediaUpload): Media {
-//        //todo
-//        val media = MultipartBody.Part.createFormData(
-//            "file", upload.file.name, upload.file.asRequestBody()
-//        )
-//        val response = mediaApiService.upLoadMedia(media)
-//        return response.body()!!
-//    }
 
     suspend fun authenticationUser(login: String, pass: String): AuthState {
         val response = authApiService.authenticationUser(login, pass)
@@ -89,7 +83,6 @@ class AuthRepository @Inject constructor(
         } else UserModel(0, "", "", "")
 
     }
-
 
 
     fun signOut() {
