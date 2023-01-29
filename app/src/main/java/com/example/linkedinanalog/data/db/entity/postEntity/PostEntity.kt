@@ -48,7 +48,7 @@ data class PostEntity(
                     Array<Int>::class.java
                 ).toList()
             } else null,
-            mentionsIds = if (mentionsIds?.length!! <= 0) {
+            mentionsIds = if (likeOwnerIds?.isNotEmpty() == true) {
                 gson.fromJson(
                     mentionsIds,
                     Array<Int>::class.java

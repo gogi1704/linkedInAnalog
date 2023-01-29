@@ -68,12 +68,17 @@ class EventsFragment : Fragment() {
             }
         }
 
+
         eventViewModel.liveData.observe(viewLifecycleOwner) {
             eventAdapter.submitList(it)
         }
 
         authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {
             userAdapter.submitList(it)
+        }
+
+        authViewModel.authLiveData.observe(viewLifecycleOwner){
+
         }
 
         return binding.root

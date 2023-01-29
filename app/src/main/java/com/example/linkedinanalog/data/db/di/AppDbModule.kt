@@ -3,8 +3,8 @@ package com.example.linkedinanalog.data.db.di
 import android.content.Context
 import androidx.room.Room
 import com.example.linkedinanalog.data.db.AppDb
+import com.example.linkedinanalog.data.db.dao.eventDao.EventDao
 import com.example.linkedinanalog.data.db.dao.userDao.UserDao
-import com.example.linkedinanalog.data.db.dao.jobDao.JobDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.dao.wallDao.WallDao
@@ -49,10 +49,11 @@ class DbModule {
 
     @Singleton
     @Provides
-    fun provideJobDao(appDb: AppDb): JobDao = appDb.jobDao()
+    fun provideUserDao(appDb: AppDb): UserDao = appDb.userDao()
 
     @Singleton
     @Provides
-    fun provideUserDao(appDb: AppDb): UserDao = appDb.userDao()
+    fun provideEventDao(appDb: AppDb): EventDao = appDb.eventDao()
+
 
 }
