@@ -14,10 +14,10 @@ interface EventApiService {
     suspend fun getLatest(@Query("count") count :Int): Response<List<EventModel>>
 
     @GET("/api/events/{event_id}/after/")
-    suspend fun getAfter(@Query("count") count: Int , @Path("event_id") id:Long): Response<List<EventModel>>
+    suspend fun getAfter( @Path("event_id") id:Long , @Query("count") count: Int): Response<List<EventModel>>
 
     @GET("/api/events/{event_id}/before/")
-    suspend fun getBefore(@Query("count") count: Int , @Path("event_id") id:Long): Response<List<EventModel>>
+    suspend fun getBefore( @Path("event_id") id:Long , @Query("count") count: Int ): Response<List<EventModel>>
 
     @POST("/api/events/")
     suspend fun createEvent(@Body event: EventCreateRequest): Response<EventModel>

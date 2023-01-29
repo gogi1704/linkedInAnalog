@@ -228,10 +228,11 @@ class CreateFragment : Fragment() {
                                 val type =
                                     if (btOnline.background.alpha == 100) EventType.ONLINE else
                                         EventType.OFFLINE
+                                val date = if (dateTime.text.isNotEmpty()) dateTime.text.toString() else null
                                 eventViewModel.createEvent(
                                     EventCreateRequest(
                                         -1, textContentEvent.text.toString(),
-                                        dateTime.text.toString(), null, type,
+                                        date, null, type,
                                         if (isMediaContains) Attachment(
                                             "",
                                             AttachmentType.IMAGE

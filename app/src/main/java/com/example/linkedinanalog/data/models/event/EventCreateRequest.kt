@@ -7,10 +7,10 @@ import com.example.linkedinanalog.data.models.EventType
 data class EventCreateRequest(
     val id: Int,
     val content: String,
-    val dateTime: String?,
+    val dateTime: String? = null,
     val coords: Coordinates? = null,
     val type: EventType,
-    val attachment: Attachment?,
-    val link: String?,
-    val speakerIds: List<Int>?,
+    val attachment: Attachment? = null,
+    val link: String? = null,
+    val speakerIds: List<Int>? = null,
 )

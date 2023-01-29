@@ -3,6 +3,7 @@ package com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.data.models.event.EventModel
@@ -10,6 +11,7 @@ import com.example.linkedinanalog.databinding.RecyclerEventItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.extensions.parseDateTime
+import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
 
 interface EventListener {
     fun showSpeakers(listId: List<Int>)
@@ -18,7 +20,7 @@ interface EventListener {
 }
 
 class EventAdapter(private val listener: EventListener) :
-    ListAdapter<EventModel, EventAdapter.EventViewHolder>(EventDiffUtilCallback()) {
+    PagingDataAdapter<EventModel, EventAdapter.EventViewHolder>(EventDiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -28,7 +30,7 @@ class EventAdapter(private val listener: EventListener) :
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 
 

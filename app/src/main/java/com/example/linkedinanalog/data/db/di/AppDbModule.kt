@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.eventDao.EventDao
+import com.example.linkedinanalog.data.db.dao.eventDao.EventRemoteKeyDao
 import com.example.linkedinanalog.data.db.dao.userDao.UserDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostDao
 import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
@@ -54,6 +55,10 @@ class DbModule {
     @Singleton
     @Provides
     fun provideEventDao(appDb: AppDb): EventDao = appDb.eventDao()
+
+    @Singleton
+    @Provides
+    fun provideEventRemoteKeyDao(appDb: AppDb): EventRemoteKeyDao = appDb.eventRemoteKeyDao()
 
 
 }

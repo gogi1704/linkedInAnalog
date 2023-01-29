@@ -15,10 +15,10 @@ interface EventDao {
     fun getPagingSource(): PagingSource<Int, EventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(event: EventEntity)
+    suspend fun insertEvent(event: EventEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPost(event: List<EventEntity>)
+    suspend fun insertEvent(event: List<EventEntity>)
 
     @Query("DELETE FROM EventEntity")
     suspend fun removeAll()

@@ -29,9 +29,10 @@ class PostRepositoryImpl @Inject constructor(
     private val postDao: PostDao
 ) : Repository<PostCreateRequest> {
 
+
     @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<PostEntity>> = Pager(
-        config = PagingConfig(7),
+        config = PagingConfig(10),
         remoteMediator = PostsRemoteMediator(apiService, db, postDao, keyDao),
         pagingSourceFactory = postDao::pagingSource
     ).flow

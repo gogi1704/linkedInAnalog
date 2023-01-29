@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
@@ -16,6 +17,7 @@ import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.EventViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class EventsFragment : Fragment() {
@@ -33,6 +35,7 @@ class EventsFragment : Fragment() {
         authViewModel.getAllUsers()
         binding = FragmentEventsBinding.inflate(layoutInflater, container, false)
         eventAdapter = EventAdapter(object : EventListener {
+
             override fun showSpeakers(listId: List<Int>) {
                 binding.usersShowGroup.visibility = View.VISIBLE
                 authViewModel.getUsersList(listId)
@@ -45,7 +48,7 @@ class EventsFragment : Fragment() {
 
             override fun participateByMe(id: Long, isParticipatedByMe: Boolean) {
                 eventViewModel.participantByMe(id, isParticipatedByMe)
-                eventViewModel.getEvents()
+                //   eventViewModel.getEvents()
             }
 
         })
@@ -66,27 +69,28 @@ class EventsFragment : Fragment() {
             buttonClose.setOnClickListener {
                 usersShowGroup.visibility = View.GONE
             }
+
+            swiperRefresh.setOnRefreshListener {
+                eventAdapter.refresh()
+            }
         }
 
 
-        eventViewModel.liveData.observe(viewLifecycleOwner) {
-            eventAdapter.submitList(it)
+        lifecycleScope.launchWhenCreated {
+            eventViewModel.pagingData.collectLatest {
+                eventAdapter.submitData(it)
+            }
         }
 
         authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {
             userAdapter.submitList(it)
         }
 
-        authViewModel.authLiveData.observe(viewLifecycleOwner){
-
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
+            eventAdapter.refresh()
         }
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        eventViewModel.getEvents()
-        super.onViewCreated(view, savedInstanceState)
     }
 
 

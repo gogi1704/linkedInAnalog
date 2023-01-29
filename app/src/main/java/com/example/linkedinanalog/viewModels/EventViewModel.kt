@@ -4,11 +4,14 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.data.repository.EventRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,15 +21,14 @@ class EventViewModel @Inject constructor(
     private val eventRepository: EventRepositoryImpl
 ) : AndroidViewModel(application) {
 
-    var eventData = listOf<EventModel>()
-        set(value) {
-            field = value
-            _liveData.value = value
+    private val _pagingData = eventRepository.pagingData.cachedIn(viewModelScope).map {
+        it.map { event ->
+            event.toDto()
         }
-    private val _liveData = MutableLiveData(eventData)
+    }
+    val pagingData
+        get() = _pagingData
 
-    val liveData
-        get() = _liveData
 
 
     fun addToChooseList(id: Int) {
@@ -50,10 +52,4 @@ class EventViewModel @Inject constructor(
         }
     }
 
-
-    fun getEvents() {
-        viewModelScope.launch {
-            eventData = eventRepository.getAll()
-        }
-    }
 }

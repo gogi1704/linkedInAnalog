@@ -42,13 +42,13 @@ data class PostEntity(
             published = published,
             coords = gson.fromJson(coords, Coordinates::class.java),
             link = link,
-            likeOwnerIds = if (likeOwnerIds?.isNotEmpty() == true) {
+            likeOwnerIds = if (likeOwnerIds.isNullOrEmpty()) {
                 gson.fromJson(
                     likeOwnerIds,
                     Array<Int>::class.java
                 ).toList()
             } else null,
-            mentionsIds = if (likeOwnerIds?.isNotEmpty() == true) {
+            mentionsIds = if (likeOwnerIds.isNullOrEmpty()) {
                 gson.fromJson(
                     mentionsIds,
                     Array<Int>::class.java
