@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.EventsFragment">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swiperRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_event"
@@ -54,6 +51,5 @@
                 app:layout_constraintTop_toBottomOf="@id/button_close"
                 tools:listitem="@layout/recycler_user_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

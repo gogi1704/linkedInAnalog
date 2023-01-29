@@ -24,8 +24,8 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 class EventRepositoryImpl @Inject constructor(
-    private val db: AppDb,
-    private val keyDao: EventRemoteKeyDao,
+    db: AppDb,
+    keyDao: EventRemoteKeyDao,
     private val eventDao: EventDao,
     private val eventApiService: EventApiService,
     private val mediaApiService: MediaApiService
@@ -52,11 +52,11 @@ class EventRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAll(): List<EventModel> {
-//        val response = eventApiService.getAllEvents()
-//        if (response.isSuccessful) {
-//            return response.body()!!
-//        } else throw Exception()
-        return listOf()
+        val response = eventApiService.getAllEvents()
+        if (response.isSuccessful) {
+            return response.body()!!
+        } else throw Exception()
+
     }
 
 

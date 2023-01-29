@@ -48,7 +48,7 @@ class EventsFragment : Fragment() {
 
             override fun participateByMe(id: Long, isParticipatedByMe: Boolean) {
                 eventViewModel.participantByMe(id, isParticipatedByMe)
-                //   eventViewModel.getEvents()
+
             }
 
         })
@@ -70,9 +70,6 @@ class EventsFragment : Fragment() {
                 usersShowGroup.visibility = View.GONE
             }
 
-            swiperRefresh.setOnRefreshListener {
-                eventAdapter.refresh()
-            }
         }
 
 
