@@ -228,28 +228,56 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:gravity="top"
-                        android:hint="event content"
+                        android:hint="event content*"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+
                     <EditText
-                        android:id="@+id/dateTime"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:hint="Date and Time"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="choose date*"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_content_event" />
 
                     <EditText
                         android:id="@+id/text_link_event"
                         android:layout_width="0dp"
+
                         android:layout_height="wrap_content"
-                        android:hint="link"
+                        android:hint="link*"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/dateTime" />
+                        app:layout_constraintTop_toBottomOf="@id/text_date" />
+
+                    <ImageView
+                        android:id="@+id/eventDate_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_calendar_month_24"
+                        app:layout_constraintStart_toEndOf="@id/text_date"
+                        app:layout_constraintTop_toBottomOf="@id/text_content_event" />
+
+                    <ImageView
+                        android:id="@+id/eventTime_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_calendar_month_24"
+                        app:layout_constraintEnd_toStartOf="@+id/text_time"
+                        app:layout_constraintTop_toTopOf="@id/eventDate_calendar" />
+
+                    <EditText
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="choose time*"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/text_date" />
+
 
                     <TextView
                         android:id="@+id/choose_type"
@@ -287,27 +315,27 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
-                    android:text="Choose speakers"
                     android:id="@+id/bt_chooseSpeakers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="4dp"
+                    android:text="Choose speakers" />
 
                 <FrameLayout
                     android:id="@+id/usersRecycler_container"
                     android:layout_width="match_parent"
-                    tools:visibility="visible"
-                    android:visibility="gone"
                     android:layout_height="360dp"
-                    android:layout_margin="8dp">
+                    android:layout_margin="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        tools:listitem="@layout/recycler_user_item"
                         android:id="@+id/users_recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/recycler_user_item" />
 
                 </FrameLayout>
 

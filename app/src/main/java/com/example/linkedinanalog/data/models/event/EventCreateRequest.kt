@@ -7,7 +7,7 @@ import com.example.linkedinanalog.data.models.EventType
 data class EventCreateRequest(
     val id: Int,
     val content: String,
-    val dateTime: String? = null,
+    val datetime: String? = null,
     val coords: Coordinates? = null,
     val type: EventType,
     val attachment: Attachment? = null,

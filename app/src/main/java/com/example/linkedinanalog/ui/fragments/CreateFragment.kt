@@ -2,18 +2,15 @@ package com.example.linkedinanalog.ui.fragments
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.icu.util.Calendar
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
@@ -40,7 +37,6 @@ import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -208,6 +204,13 @@ class CreateFragment : Fragment() {
                                 postViewModel.changePhoto(null, null)
                             }
 
+                            eventDateCalendar.setOnClickListener {
+                                showDateView(textDate)
+                            }
+                            eventTimeCalendar.setOnClickListener {
+                                showTimeView(textTime)
+                            }
+
                             btChooseSpeakers.setOnClickListener {
                                 if (usersRecyclerContainer.isVisible) {
                                     btChooseSpeakers.text = "Choose speakers"
@@ -228,7 +231,7 @@ class CreateFragment : Fragment() {
                                 val type =
                                     if (btOnline.background.alpha == 100) EventType.ONLINE else
                                         EventType.OFFLINE
-                                val date = if (dateTime.text.isNotEmpty()) dateTime.text.toString() else null
+                                val date ="${textDate.text}T${textTime.text}:12.641746Z"
                                 eventViewModel.createEvent(
                                     EventCreateRequest(
                                         -1, textContentEvent.text.toString(),
@@ -312,19 +315,36 @@ class CreateFragment : Fragment() {
     }
 
     private fun showDateView(textInput: TextView) {
-        val cal = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
 
         DatePickerDialog(
             requireContext(),
             { _, year, month, dayOfMonth ->
                 val editedMonth = if (month < 10) "0${month + 1}" else "${month + 1}"
-                val editedDay = if (dayOfMonth < 10) "0${dayOfMonth + 1}" else "${dayOfMonth + 1}"
+                val editedDay = if (dayOfMonth < 10) "0${dayOfMonth}" else "${dayOfMonth}"
                 val date = "$year-$editedMonth-$editedDay"
                 textInput.text = date
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
 
+
+    }
+
+    private fun showTimeView(textInput: TextView) {
+        val calendar = Calendar.getInstance()
+        TimePickerDialog(
+            requireContext(),
+            { _, hourOfDay, minute ->
+                val time = "$hourOfDay:$minute"
+                textInput.text = time
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
+        ).show();
     }
 
 
 }
+
+
