@@ -4,12 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.linkedinanalog.data.models.post.PostModel
-import com.example.linkedinanalog.data.repository.AuthRepository
+import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import com.example.linkedinanalog.data.repository.WallRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +16,7 @@ import javax.inject.Inject
 class WallViewModel @Inject constructor(
     application: Application,
     private val wallRepository: WallRepository,
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepositoryImpl,
     private val postRepository: PostRepositoryImpl,
 ) :
     AndroidViewModel(application) {

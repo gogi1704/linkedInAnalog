@@ -11,17 +11,22 @@ import com.example.linkedinanalog.auth.AuthState
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
-import com.example.linkedinanalog.data.repository.AuthRepository
+import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
+import com.example.linkedinanalog.exceptions.AuthErrorState
+import com.example.linkedinanalog.exceptions.AuthErrorType
+import com.example.linkedinanalog.exceptions.UnknownError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
+
 private val emptyUser = UserModel(-1, "", "", "")
+
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     application: Application,
     private val appAuth: AppAuth,
-    private val repository: AuthRepository
+    private val repository: AuthRepositoryImpl
 ) : AndroidViewModel(application) {
 
     private var myUser = emptyUser
@@ -75,33 +80,55 @@ class AuthViewModel @Inject constructor(
     val participantsOrSpeakerLiveData
         get() = _participantsOrSpeakerLiveData
 
+    private var errorState = AuthErrorState()
+        set(value) {
+            field = value
+            _errorStateLiveData.value = value
+        }
+    private val _errorStateLiveData = MutableLiveData(errorState)
+    val errorStateLiveData
+        get() = _errorStateLiveData
+
 
     fun getAllUsers() {
-        viewModelScope.launch {
-            usersData = repository.getAllUsers()
+        try {
+            viewModelScope.launch {
+                usersData = repository.getAllUsers()
+            }
+        } catch (e: UnknownError) {
+            e.printStackTrace()
         }
     }
 
 
     fun registerUser(user: UserRequestModel) {
         viewModelScope.launch {
-            val register = if (user.avatar == null) {
-                repository.registerUser(user)
-            } else
-                repository.registerWithAvatar(user)
-
-            appAuth.setAuth(register.id, register.token!!)
+            try {
+                val register = if (user.avatar == null) {
+                    repository.registerUser(user)
+                } else
+                    repository.registerWithAvatar(user)
+                errorState = errorState.copy(errorType = AuthErrorType.AuthOk)
+                appAuth.setAuth(register.id, register.token!!)
+            } catch (e: Exception) {
+                errorState = errorState.copy(errorType = AuthErrorType.RegisterError)
+            }
         }
-
+        errorState = AuthErrorState()
     }
 
 
     fun authenticationUser(login: String, pass: String) {
         viewModelScope.launch {
-            val register = repository.authenticationUser(login, pass)
-            appAuth.setAuth(register.id, register.token!!)
+            try {
+                val register = repository.authenticationUser(login, pass)
+                appAuth.setAuth(register.id, register.token!!)
+                errorState = AuthErrorState(errorType = AuthErrorType.AuthOk)
+            } catch (e: UnknownError) {
+                errorState = AuthErrorState(errorType = AuthErrorType.AuthError)
+            }
         }
-
+        errorState = AuthErrorState()
     }
 
     fun changePhoto(uri: Uri?, file: File?) {
@@ -117,7 +144,12 @@ class AuthViewModel @Inject constructor(
 
     fun getUserById(id: Long) {
         viewModelScope.launch {
-            showUser = repository.getUserById(id)
+            try {
+                showUser = repository.getUserById(id)
+            } catch (e: Exception) {
+                //TODO
+            }
+
         }
     }
 
@@ -125,7 +157,7 @@ class AuthViewModel @Inject constructor(
         val list = mutableListOf<UserModel>()
         for (user in usersData) {
             for (id in listId) {
-                if (user.id == id ) {
+                if (user.id == id) {
                     list.add(user)
                 }
             }

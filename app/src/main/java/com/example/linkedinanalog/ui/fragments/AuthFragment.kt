@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.databinding.FragmentAuthBinding
+import com.example.linkedinanalog.exceptions.AuthErrorType
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.AuthViewModel.Companion.AUTH_BUNDLE_KEY
 import com.example.linkedinanalog.viewModels.AuthViewModel.Companion.AUTH_BUNDLE_VALUE_REG
@@ -23,8 +25,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthFragment : Fragment() {
@@ -73,23 +73,38 @@ class AuthFragment : Fragment() {
 
         with(binding) {
             buttonSignIn.setOnClickListener {
-                val file =
-                    if (authViewModel.photoLiveData.value == PhotoModel()) null else authViewModel.photoLiveData.value?.file
-                val userRequest = UserRequestModel(
-                    inputLogin.text.toString().trim(), inputPassword.text.toString().trim(),
-                    inputName.text.toString().trim(), file
-                )
-                if (groupRegister.isVisible) {
-                    authViewModel.registerUser(userRequest)
-
-                    findNavController().navigateUp()
+                if (inputLogin.text.length < 4 ||
+                    inputPassword.text.length < 4
+                ) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Login and password must be longer than 4 characters",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else if (inputPassword.text.toString() != inputRepeatPass.text.toString()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Passwords are different",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
-                    authViewModel.authenticationUser(
-                        inputLogin.text.toString().trim(),
-                        inputPassword.text.toString().trim()
+                    val file =
+                        if (authViewModel.photoLiveData.value == PhotoModel()) null else authViewModel.photoLiveData.value?.file
+                    val userRequest = UserRequestModel(
+                        inputLogin.text.toString().trim(), inputPassword.text.toString().trim(),
+                        inputName.text.toString().trim(), file
                     )
-                    findNavController().navigateUp()
+                    if (groupRegister.isVisible) {
+                        authViewModel.registerUser(userRequest)
+
+                    } else {
+                        authViewModel.authenticationUser(
+                            inputLogin.text.toString().trim(),
+                            inputPassword.text.toString().trim()
+                        )
+                    }
                 }
+
             }
 
             addPhotoAvatar.setOnClickListener {
@@ -117,8 +132,31 @@ class AuthFragment : Fragment() {
 
         authViewModel.photoLiveData.observe(viewLifecycleOwner) {
             binding.imageAvatar.setImageURI(it.uri)
+        }
 
-
+        authViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                is AuthErrorType.AuthError -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Check login or password and repeat",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+                is AuthErrorType.RegisterError -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Maybe the name is already taken)",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+                is AuthErrorType.AuthOk -> {
+                    findNavController().navigateUp()
+                }
+                else -> {}
+            }
         }
 
 

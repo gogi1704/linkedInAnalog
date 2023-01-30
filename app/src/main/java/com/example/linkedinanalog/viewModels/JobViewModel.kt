@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.data.models.job.JobModel
-import com.example.linkedinanalog.data.repository.AuthRepository
+import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.JobRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JobViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepositoryImpl,
     private val jobRepository: JobRepositoryImpl,
     application: Application
 ) : AndroidViewModel(application) {
