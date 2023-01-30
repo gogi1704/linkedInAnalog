@@ -147,10 +147,11 @@ class AuthViewModel @Inject constructor(
             try {
                 showUser = repository.getUserById(id)
             } catch (e: Exception) {
-                //TODO
+               errorState = AuthErrorState(errorType = AuthErrorType.GetUserError)
             }
 
         }
+        errorState = AuthErrorState()
     }
 
     fun getUsersList(listId: List<Int>) {
@@ -167,6 +168,7 @@ class AuthViewModel @Inject constructor(
 
     fun signOut() {
         repository.signOut()
+        errorState = AuthErrorState()
         myUser = emptyUser
     }
 

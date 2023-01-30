@@ -101,7 +101,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    @Throws(UnknownError::class)
+
     override suspend fun getUserById(id: Long): UserModel {
         try {
             val response = authApiService.getUserById(id)

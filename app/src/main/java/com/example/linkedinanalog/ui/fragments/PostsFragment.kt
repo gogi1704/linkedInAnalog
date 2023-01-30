@@ -111,7 +111,6 @@ class PostsFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener {
-
             adapter.refresh()
         }
 

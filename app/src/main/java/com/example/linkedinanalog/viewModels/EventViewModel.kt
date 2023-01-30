@@ -10,6 +10,8 @@ import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.data.repository.EventRepositoryImpl
+import com.example.linkedinanalog.exceptions.EventErrorState
+import com.example.linkedinanalog.exceptions.EventErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -29,6 +31,14 @@ class EventViewModel @Inject constructor(
     val pagingData
         get() = _pagingData
 
+    private var eventErrorState = EventErrorState()
+        set(value) {
+            field = value
+            _eventErrorStateLiveData.value = value
+        }
+    private val _eventErrorStateLiveData = MutableLiveData(eventErrorState)
+    val eventErrorStateLiveData
+        get() = _eventErrorStateLiveData
 
 
     fun addToChooseList(id: Int) {
@@ -38,18 +48,30 @@ class EventViewModel @Inject constructor(
 
     fun createEvent(event: EventCreateRequest, mediaUpload: MediaUpload?) {
         viewModelScope.launch {
-            if (event.attachment == null) {
-                eventRepository.createEvent(event)
-            } else
-                eventRepository.createWithAttachments(event, mediaUpload)
-        }
+            try {
+                eventErrorState = EventErrorState(loading = true)
+                if (event.attachment == null) {
+                    eventRepository.createEvent(event)
+                } else
+                    eventRepository.createWithAttachments(event, mediaUpload)
+                eventErrorState = EventErrorState(errorType = EventErrorType.CreateOk)
+            } catch (e: Exception) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
+            }
 
+        }
+        eventErrorState = EventErrorState()
     }
 
     fun participantByMe(id: Long, isParticipatedByMe: Boolean) {
         viewModelScope.launch {
-            eventRepository.participantByMe(id, isParticipatedByMe)
+            try {
+                eventRepository.participantByMe(id, isParticipatedByMe)
+            } catch (e: Exception) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.ParticipantError)
+            }
         }
+        eventErrorState = EventErrorState()
     }
 
 }

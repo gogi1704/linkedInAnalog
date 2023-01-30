@@ -1,15 +1,19 @@
 package com.example.linkedinanalog.ui.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
+import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventListener
@@ -47,8 +51,11 @@ class EventsFragment : Fragment() {
             }
 
             override fun participateByMe(id: Long, isParticipatedByMe: Boolean) {
-                eventViewModel.participantByMe(id, isParticipatedByMe)
-
+                if (authViewModel.isAuth) {
+                    eventViewModel.participantByMe(id, isParticipatedByMe)
+                } else {
+                    alertDialogShow()
+                }
             }
 
         })
@@ -59,13 +66,18 @@ class EventsFragment : Fragment() {
 
         with(binding) {
             fbCreateEvent.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_createFragment,
-                    Bundle().apply {
-                        putString(OPEN_FRAGMENT_KEY, EVENT_OPEN)
-                        putString(JOB_KEY, CREATE)
-                    })
+                if (authViewModel.isAuth) {
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_createFragment,
+                        Bundle().apply {
+                            putString(OPEN_FRAGMENT_KEY, EVENT_OPEN)
+                            putString(JOB_KEY, CREATE)
+                        })
+                } else {
+                    alertDialogShow()
+                }
             }
+
             buttonClose.setOnClickListener {
                 usersShowGroup.visibility = View.GONE
             }
@@ -79,6 +91,17 @@ class EventsFragment : Fragment() {
             }
         }
 
+        eventViewModel.eventErrorStateLiveData.observe(viewLifecycleOwner) {
+
+            when (it.errorType) {
+                EventErrorType.ParticipantError -> {
+                    makeToast("error. Please retry")
+                    eventAdapter.refresh()
+                }
+                else -> {}
+            }
+        }
+
         authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {
             userAdapter.submitList(it)
         }
@@ -87,8 +110,39 @@ class EventsFragment : Fragment() {
             eventAdapter.refresh()
         }
 
+
         return binding.root
     }
 
+    private fun makeToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+    }
 
+    private fun alertDialogShow() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Authentication error")
+            .setMessage("Sign in to create events")
+            .setPositiveButton(
+                "Sign in"
+            ) { _, _ ->
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_SIGN_IN
+                        )
+                    })
+            }
+            .setNegativeButton("Register") { _, _ ->
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_REG
+                        )
+                    })
+            }.show()
+    }
 }

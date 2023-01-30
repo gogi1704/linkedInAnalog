@@ -73,15 +73,15 @@ class AuthFragment : Fragment() {
 
         with(binding) {
             buttonSignIn.setOnClickListener {
-                if (inputLogin.text.length < 4 ||
-                    inputPassword.text.length < 4
+                if (inputLogin.text.length < 4 && groupRegister.isVisible ||
+                    inputPassword.text.length < 4 && groupRegister.isVisible
                 ) {
                     Toast.makeText(
                         requireContext(),
                         "Login and password must be longer than 4 characters",
                         Toast.LENGTH_LONG
                     ).show()
-                } else if (inputPassword.text.toString() != inputRepeatPass.text.toString()) {
+                } else if (inputPassword.text.toString() != inputRepeatPass.text.toString() && groupRegister.isVisible) {
                     Toast.makeText(
                         requireContext(),
                         "Passwords are different",

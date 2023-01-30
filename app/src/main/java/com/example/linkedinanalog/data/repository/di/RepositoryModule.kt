@@ -16,7 +16,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsEventRepository(impl: EventRepositoryImpl): Repository<EventModel>
+    fun bindsEventRepository(impl: EventRepositoryImpl): EventRepository
 
     @Binds
     @Singleton
