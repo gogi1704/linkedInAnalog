@@ -74,7 +74,7 @@ class PostRepositoryImpl @Inject constructor(
 
     }
 
-    suspend fun uploadImage(upload: MediaUpload): Media {
+    private suspend fun uploadImage(upload: MediaUpload): Media {
         //todo
         val media = MultipartBody.Part.createFormData(
             "file", upload.file.name, upload.file.asRequestBody()
@@ -114,12 +114,12 @@ class PostRepositoryImpl @Inject constructor(
         if (likeByMe) {
             val response = apiService.dislikePost(id)
             if (response.isSuccessful) {
-                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = false)))
+                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = false , mentionsIds = emptyList())))
             }
         } else {
             val response = apiService.likePost(id)
             if (response.isSuccessful) {
-                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = true)))
+                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = true , mentionsIds = emptyList())))
             }
         }
     }

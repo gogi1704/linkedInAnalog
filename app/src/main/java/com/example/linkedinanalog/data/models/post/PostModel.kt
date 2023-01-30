@@ -3,7 +3,6 @@ package com.example.linkedinanalog.data.models.post
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.user.UserModel
-import com.example.linkedinanalog.data.models.user.UsersPreview
 
 data class PostModel(
     val id: Int,
@@ -15,8 +14,8 @@ data class PostModel(
     val published: String,
     val coords: Coordinates?,
     val link: String?,
-    val likeOwnerIds: List<Int>?,
-    val mentionsIds: List<Int>?,
+    val likeOwnerIds: List<Int>? = emptyList(),
+    val mentionsIds: List<Int>? = emptyList(),
     val mentionedMe: Boolean,
     val likedByMe: Boolean,
     val attachment: Attachment?,

@@ -21,8 +21,8 @@ data class PostEntity(
     val published: String,
     val coords: String?, ///
     val link: String?,
-    val likeOwnerIds: String?,//
-    val mentionsIds: String?,//
+    val likeOwnerIds: String,//
+    val mentionsIds: String,//
     val mentionedMe: Boolean,
     val likedByMe: Boolean,
     val attachment: String?,//
@@ -42,18 +42,11 @@ data class PostEntity(
             published = published,
             coords = gson.fromJson(coords, Coordinates::class.java),
             link = link,
-            likeOwnerIds = if (likeOwnerIds.isNullOrEmpty()) {
-                gson.fromJson(
-                    likeOwnerIds,
-                    Array<Int>::class.java
-                ).toList()
-            } else null,
-            mentionsIds = if (likeOwnerIds.isNullOrEmpty()) {
-                gson.fromJson(
-                    mentionsIds,
-                    Array<Int>::class.java
-                ).toList()
-            } else null,
+            likeOwnerIds = gson.fromJson(
+                likeOwnerIds,
+                Array<Int>::class.java
+            ).toList(),
+            mentionsIds = emptyList(),
             mentionedMe = mentionedMe,
             likedByMe = likedByMe,
             attachment = if (attachment != null) gson.fromJson(
@@ -77,8 +70,8 @@ data class PostEntity(
             post.published,
             gson.toJson(post.coords),
             post.link,
-            gson.toJson(post.likeOwnerIds),
-            gson.toJson(post.mentionsIds),
+            likeOwnerIds = gson.toJson(post.likeOwnerIds) ?: emptyList<Int>().toString(),
+            gson.toJson(post.mentionsIds) ?: emptyList<Int>().toString(),
             post.mentionedMe,
             post.likedByMe,
             gson.toJson(post.attachment),

@@ -5,12 +5,9 @@ import android.net.Uri
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.linkedinanalog.data.models.Attachment
-import com.example.linkedinanalog.data.models.AttachmentType
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
-import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +15,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
-import java.net.URI
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +25,7 @@ class PostViewModel @Inject constructor(
 
     private val _pagingData = repository.pagingData.cachedIn(viewModelScope).map {
         it.map { post ->
+
             post.toDto()
         }
     }

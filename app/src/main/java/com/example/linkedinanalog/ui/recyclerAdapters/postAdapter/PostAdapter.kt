@@ -11,7 +11,6 @@ import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.databinding.RecyclerPostItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
-import com.example.linkedinanalog.ui.extensions.loadFitCenter
 import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.extensions.parseDateTime
 
@@ -67,7 +66,8 @@ class PostAdapter(private val listener: PostAdapterListener) :
 
                 buttonLike.isChecked = item.likedByMe
                 buttonLike.text =
-                    if (item.likeOwnerIds?.size == null) "0" else item.likeOwnerIds.size.toString()
+                    if (item.likeOwnerIds?.isEmpty() == true) "0"
+                    else item.likeOwnerIds?.size.toString()
 
                 buttonLike.setOnClickListener {
                     listener.likePost(item.id.toLong(), item.likedByMe)
