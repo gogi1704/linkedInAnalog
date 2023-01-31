@@ -59,6 +59,10 @@ class EventsFragment : Fragment() {
                 }
             }
 
+            override fun deleteEvent(id: Long) {
+                eventViewModel.deleteEvent(id)
+            }
+
         })
         userAdapter = UserAdapter(null)
 

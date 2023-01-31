@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="OOO 'GAZprom'"
         app:layout_constraintStart_toStartOf="@+id/text_AuthorName"
-        app:layout_constraintTop_toBottomOf="@id/text_AuthorName" />
+        app:layout_constraintTop_toBottomOf="@id/text_AuthorName"
+        tools:text="OOO 'GAZprom'" />
 
     <ImageView
         android:id="@+id/imageAvatar"
@@ -23,6 +23,17 @@
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/deleteEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_clear_24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/checkBox_participatedByMe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/published" />
 
     <TextView
         android:id="@+id/text_AuthorName"
@@ -93,8 +104,9 @@
         android:id="@+id/checkBox_participatedByMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/eventType_hint"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/userCard_barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteEvent" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/userCard_barrier"

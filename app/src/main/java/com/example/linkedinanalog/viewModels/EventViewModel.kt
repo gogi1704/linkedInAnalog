@@ -55,7 +55,7 @@ class EventViewModel @Inject constructor(
                 } else
                     eventRepository.createWithAttachments(event, mediaUpload)
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateComplete)
-            } catch (io:IOException) {
+            } catch (io: IOException) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
@@ -65,11 +65,23 @@ class EventViewModel @Inject constructor(
         eventErrorState = EventErrorState()
     }
 
+    fun deleteEvent(id: Long) {
+        viewModelScope.launch {
+            try {
+                eventRepository.deleteEvent(id)
+            } catch (io: IOException) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
+            } catch (e: Exception) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
+            }
+        }
+    }
+
     fun participantByMe(id: Long, isParticipatedByMe: Boolean) {
         viewModelScope.launch {
             try {
                 eventRepository.participantByMe(id, isParticipatedByMe)
-            } catch (io:IOException) {
+            } catch (io: IOException) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.ParticipantError)

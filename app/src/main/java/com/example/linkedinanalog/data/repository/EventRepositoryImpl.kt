@@ -75,9 +75,6 @@ class EventRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteEvent(item: EventCreateRequest) {
-        TODO("Not yet implemented")
-    }
 
     suspend fun createWithAttachments(event: EventCreateRequest, mediaUpload: MediaUpload?) {
         val media = uploadImage(mediaUpload!!)
@@ -128,6 +125,24 @@ class EventRepositoryImpl @Inject constructor(
             throw UnknownError()
         }
 
+
+    }
+
+    override suspend fun deleteEvent(id: Long) {
+        try {
+            val response = eventApiService.deleteEvent(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            } else {
+                eventDao.deleteEvent(id.toInt())
+            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (sql: SQLException) {
+            throw DbError()
+        } catch (e: Exception) {
+            throw UnknownError()
+        }
 
     }
 

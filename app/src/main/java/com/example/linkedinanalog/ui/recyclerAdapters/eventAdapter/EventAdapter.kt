@@ -16,7 +16,8 @@ import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
 interface EventListener {
     fun showSpeakers(listId: List<Int>)
     fun showParticipants(listId: List<Int>)
-    fun participateByMe(id: Long , isParticipatedByMe: Boolean)
+    fun participateByMe(id: Long, isParticipatedByMe: Boolean)
+    fun deleteEvent(id: Long)
 }
 
 class EventAdapter(private val listener: EventListener) :
@@ -66,9 +67,16 @@ class EventAdapter(private val listener: EventListener) :
                 buttonParticipants.setOnClickListener {
                     listener.showParticipants(item.participantsIds ?: listOf())
                 }
+                if (item.ownedByMe) {
+                    deleteEvent.visibility = View.VISIBLE
+                } else deleteEvent.visibility = View.GONE
+
+                deleteEvent.setOnClickListener {
+                    listener.deleteEvent(item.id.toLong())
+                }
                 checkBoxParticipatedByMe.isChecked = item.participatedByMe
                 checkBoxParticipatedByMe.setOnClickListener {
-                    listener.participateByMe(item.id.toLong() , item.participatedByMe)
+                    listener.participateByMe(item.id.toLong(), item.participatedByMe)
                 }
             }
         }
