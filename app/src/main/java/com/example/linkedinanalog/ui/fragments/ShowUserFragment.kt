@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.linkedinanalog.databinding.FragmentShowUserBinding
 import com.example.linkedinanalog.exceptions.AuthErrorType
+import com.example.linkedinanalog.exceptions.JobErrorType
 import com.example.linkedinanalog.ui.constans.SHOW_USER_KEY
 import com.example.linkedinanalog.ui.constans.USER_ID_PREFS
 import com.example.linkedinanalog.ui.extensions.loadAvatar
@@ -72,6 +74,15 @@ class ShowUserFragment : Fragment() {
 
         }
 
+        jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                JobErrorType.GetJobError -> {
+                    showToast("Load data error.Please try later")
+                }
+                else -> {}
+            }
+        }
+
         jobViewModel.userShowJobLiveData.observe(viewLifecycleOwner) {
             jobAdapter.submitList(it)
         }
@@ -103,7 +114,6 @@ class ShowUserFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        wallAdapter.refresh()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -116,5 +126,9 @@ class ShowUserFragment : Fragment() {
             .clear()
             .apply()
         super.onStop()
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
 }

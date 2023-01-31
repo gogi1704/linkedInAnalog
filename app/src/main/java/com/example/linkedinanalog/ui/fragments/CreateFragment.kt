@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.net.toUri
@@ -24,6 +25,7 @@ import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
+import com.example.linkedinanalog.exceptions.JobErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
@@ -154,20 +156,33 @@ class CreateFragment : Fragment() {
 
 
                             buttonCreatingComplete.setOnClickListener {
+                                    if (checkCreatingJob()){
                                 val job = JobModel(
                                     id = 0,
-                                    name = inputJodName.text.toString(),
+                                    name = inputJobName.text.toString(),
                                     position = inputPosition.text.toString(),
                                     start = inputStart.text.toString(),
                                     finish = inputFinish.text.toString(),
                                     link = inputLink.text.toString()
                                 )
                                 jobViewModel.addJob(job)
-                                findNavController().navigateUp()
+                                   } else showToast("Check input data")
                             }
 
                         }
 
+                        jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
+                            when (it.errorType) {
+                                JobErrorType.AddJobError -> {
+                                    showToast("Add job error.Please retry")
+                                }
+                                JobErrorType.AddJobComplete -> {
+                                    showToast("complete")
+                                    findNavController().navigateUp()
+                                }
+                                else -> {}
+                            }
+                        }
                     }
                 }
 
@@ -231,7 +246,7 @@ class CreateFragment : Fragment() {
                                 val type =
                                     if (btOnline.background.alpha == 100) EventType.ONLINE else
                                         EventType.OFFLINE
-                                val date ="${textDate.text}T${textTime.text}:12.641746Z"
+                                val date = "${textDate.text}T${textTime.text}:12.641746Z"
                                 eventViewModel.createEvent(
                                     EventCreateRequest(
                                         -1, textContentEvent.text.toString(),
@@ -314,6 +329,14 @@ class CreateFragment : Fragment() {
         return binding.root
     }
 
+    private fun checkCreatingJob(): Boolean {
+        with(binding) {
+            return inputJobName.text.toString().isNotEmpty()
+                    && inputPosition.text.toString().isNotEmpty()
+                    && inputStart.text.toString().isNotEmpty()
+        }
+    }
+
     private fun showDateView(textInput: TextView) {
         val calendar = Calendar.getInstance()
 
@@ -342,6 +365,10 @@ class CreateFragment : Fragment() {
                 textInput.text = time
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
         ).show();
+    }
+
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
 
 

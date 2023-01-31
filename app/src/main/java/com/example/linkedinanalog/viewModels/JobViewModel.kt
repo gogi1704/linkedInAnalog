@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.JobRepositoryImpl
+import com.example.linkedinanalog.exceptions.JobErrorState
+import com.example.linkedinanalog.exceptions.JobErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,27 +34,52 @@ class JobViewModel @Inject constructor(
         }
     val userShowJobLiveData = MutableLiveData(userShowJobData)
 
-    fun clearMyUserJob(){
+    private var jobErrorState = JobErrorState()
+        set(value) {
+            field = value
+            _jobErrorStateLiveData.value = value
+        }
+    private val _jobErrorStateLiveData = MutableLiveData(jobErrorState)
+    val jobErrorStateLiveData
+        get() = _jobErrorStateLiveData
+
+    fun clearMyUserJob() {
         myJobData = listOf()
     }
 
 
     fun getAllJobs() {
         viewModelScope.launch {
-            myJobData = jobRepository.getAll()
+            try {
+                myJobData = jobRepository.getAll()
+            } catch (e: Exception) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
+            }
         }
+        jobErrorState = JobErrorState()
     }
 
     fun getJobById(id: Long) {
         viewModelScope.launch() {
-            userShowJobData = jobRepository.getJobById(id)
+            try {
+                userShowJobData = jobRepository.getJobById(id)
+            } catch (e: Exception) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
+            }
         }
+        jobErrorState = JobErrorState()
     }
 
     fun addJob(job: JobModel) {
         viewModelScope.launch {
-            jobRepository.addItem(job)
+            try {
+                jobRepository.addItem(job)
+                jobErrorState = JobErrorState(errorType = JobErrorType.AddJobComplete)
+            } catch (e: Exception) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
+            }
         }
+        jobErrorState = JobErrorState()
     }
 
 }
