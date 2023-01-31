@@ -25,6 +25,7 @@ import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
+import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.exceptions.JobErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.extensions.loadImage
@@ -156,33 +157,22 @@ class CreateFragment : Fragment() {
 
 
                             buttonCreatingComplete.setOnClickListener {
-                                    if (checkCreatingJob()){
-                                val job = JobModel(
-                                    id = 0,
-                                    name = inputJobName.text.toString(),
-                                    position = inputPosition.text.toString(),
-                                    start = inputStart.text.toString(),
-                                    finish = inputFinish.text.toString(),
-                                    link = inputLink.text.toString()
-                                )
-                                jobViewModel.addJob(job)
-                                   } else showToast("Check input data")
+                                if (checkCreatingJob()) {
+                                    val job = JobModel(
+                                        id = 0,
+                                        name = inputJobName.text.toString(),
+                                        position = inputPosition.text.toString(),
+                                        start = inputStart.text.toString(),
+                                        finish = inputFinish.text.toString(),
+                                        link = inputLink.text.toString()
+                                    )
+                                    jobViewModel.addJob(job)
+                                } else showToast("Check input data")
                             }
 
                         }
 
-                        jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
-                            when (it.errorType) {
-                                JobErrorType.AddJobError -> {
-                                    showToast("Add job error.Please retry")
-                                }
-                                JobErrorType.AddJobComplete -> {
-                                    showToast("complete")
-                                    findNavController().navigateUp()
-                                }
-                                else -> {}
-                            }
-                        }
+
                     }
                 }
 
@@ -301,8 +291,30 @@ class CreateFragment : Fragment() {
             }
         }
 
+        eventViewModel.eventErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                EventErrorType.CreateComplete -> {
+                    findNavController().navigateUp()
+                }
+                EventErrorType.CreateError -> {
+                    showToast("Creating error. Please try later")
+                }
+                else -> {}
+            }
+        }
 
-
+        jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                JobErrorType.AddJobError -> {
+                    showToast("Add job error.Please retry")
+                }
+                JobErrorType.AddJobComplete -> {
+                    showToast("complete")
+                    findNavController().navigateUp()
+                }
+                else -> {}
+            }
+        }
         postViewModel.photoLiveData.observe(viewLifecycleOwner) {
             if (binding.eventGroup.isVisible) {
                 if (it.uri == null) {

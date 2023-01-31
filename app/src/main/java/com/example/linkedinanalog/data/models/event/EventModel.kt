@@ -13,7 +13,7 @@ data class EventModel(
     val authorAvatar: String?,
     val authorJob: String?,
     val content: String,
-    val dateTime: String?,
+    val datetime: String,
     val published: String,
     val coords: Coordinates?,
     val type: EventType,
@@ -28,6 +28,6 @@ data class EventModel(
     val users: UserModel
 ) {
     fun toEventCreateRequest(): EventCreateRequest =
-        EventCreateRequest(id, content, dateTime, coords, type, attachment, link, speakerIds)
+        EventCreateRequest(id, content, datetime, coords, type, attachment, link, speakerIds)
 }
 

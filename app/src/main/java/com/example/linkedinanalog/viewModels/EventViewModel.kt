@@ -8,7 +8,6 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
-import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.data.repository.EventRepositoryImpl
 import com.example.linkedinanalog.exceptions.EventErrorState
 import com.example.linkedinanalog.exceptions.EventErrorType
@@ -54,7 +53,7 @@ class EventViewModel @Inject constructor(
                     eventRepository.createEvent(event)
                 } else
                     eventRepository.createWithAttachments(event, mediaUpload)
-                eventErrorState = EventErrorState(errorType = EventErrorType.CreateOk)
+                eventErrorState = EventErrorState(errorType = EventErrorType.CreateComplete)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
             }

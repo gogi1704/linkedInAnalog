@@ -44,7 +44,7 @@ class EventAdapter(private val listener: EventListener) :
                 imageAvatar.loadAvatar(item.authorAvatar.toString())
                 textAuthorName.text = item.author
                 textAuthorJob.text = item.authorJob
-                eventStart.text = item.dateTime
+                eventStart.text = item.datetime
                 eventType.text = item.type.toString()
                 published.parseDateTime(item.published)
                 content.text = item.content

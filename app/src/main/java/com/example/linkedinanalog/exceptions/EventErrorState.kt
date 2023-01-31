@@ -9,6 +9,6 @@ data class EventErrorState(
 sealed class EventErrorType {
     object CreateError : EventErrorType()
     object ParticipantError : EventErrorType()
-    object CreateOk : EventErrorType()
+    object CreateComplete : EventErrorType()
 
 }
