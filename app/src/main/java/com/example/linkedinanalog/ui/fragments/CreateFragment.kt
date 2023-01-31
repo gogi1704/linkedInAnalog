@@ -86,7 +86,7 @@ class CreateFragment : Fragment() {
                     CREATE -> {
                         with(binding) {
                             buttonCreatingComplete.setOnClickListener {
-                                if (textContentPost.text.toString().isNotEmpty()) {
+                                if (checkCreatingPost()) {
                                     val postRequest = PostCreateRequest(
                                         content = textContentPost.text.toString(),
                                         coords = null,
@@ -98,7 +98,7 @@ class CreateFragment : Fragment() {
                                         mentionIds = listOf()
                                     )
                                     postViewModel.addPost(postRequest)
-                                } else showToast("field ,,Content,, must not be empty")
+                                } else showToast("field with,,*,, must not be empty")
                             }
                         }
                     }
@@ -116,6 +116,7 @@ class CreateFragment : Fragment() {
                             }
 
                             buttonCreatingComplete.setOnClickListener {
+
                                 var attachment = Attachment(null, null)
                                 if (post.attachment?.url == postViewModel.photoLiveData.value?.uri.toString()) {
                                     attachment = post.attachment
@@ -169,7 +170,7 @@ class CreateFragment : Fragment() {
                                         link = inputLink.text.toString()
                                     )
                                     jobViewModel.addJob(job)
-                                } else showToast("Check input data")
+                                } else showToast("field with,,*,, must not be empty")
                             }
 
                         }
@@ -231,26 +232,29 @@ class CreateFragment : Fragment() {
                             }
 
                             buttonCreatingComplete.setOnClickListener {
-                                val isMediaContains =
-                                    postViewModel.photoLiveData.value != PhotoModel()
-                                val upLoad =
-                                    if (isMediaContains) MediaUpload(postViewModel.photoLiveData.value?.file!!) else null
-                                val type =
-                                    if (btOnline.background.alpha == 100) EventType.ONLINE else
-                                        EventType.OFFLINE
-                                val date = "${textDate.text}T${textTime.text}:12.641746Z"
-                                eventViewModel.createEvent(
-                                    EventCreateRequest(
-                                        -1, textContentEvent.text.toString(),
-                                        date, null, type,
-                                        if (isMediaContains) Attachment(
-                                            "",
-                                            AttachmentType.IMAGE
-                                        ) else null,
-                                        textLinkEvent.text.toString(),
-                                        listOf()
-                                    ), mediaUpload = upLoad
-                                )
+                                if (checkCreatingEvent()) {
+                                    val isMediaContains =
+                                        postViewModel.photoLiveData.value != PhotoModel()
+                                    val upLoad =
+                                        if (isMediaContains) MediaUpload(postViewModel.photoLiveData.value?.file!!) else null
+                                    val type =
+                                        if (btOnline.background.alpha == 100) EventType.ONLINE else
+                                            EventType.OFFLINE
+                                    val date = "${textDate.text}T${textTime.text}:12.641746Z"
+                                    eventViewModel.createEvent(
+                                        EventCreateRequest(
+                                            -1, textContentEvent.text.toString(),
+                                            date, null, type,
+                                            if (isMediaContains) Attachment(
+                                                "",
+                                                AttachmentType.IMAGE
+                                            ) else null,
+                                            textLinkEvent.text.toString(),
+                                            listOf()
+                                        ), mediaUpload = upLoad
+                                    )
+                                } else showToast("field with,,*,, must not be empty")
+
                             }
                         }
 
@@ -360,6 +364,21 @@ class CreateFragment : Fragment() {
             return inputJobName.text.toString().isNotEmpty()
                     && inputPosition.text.toString().isNotEmpty()
                     && inputStart.text.toString().isNotEmpty()
+        }
+    }
+
+    private fun checkCreatingEvent(): Boolean {
+        with(binding) {
+            return textDate.text.toString().isNotEmpty() && textTime.text.toString().isNotEmpty()
+                    && textContentEvent.text.toString().isNotEmpty()
+                    && textLinkEvent.text.toString().isNotEmpty()
+        }
+    }
+
+    private fun checkCreatingPost(): Boolean {
+        with(binding) {
+            return textContentPost.text.toString()
+                .isNotEmpty() && textLinkPost.text.toString().isNotEmpty()
         }
     }
 

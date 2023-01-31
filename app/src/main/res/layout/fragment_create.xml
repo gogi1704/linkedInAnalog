@@ -33,7 +33,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:gravity="top"
-                        android:hint="post content"
+                        android:hint="post content*"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
                         android:id="@+id/text_link_post"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="link"
+                        android:hint="link*"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_content_post" />
@@ -284,7 +284,7 @@
                         android:id="@+id/choose_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Please choose type"
+                        android:text="Please choose type*"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="@+id/bt_Online"
                         app:layout_constraintEnd_toStartOf="@+id/bt_Offline"
