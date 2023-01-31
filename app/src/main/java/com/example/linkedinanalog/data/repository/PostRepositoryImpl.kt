@@ -1,5 +1,7 @@
 package com.example.linkedinanalog.data.repository
 
+import android.database.SQLException
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import com.example.linkedinanalog.api.MediaApiService
 import com.example.linkedinanalog.api.PostApiService
@@ -13,12 +15,14 @@ import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.remoteMediators.PostsRemoteMediator
+import com.example.linkedinanalog.exceptions.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlinx.coroutines.flow.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.IOException
 
 
 class PostRepositoryImpl @Inject constructor(
@@ -27,7 +31,7 @@ class PostRepositoryImpl @Inject constructor(
     db: AppDb,
     keyDao: PostRemoteKeyDao,
     private val postDao: PostDao
-) : Repository<PostCreateRequest> {
+) : PostRepository {
 
 
     @OptIn(ExperimentalPagingApi::class)
@@ -42,27 +46,21 @@ class PostRepositoryImpl @Inject constructor(
     }.flowOn(Dispatchers.Default)
 
 
-
-    override suspend fun getAll(): List<PostCreateRequest> {
-//        //todo
-//        val response = apiService.getAllPosts()
-//        if (response.isSuccessful) {
-//            val body = response.body()
-//            data = body ?: listOf()
-//            postDao.insertPost(data.toEntity())
-//
-//        } //else throw Exception()
-        return listOf()
-    }
-
     override suspend fun addItem(item: PostCreateRequest) {
-        //todo
-        val response = apiService.addPost(item)
-        if (response.isSuccessful) {
-            val body = response.body()
-            postDao.insertPost(PostEntity.fromDto(body!!))
-        } else {
-            response
+        try {
+            val response = apiService.addPost(item)
+            if (response.isSuccessful) {
+                val body = response.body() ?: throw ApiError(response.code(), response.message())
+                postDao.insertPost(PostEntity.fromDto(body))
+            } else {
+                throw ApiError(response.code(), response.message())
+            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (sql: SQLException) {
+            throw DbError()
+        } catch (e: Exception) {
+            throw UnknownError()
         }
     }
 
@@ -75,35 +73,59 @@ class PostRepositoryImpl @Inject constructor(
     }
 
     private suspend fun uploadImage(upload: MediaUpload): Media {
-        //todo
         val media = MultipartBody.Part.createFormData(
             "file", upload.file.name, upload.file.asRequestBody()
         )
-        val response = mediaApiService.upLoadMedia(media)
-        return response.body()!!
+        try {
+            val response = mediaApiService.upLoadMedia(media)
+            if (response.isSuccessful) {
+                return response.body() ?: throw ApiError(response.code(), response.message())
+            } else {
+                throw ApiError(response.code(), response.message())
+            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (e: Exception) {
+            throw UnknownError()
+        }
     }
 
     override suspend fun deleteItem(id: Long) {
-        //TODO
-        val response = apiService.removePost(id)
-        if (response.isSuccessful) {
-            postDao.deletePost(id)
-        } else {
-            response
+        try {
+            val response = apiService.removePost(id)
+            if (response.isSuccessful) {
+                postDao.deletePost(id)
+            } else {
+                throw ApiError(response.code(), response.message())
+            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (sql: SQLException) {
+            throw DbError()
+        } catch (e: Exception) {
+            throw UnknownError()
         }
+
     }
 
     override fun getNewerItems(id: Long): Flow<Int> = flow {
         while (true) {
-            delay(10_000)
-            val response = apiService.getNewer(id)
-            if (!response.isSuccessful) {
-                throw Exception()
+            try {
+                delay(10_000)
+                val response = apiService.getNewer(id)
+                if (!response.isSuccessful) {
+                    throw ApiError(response.code(), response.message())
+                }
+                val body = response.body() ?: throw ApiError(response.code(), response.message())
+                postDao.insertPost(body.toPostEntity())
+                emit(body.size)
+            } catch (io: IOException) {
+                throw NetworkError()
+            } catch (sql: SQLException) {
+                throw DbError()
+            } catch (e: Exception) {
+                throw UnknownError()
             }
-            val body = response.body() ?: throw Exception()
-            postDao.insertPost(body.toPostEntity())
-            emit(body.size)
-
 
         }
     }
@@ -111,17 +133,38 @@ class PostRepositoryImpl @Inject constructor(
         .flowOn(Dispatchers.Default)
 
     override suspend fun likeItem(id: Long, likeByMe: Boolean) {
-        if (likeByMe) {
-            val response = apiService.dislikePost(id)
-            if (response.isSuccessful) {
-                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = false , mentionsIds = emptyList())))
+        try {
+            if (likeByMe) {
+                val response = apiService.dislikePost(id)
+                if (response.isSuccessful) {
+                    val body =
+                        response.body() ?: throw ApiError(response.code(), response.message())
+                    postDao.insertPost(
+                        PostEntity.fromDto(
+                            body.copy(likedByMe = false)
+                        )
+                    )
+                } else throw ApiError(response.code(), response.message())
+            } else {
+                val response = apiService.likePost(id)
+                if (response.isSuccessful) {
+                    val body =
+                        response.body() ?: throw ApiError(response.code(), response.message())
+                    postDao.insertPost(
+                        PostEntity.fromDto(
+                            body.copy(likedByMe = true)
+                        )
+                    )
+                } else throw ApiError(response.code(), response.message())
             }
-        } else {
-            val response = apiService.likePost(id)
-            if (response.isSuccessful) {
-                postDao.insertPost(PostEntity.fromDto(response.body()!!.copy(likedByMe = true , mentionsIds = emptyList())))
-            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (sql: SQLException) {
+            throw DbError()
+        } catch (e: Exception) {
+            throw UnknownError()
         }
+
     }
 
 

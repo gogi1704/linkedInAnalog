@@ -27,6 +27,7 @@ import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
 import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.exceptions.JobErrorType
+import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.extensions.loadImage
 import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
@@ -85,18 +86,19 @@ class CreateFragment : Fragment() {
                     CREATE -> {
                         with(binding) {
                             buttonCreatingComplete.setOnClickListener {
-                                val postRequest = PostCreateRequest(
-                                    content = textContentPost.text.toString(),
-                                    coords = null,
-                                    link = textLinkPost.text.toString(),
-                                    attachment = if (postViewModel.photoLiveData.value != PhotoModel()) Attachment(
-                                        "",
-                                        AttachmentType.IMAGE
-                                    ) else null,
-                                    mentionIds = listOf()
-                                )
-                                postViewModel.addPost(postRequest)
-                                findNavController().navigateUp()
+                                if (textContentPost.text.toString().isNotEmpty()) {
+                                    val postRequest = PostCreateRequest(
+                                        content = textContentPost.text.toString(),
+                                        coords = null,
+                                        link = textLinkPost.text.toString(),
+                                        attachment = if (postViewModel.photoLiveData.value != PhotoModel()) Attachment(
+                                            "",
+                                            AttachmentType.IMAGE
+                                        ) else null,
+                                        mentionIds = listOf()
+                                    )
+                                    postViewModel.addPost(postRequest)
+                                } else showToast("field ,,Content,, must not be empty")
                             }
                         }
                     }
@@ -291,6 +293,18 @@ class CreateFragment : Fragment() {
             }
         }
 
+        postViewModel.postErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                PostErrorType.AddPostComplete -> {
+                    findNavController().navigateUp()
+                }
+                PostErrorType.AddPostError -> {
+                    showToast("Create post error.Please try later.")
+                }
+                else -> {}
+            }
+        }
+
         eventViewModel.eventErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 EventErrorType.CreateComplete -> {
@@ -348,6 +362,7 @@ class CreateFragment : Fragment() {
                     && inputStart.text.toString().isNotEmpty()
         }
     }
+
 
     private fun showDateView(textInput: TextView) {
         val calendar = Calendar.getInstance()

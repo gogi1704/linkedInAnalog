@@ -1,10 +1,12 @@
 package com.example.linkedinanalog.ui.fragments
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
+import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapterListener
@@ -76,12 +79,17 @@ class PostsFragment : Fragment() {
 
         with(binding) {
             fbCreatePost.setOnClickListener {
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_createFragment,
-                    Bundle().apply {
-                        putString(OPEN_FRAGMENT_KEY, POST_OPEN)
-                        putString(JOB_KEY, CREATE)
-                    })
+                if (authViewModel.isAuth) {
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_createFragment,
+                        Bundle().apply {
+                            putString(OPEN_FRAGMENT_KEY, POST_OPEN)
+                            putString(JOB_KEY, CREATE)
+                        })
+                } else {
+                    alertDialogShow()
+                }
+
             }
             newPostsContainer.setOnClickListener {
                 recyclerPost.smoothScrollToPosition(0)
@@ -90,7 +98,7 @@ class PostsFragment : Fragment() {
         }
 
 
-        authViewModel.authLiveData.observe(viewLifecycleOwner) {
+        binding.swiperefresh.setOnRefreshListener {
             adapter.refresh()
         }
 
@@ -110,9 +118,23 @@ class PostsFragment : Fragment() {
             adapter.refresh()
         }
 
-        binding.swiperefresh.setOnRefreshListener {
+        authViewModel.authLiveData.observe(viewLifecycleOwner) {
             adapter.refresh()
         }
+
+        postViewModel.postErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                PostErrorType.DeletePostError -> {
+                    showToast("Delete error. Please try later.")
+                }
+                PostErrorType.LikePostError -> {
+                    showToast("Like error. Please try later.")
+                }
+                else -> {}
+            }
+        }
+
+
 
 
         lifecycleScope.launchWhenCreated {
@@ -154,5 +176,35 @@ class PostsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+    }
+    private fun alertDialogShow() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Authentication error")
+            .setMessage("Sign in to create events")
+            .setPositiveButton(
+                "Sign in"
+            ) { _, _ ->
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_SIGN_IN
+                        )
+                    })
+            }
+            .setNegativeButton("Register") { _, _ ->
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_REG
+                        )
+                    })
+            }.show()
+    }
 
 }

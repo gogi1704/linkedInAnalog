@@ -9,6 +9,9 @@ import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
+import com.example.linkedinanalog.exceptions.ApiError
+import com.example.linkedinanalog.exceptions.PostErrorState
+import com.example.linkedinanalog.exceptions.PostErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -34,8 +37,7 @@ class PostViewModel @Inject constructor(
         get() = _pagingData
 
 
-       private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
-
+    private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
 
 
     private var photoModel = PhotoModel()
@@ -55,30 +57,47 @@ class PostViewModel @Inject constructor(
             .asLiveData(Dispatchers.Default)
     }
 
+    private var postErrorState = PostErrorState()
+        set(value) {
+            field = value
+            _postErrorStateLiveData.value = value
+        }
 
-//    fun getAllPosts() {
-//        viewModelScope.launch {
-//            repository.getAll()
-//        }
-//    }
+    private val _postErrorStateLiveData = MutableLiveData(postErrorState)
+    val postErrorStateLiveData
+        get() = _postErrorStateLiveData
+
 
     fun addPost(post: PostCreateRequest) {
         viewModelScope.launch {
-            if (post.attachment == null) {
-                repository.addItem(post)
-            } else if (post.attachment.url == photoModel.uri.toString()) {
-                repository.addItem(post)
-            } else
-                repository.addItemWithAttachments(post, MediaUpload(photoLiveData.value?.file!!))
-        }
+            try {
+                if (post.attachment == null || post.attachment.url == photoModel.uri.toString()) {
+                    repository.addItem(post)
+                } else {
+                    repository.addItemWithAttachments(
+                        post,
+                        MediaUpload(photoLiveData.value?.file!!)
+                    )
+                }
+                postErrorState = PostErrorState(errorType = PostErrorType.AddPostComplete)
+            } catch (e: Exception) {
+                postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
+            }
 
+        }
+        postErrorState = PostErrorState()
         photoLiveData.value = PhotoModel()
     }
 
     fun deletePost(id: Long) {
         viewModelScope.launch {
-            repository.deleteItem(id)
+            try {
+                repository.deleteItem(id)
+            } catch (e: Exception) {
+                postErrorState = PostErrorState(errorType = PostErrorType.DeletePostError)
+            }
         }
+        postErrorState = PostErrorState()
     }
 
 
@@ -86,10 +105,16 @@ class PostViewModel @Inject constructor(
         photoModel = PhotoModel(uri, file)
     }
 
-    fun like(id:Long , likeByMe:Boolean){
+    fun like(id: Long, likeByMe: Boolean) {
         viewModelScope.launch {
-            repository.likeItem(id , likeByMe)
+            try {
+                repository.likeItem(id, likeByMe)
+            } catch (e: Exception) {
+                postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
+            }
         }
+        postErrorState = PostErrorState()
+
     }
 
 

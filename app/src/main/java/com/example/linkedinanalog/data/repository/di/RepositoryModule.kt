@@ -25,7 +25,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsPostRepository(impl: PostRepositoryImpl): Repository<PostCreateRequest>
+    fun bindsPostRepository(impl: PostRepositoryImpl): PostRepository
 
     @Binds
     @Singleton
