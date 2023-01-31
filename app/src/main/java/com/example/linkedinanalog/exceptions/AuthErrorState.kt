@@ -11,6 +11,7 @@ sealed class AuthErrorType {
     object GetUserError : AuthErrorType()
     object AuthError : AuthErrorType()
     object AuthOk : AuthErrorType()
+    object NetworkError : AuthErrorType()
 
 }
 

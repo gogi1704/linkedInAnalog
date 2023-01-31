@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
 import com.example.linkedinanalog.exceptions.EventErrorType
+import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventListener
@@ -97,6 +98,9 @@ class EventsFragment : Fragment() {
                 EventErrorType.ParticipantError -> {
                     makeToast("error. Please retry")
                     eventAdapter.refresh()
+                }
+                EventErrorType.NetworkError->{
+                    makeToast("Check Internet connection and repeat ")
                 }
                 else -> {}
             }

@@ -14,6 +14,7 @@ import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.exceptions.AuthErrorState
 import com.example.linkedinanalog.exceptions.AuthErrorType
+import com.example.linkedinanalog.exceptions.NetworkError
 import com.example.linkedinanalog.exceptions.UnknownError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -95,8 +96,8 @@ class AuthViewModel @Inject constructor(
             viewModelScope.launch {
                 usersData = repository.getAllUsers()
             }
-        } catch (e: UnknownError) {
-            e.printStackTrace()
+        } catch (net: NetworkError) {
+            errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
         }
     }
 
@@ -110,6 +111,9 @@ class AuthViewModel @Inject constructor(
                     repository.registerWithAvatar(user)
                 errorState = errorState.copy(errorType = AuthErrorType.AuthOk)
                 appAuth.setAuth(register.id, register.token!!)
+            } catch (net: NetworkError) {
+                errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
+
             } catch (e: Exception) {
                 errorState = errorState.copy(errorType = AuthErrorType.RegisterError)
             }
@@ -124,6 +128,9 @@ class AuthViewModel @Inject constructor(
                 val register = repository.authenticationUser(login, pass)
                 appAuth.setAuth(register.id, register.token!!)
                 errorState = AuthErrorState(errorType = AuthErrorType.AuthOk)
+
+            } catch (net: NetworkError) {
+                errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
             } catch (e: UnknownError) {
                 errorState = AuthErrorState(errorType = AuthErrorType.AuthError)
             }
@@ -146,8 +153,10 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 showUser = repository.getUserById(id)
+            } catch (net: NetworkError) {
+                errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
             } catch (e: Exception) {
-               errorState = AuthErrorState(errorType = AuthErrorType.GetUserError)
+                errorState = AuthErrorState(errorType = AuthErrorType.GetUserError)
             }
 
         }

@@ -10,4 +10,6 @@ sealed class JobErrorType {
     object AddJobError : JobErrorType()
     object AddJobComplete : JobErrorType()
     object GetJobError : JobErrorType()
+    object NetworkError : JobErrorType()
+
 }

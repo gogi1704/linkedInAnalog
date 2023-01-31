@@ -7,10 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.data.models.job.JobModel
 import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.JobRepositoryImpl
+import com.example.linkedinanalog.exceptions.EventErrorState
+import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.exceptions.JobErrorState
 import com.example.linkedinanalog.exceptions.JobErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +55,10 @@ class JobViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 myJobData = jobRepository.getAll()
+            } catch (io: IOException) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.NetworkError)
             } catch (e: Exception) {
+
                 jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
             }
         }
@@ -63,6 +69,8 @@ class JobViewModel @Inject constructor(
         viewModelScope.launch() {
             try {
                 userShowJobData = jobRepository.getJobById(id)
+            } catch (io: IOException) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.NetworkError)
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
             }
@@ -75,6 +83,8 @@ class JobViewModel @Inject constructor(
             try {
                 jobRepository.addItem(job)
                 jobErrorState = JobErrorState(errorType = JobErrorType.AddJobComplete)
+            } catch (io: IOException) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.NetworkError)
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
             }

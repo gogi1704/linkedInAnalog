@@ -10,5 +10,6 @@ sealed class EventErrorType {
     object CreateError : EventErrorType()
     object ParticipantError : EventErrorType()
     object CreateComplete : EventErrorType()
+    object NetworkError : EventErrorType()
 
 }

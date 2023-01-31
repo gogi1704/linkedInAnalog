@@ -89,13 +89,20 @@ class ShowUserFragment : Fragment() {
         }
 
         authViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
-            if (it.errorType == AuthErrorType.GetUserError) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Load error")
-                    .setMessage("Load data of user error! Please retry")
-                    .setPositiveButton("Retry") { _, _ ->
-                        authViewModel.getUserById(requireArguments().getLong(SHOW_USER_KEY))
-                    }.show()
+            when (it.errorType) {
+                AuthErrorType.GetUserError -> {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Load error")
+                        .setMessage("Load data of user error! Please retry")
+                        .setPositiveButton("Retry") { _, _ ->
+                            authViewModel.getUserById(requireArguments().getLong(SHOW_USER_KEY))
+                        }.show()
+                }
+                AuthErrorType.NetworkError -> {
+                    showToast("Check internet connection and repeat")
+                }
+
+                else -> {}
             }
         }
 
@@ -103,6 +110,9 @@ class ShowUserFragment : Fragment() {
             when (it.errorType) {
                 WallErrorType.WallLikeError -> {
                     showToast("Error like. Please retry or try later")
+                }
+                WallErrorType.NetworkError -> {
+                    showToast("Check internet connection and repeat")
                 }
                 else -> {}
             }

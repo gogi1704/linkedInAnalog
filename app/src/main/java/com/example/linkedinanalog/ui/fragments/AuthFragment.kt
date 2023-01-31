@@ -136,24 +136,17 @@ class AuthFragment : Fragment() {
 
         authViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
-                is AuthErrorType.AuthError -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Check login or password and repeat",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                AuthErrorType.AuthError -> {
+                    showToast("Check login or password and repeat")
                 }
-                is AuthErrorType.RegisterError -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Maybe the name is already taken)",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+                AuthErrorType.RegisterError -> {
+                    showToast("Maybe the name is already taken)")
                 }
-                is AuthErrorType.AuthOk -> {
+                AuthErrorType.AuthOk -> {
                     findNavController().navigateUp()
+                }
+                AuthErrorType.NetworkError -> {
+                    showToast("Check Internet connection and repeat")
                 }
                 else -> {}
             }
@@ -165,5 +158,13 @@ class AuthFragment : Fragment() {
         return binding.root
     }
 
+    private fun showToast(text: String) {
+        Toast.makeText(
+            requireContext(),
+            text,
+            Toast.LENGTH_LONG
+        )
+            .show()
+    }
 
 }

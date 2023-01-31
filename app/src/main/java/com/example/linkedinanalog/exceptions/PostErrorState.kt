@@ -8,6 +8,9 @@ data class PostErrorState(
 
 sealed class PostErrorType {
     object AddPostError : PostErrorType()
+    object DeletePostError : PostErrorType()
     object AddPostComplete : PostErrorType()
     object LikePostError:PostErrorType()
+    object NetworkError : PostErrorType()
+
 }

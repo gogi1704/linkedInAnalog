@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
+import com.example.linkedinanalog.exceptions.JobErrorType
 import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
@@ -129,6 +130,9 @@ class PostsFragment : Fragment() {
                 }
                 PostErrorType.LikePostError -> {
                     showToast("Like error. Please try later.")
+                }
+                PostErrorType.NetworkError ->{
+                    showToast("Check internet connection and repeat")
                 }
                 else -> {}
             }

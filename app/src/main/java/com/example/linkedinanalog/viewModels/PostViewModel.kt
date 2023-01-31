@@ -9,15 +9,14 @@ import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
-import com.example.linkedinanalog.exceptions.ApiError
-import com.example.linkedinanalog.exceptions.PostErrorState
-import com.example.linkedinanalog.exceptions.PostErrorType
+import com.example.linkedinanalog.exceptions.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,6 +79,8 @@ class PostViewModel @Inject constructor(
                     )
                 }
                 postErrorState = PostErrorState(errorType = PostErrorType.AddPostComplete)
+            } catch (io: IOException) {
+                postErrorState = PostErrorState(errorType = PostErrorType.NetworkError)
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
             }
@@ -93,6 +94,8 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 repository.deleteItem(id)
+            } catch (io: IOException) {
+                postErrorState = PostErrorState(errorType = PostErrorType.NetworkError)
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.DeletePostError)
             }
@@ -109,6 +112,8 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 repository.likeItem(id, likeByMe)
+            } catch (io: IOException) {
+                postErrorState = PostErrorState(errorType = PostErrorType.NetworkError)
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
             }

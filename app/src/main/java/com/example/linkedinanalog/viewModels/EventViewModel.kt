@@ -14,6 +14,7 @@ import com.example.linkedinanalog.exceptions.EventErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,6 +55,8 @@ class EventViewModel @Inject constructor(
                 } else
                     eventRepository.createWithAttachments(event, mediaUpload)
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateComplete)
+            } catch (io:IOException) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
             }
@@ -66,6 +69,8 @@ class EventViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 eventRepository.participantByMe(id, isParticipatedByMe)
+            } catch (io:IOException) {
+                eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.ParticipantError)
             }

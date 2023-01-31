@@ -9,4 +9,6 @@ data class WallErrorState(
 sealed class WallErrorType {
     object WallRemoveError : WallErrorType()
     object WallLikeError : WallErrorType()
+    object NetworkError : WallErrorType()
+
 }

@@ -12,6 +12,7 @@ import com.example.linkedinanalog.exceptions.WallErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,10 +55,13 @@ class WallViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 wallRepository.likeItem(id, likeByMe)
+            }catch (io:IOException){
+                wallErrorState = WallErrorState(errorType = WallErrorType.NetworkError)
             } catch (e: Exception) {
                 wallErrorState = WallErrorState(errorType = WallErrorType.WallLikeError)
             }
         }
+        wallErrorState = WallErrorState()
     }
 
 

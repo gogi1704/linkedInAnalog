@@ -305,6 +305,9 @@ class CreateFragment : Fragment() {
                 PostErrorType.AddPostError -> {
                     showToast("Create post error.Please try later.")
                 }
+                PostErrorType.NetworkError->{
+                    showToast("Check Internet connection and repeat ")
+                }
                 else -> {}
             }
         }
@@ -316,6 +319,9 @@ class CreateFragment : Fragment() {
                 }
                 EventErrorType.CreateError -> {
                     showToast("Creating error. Please try later")
+                }
+                EventErrorType.NetworkError->{
+                    showToast("Check Internet connection and repeat ")
                 }
                 else -> {}
             }
@@ -329,6 +335,9 @@ class CreateFragment : Fragment() {
                 JobErrorType.AddJobComplete -> {
                     showToast("complete")
                     findNavController().navigateUp()
+                }
+                JobErrorType.NetworkError->{
+                    showToast("Check Internet connection and repeat ")
                 }
                 else -> {}
             }

@@ -80,6 +80,9 @@ class MyProfileFragment : Fragment() {
                 JobErrorType.GetJobError -> {
                     showToast("Load data error.Please try later")
                 }
+                JobErrorType.NetworkError ->{
+                    showToast("Check internet connection and repeat")
+                }
                 else -> {}
             }
         }
