@@ -15,6 +15,7 @@ import com.example.linkedinanalog.data.db.entity.postEntity.toPostEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallRemoteKeyEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.toWallEntity
+import com.example.linkedinanalog.exceptions.ApiError
 import com.example.linkedinanalog.ui.constans.SHOW_USER_KEY
 import com.example.linkedinanalog.ui.constans.USER_ID_PREFS
 import javax.inject.Inject
@@ -31,8 +32,6 @@ class WallRemoteMediator @Inject constructor(
         loadType: LoadType,
         state: PagingState<Int, WallEntity>
     ): MediatorResult {
-
-        //Вверх after вниз before
         try {
 
             val userId = application.applicationContext.getSharedPreferences(
@@ -65,9 +64,7 @@ class WallRemoteMediator @Inject constructor(
             }
 
             if (!response?.isSuccessful!!) {
-                //TODO
-                throw Exception()
-
+                throw ApiError(response.code() , response.message())
             }
             val body = response.body() ?: throw Exception()
             db.withTransaction {
@@ -113,7 +110,6 @@ class WallRemoteMediator @Inject constructor(
             }
             return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
         } catch (e: Exception) {
-            //TODO
             return MediatorResult.Error(e)
         }
     }

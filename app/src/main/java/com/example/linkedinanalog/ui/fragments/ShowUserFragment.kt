@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.linkedinanalog.databinding.FragmentShowUserBinding
 import com.example.linkedinanalog.exceptions.AuthErrorType
 import com.example.linkedinanalog.exceptions.JobErrorType
+import com.example.linkedinanalog.exceptions.WallErrorType
 import com.example.linkedinanalog.ui.constans.SHOW_USER_KEY
 import com.example.linkedinanalog.ui.constans.USER_ID_PREFS
 import com.example.linkedinanalog.ui.extensions.loadAvatar
@@ -98,6 +99,14 @@ class ShowUserFragment : Fragment() {
             }
         }
 
+        wallViewModel.wallErrorStateLiveData.observe(viewLifecycleOwner) {
+            when (it.errorType) {
+                WallErrorType.WallLikeError -> {
+                    showToast("Error like. Please retry or try later")
+                }
+                else -> {}
+            }
+        }
 
 
         lifecycleScope.launchWhenCreated {
@@ -113,9 +122,6 @@ class ShowUserFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onStop() {
         requireContext().applicationContext.getSharedPreferences(

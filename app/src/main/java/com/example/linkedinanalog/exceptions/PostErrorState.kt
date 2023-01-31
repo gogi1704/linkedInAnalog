@@ -10,5 +10,4 @@ sealed class PostErrorType {
     object AddPostError : PostErrorType()
     object AddPostComplete : PostErrorType()
     object LikePostError:PostErrorType()
-    object DeletePostError : PostErrorType()
 }

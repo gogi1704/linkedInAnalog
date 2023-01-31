@@ -30,9 +30,4 @@ interface WallApiService {
         @Query("count") count: Int,
     ): Response<List<PostModel>>
 
-    @POST("/api/posts/{id}/likes/")
-    suspend fun likePost(@Path("id") id:Long):Response<PostModel>
-
-    @DELETE("/api/posts/{id}/likes/")
-    suspend fun dislikePost(@Path("id") id:Long):Response<PostModel>
 }

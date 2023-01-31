@@ -31,6 +31,10 @@ interface RepositoryModule {
     @Singleton
     fun bindsAuthRepository(impl:AuthRepositoryImpl):AuthRepository
 
+    @Binds
+    @Singleton
+    fun bindsWallRepository(impl:WallRepositoryImpl):WallRepository
+
 
 
 

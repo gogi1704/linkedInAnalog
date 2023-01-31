@@ -6,7 +6,9 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
-import com.example.linkedinanalog.data.repository.WallRepository
+import com.example.linkedinanalog.data.repository.WallRepositoryImpl
+import com.example.linkedinanalog.exceptions.WallErrorState
+import com.example.linkedinanalog.exceptions.WallErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -15,9 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WallViewModel @Inject constructor(
     application: Application,
-    private val wallRepository: WallRepository,
-    private val authRepository: AuthRepositoryImpl,
-    private val postRepository: PostRepositoryImpl,
+    private val wallRepository: WallRepositoryImpl,
 ) :
     AndroidViewModel(application) {
 
@@ -26,20 +26,37 @@ class WallViewModel @Inject constructor(
             post.toDto()
         }
     }
-
     val pagingData
         get() = _pagingData
+
+    private var wallErrorState = WallErrorState()
+        set(value) {
+            field = value
+            _wallErrorStateLiveData.value = value
+        }
+    private val _wallErrorStateLiveData = MutableLiveData(wallErrorState)
+    val wallErrorStateLiveData
+        get() = _wallErrorStateLiveData
 
 
     fun removeAll() {
         viewModelScope.launch {
-            wallRepository.removeAll()
+            try {
+                wallRepository.removeAll()
+            } catch (e: Exception) {
+                wallErrorState = WallErrorState(errorType = WallErrorType.WallRemoveError)
+            }
         }
+        wallErrorState = WallErrorState()
     }
 
     fun like(id: Long, likeByMe: Boolean) {
         viewModelScope.launch {
-            wallRepository.likeItem(id, likeByMe)
+            try {
+                wallRepository.likeItem(id, likeByMe)
+            } catch (e: Exception) {
+                wallErrorState = WallErrorState(errorType = WallErrorType.WallLikeError)
+            }
         }
     }
 
