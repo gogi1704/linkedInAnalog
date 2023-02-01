@@ -30,7 +30,7 @@ class JobAdapter(private val listener: JobListener?) :
     class JobViewHolder(
         private val binding: RecyclerJobItemBinding,
         private val listener: JobListener?,
-       // private val isMyJobs: Boolean?
+        // private val isMyJobs: Boolean?
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(job: JobModel) {
@@ -38,7 +38,7 @@ class JobAdapter(private val listener: JobListener?) :
                 jobName.text = job.name
                 jobPosition.text = job.position
                 jobStart.parseDate(job.start)
-                jobFinish.parseDate(job.finish)
+                jobFinish.parseDate(job.finish ?: "")
                 link.text = job.link
                 if (listener != null) {
                     deleteJob.visibility = View.VISIBLE

@@ -10,6 +10,7 @@ import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.databinding.RecyclerEventItemBinding
 import com.example.linkedinanalog.ui.extensions.loadAvatar
 import com.example.linkedinanalog.ui.extensions.loadImage
+import com.example.linkedinanalog.ui.extensions.parseDate
 import com.example.linkedinanalog.ui.extensions.parseDateTime
 import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
 
@@ -45,7 +46,7 @@ class EventAdapter(private val listener: EventListener) :
                 imageAvatar.loadAvatar(item.authorAvatar.toString())
                 textAuthorName.text = item.author
                 textAuthorJob.text = item.authorJob
-                eventStart.text = item.datetime
+                eventStart.parseDate(item.datetime)
                 eventType.text = item.type.toString()
                 published.parseDateTime(item.published)
                 content.text = item.content

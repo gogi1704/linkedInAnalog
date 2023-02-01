@@ -112,7 +112,11 @@ class PostAdapter(
                         else -> {}
                     }
 
-                } else attachmentImage.visibility = View.GONE
+                } else {
+                    audioGroup.visibility = View.GONE
+                    videoGroup.visibility = View.GONE
+                    attachmentImage.visibility = View.GONE
+                }
 
                 buttonLike.isChecked = item.likedByMe
                 buttonLike.text =

@@ -5,13 +5,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun TextView.parseDateTime(stringDate: String) {
-    val dataFormat = SimpleDateFormat("yy-MM-dd'T'HH:mm", Locale("ru"))
-    this.text = dataFormat.parse(stringDate)?.toString() ?: ""
+    val data = stringDate.split("T")[0]
+    val time =stringDate.substringAfter("T").chunked(5)[0]
+    this.text = "$data $time"
 
 }
 
 
-fun TextView.parseDate(stringDate: String?) {
-    this.text = stringDate?.split("T")?.get(0) ?: "error"
+fun TextView.parseDate(stringDate: String) {
+    this.text = stringDate.split("T")[0]
+
+    fun TextView.parseTime(stringTime: String) {
+
+    }
 
 }
