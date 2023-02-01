@@ -11,5 +11,6 @@ data class Attachment(
 
 enum class AttachmentType {
     IMAGE,
+    AUDIO,
     VIDEO
 }

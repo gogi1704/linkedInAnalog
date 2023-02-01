@@ -13,7 +13,7 @@ import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
+import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.databinding.FragmentAuthBinding
 import com.example.linkedinanalog.exceptions.AuthErrorType

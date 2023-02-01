@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.data.models.mediaModels
+package com.example.linkedinanalog.data.media.mediaModels
 
 import android.net.Uri
 import java.io.File

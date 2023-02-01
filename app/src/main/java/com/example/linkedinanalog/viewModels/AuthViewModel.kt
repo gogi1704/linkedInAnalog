@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.auth.AppAuth
 import com.example.linkedinanalog.auth.AuthState
-import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
+import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.data.repository.AuthRepositoryImpl

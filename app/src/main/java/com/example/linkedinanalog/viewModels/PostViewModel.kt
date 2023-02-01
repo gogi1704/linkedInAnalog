@@ -6,7 +6,8 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.linkedinanalog.data.models.MediaUpload
-import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
+import com.example.linkedinanalog.data.media.mediaModels.AudioModel
+import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import com.example.linkedinanalog.exceptions.*
@@ -49,10 +50,23 @@ class PostViewModel @Inject constructor(
     val photoLiveData
         get() = _photoLiveData
 
-    val newerCount: LiveData<Int> = _dataFlow.switchMap {
+
+    private var audioModel = AudioModel()
+        set(value) {
+            field = value
+            _audioLiveData.value = value
+        }
+    private val _audioLiveData = MutableLiveData(audioModel)
+
+    val audioLiveData
+        get() = _audioLiveData
+
+    val newerCount: LiveData<Int> = _dataFlow.switchMap { it ->
         val id = it.lastOrNull()?.id?.toLong() ?: 0L
         repository.getNewerItems((id))
-            .catch { }
+            .catch {
+                it.printStackTrace()
+            }
             .asLiveData(Dispatchers.Default)
     }
 
@@ -106,6 +120,10 @@ class PostViewModel @Inject constructor(
 
     fun changePhoto(uri: Uri?, file: File?) {
         photoModel = PhotoModel(uri, file)
+    }
+
+    fun changeAudio(uri: Uri? , file: File?){
+        audioModel = AudioModel(uri, file)
     }
 
     fun like(id: Long, likeByMe: Boolean) {

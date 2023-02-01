@@ -124,7 +124,8 @@ class PostRepositoryImpl @Inject constructor(
             } catch (sql: SQLException) {
                 throw DbError()
             } catch (e: Exception) {
-                throw UnknownError()
+                //todo
+             //   throw UnknownError()
             }
 
         }

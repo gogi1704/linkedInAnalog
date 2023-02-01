@@ -111,8 +111,8 @@
         android:id="@+id/job_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
 
         <ScrollView
@@ -394,6 +394,13 @@
             android:contentDescription="TODO"
             android:padding="12dp"
             android:src="@drawable/ic_add_a_photo_24" />
+
+        <ImageView
+            android:id="@+id/add_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_baseline_audio_file_24" />
 
 
     </LinearLayout>

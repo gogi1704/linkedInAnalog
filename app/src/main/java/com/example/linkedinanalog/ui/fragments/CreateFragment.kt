@@ -3,9 +3,13 @@ package com.example.linkedinanalog.ui.fragments
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.icu.util.Calendar
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
+import android.telecom.Connection.VideoProvider
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.job.JobModel
-import com.example.linkedinanalog.data.models.mediaModels.PhotoModel
+import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.models.user.UserModel
 import com.example.linkedinanalog.databinding.FragmentCreateBinding
@@ -41,11 +45,13 @@ import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class CreateFragment : Fragment() {
     private lateinit var binding: FragmentCreateBinding
+
     private val postViewModel: PostViewModel by activityViewModels()
     private val jobViewModel: JobViewModel by activityViewModels()
     private val authViewModel: AuthViewModel by activityViewModels()
@@ -57,6 +63,25 @@ class CreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateBinding.inflate(layoutInflater, container, false)
+
+//        val resultA =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//                if (result.resultCode == Activity.RESULT_OK) {
+//                    val data = result.data?.data
+//                    postViewModel.changeAudio(data, data?.toFile())
+//                }
+//
+//            }
+//
+//        val audioResult =
+//            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+//                postViewModel.changeAudio(uri, uri?.toFile())
+//            }
+//
+//        val pickRingtone = registerForActivityResult(PickRingtone()) {
+//            val data = it
+//            postViewModel.changeAudio(data, data?.toFile())
+//        }
 
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -264,7 +289,6 @@ class CreateFragment : Fragment() {
 
             }
 
-
         }
 
 
@@ -292,6 +316,14 @@ class CreateFragment : Fragment() {
                     .createIntent { pickPhotoLauncher.launch(it) }
             }
 
+//            addAudio.setOnClickListener {
+//                lifecycleScope.launchWhenCreated {
+//                    pickRingtone.launch(RingtoneManager.TYPE_RINGTONE)
+//                }
+//
+//
+//            }
+
             imageViewDeletePost.setOnClickListener {
                 postViewModel.changePhoto(null, null)
             }
@@ -305,7 +337,7 @@ class CreateFragment : Fragment() {
                 PostErrorType.AddPostError -> {
                     showToast("Create post error.Please try later.")
                 }
-                PostErrorType.NetworkError->{
+                PostErrorType.NetworkError -> {
                     showToast("Check Internet connection and repeat ")
                 }
                 else -> {}
@@ -320,7 +352,7 @@ class CreateFragment : Fragment() {
                 EventErrorType.CreateError -> {
                     showToast("Creating error. Please try later")
                 }
-                EventErrorType.NetworkError->{
+                EventErrorType.NetworkError -> {
                     showToast("Check Internet connection and repeat ")
                 }
                 else -> {}
@@ -336,7 +368,7 @@ class CreateFragment : Fragment() {
                     showToast("complete")
                     findNavController().navigateUp()
                 }
-                JobErrorType.NetworkError->{
+                JobErrorType.NetworkError -> {
                     showToast("Check Internet connection and repeat ")
                 }
                 else -> {}

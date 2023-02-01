@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
+import com.example.linkedinanalog.data.media.MediaLifecycleObserver
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
 import com.example.linkedinanalog.exceptions.JobErrorType
@@ -32,6 +34,7 @@ import kotlinx.coroutines.flow.collectLatest
 class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
     private lateinit var adapter: PostAdapter
+    private val mediaObserver = MediaLifecycleObserver()
     private val authViewModel: AuthViewModel by activityViewModels()
     private val postViewModel: PostViewModel by activityViewModels()
     override fun onCreateView(
@@ -39,7 +42,7 @@ class PostsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
-
+        lifecycle.addObserver(mediaObserver)
         adapter = PostAdapter(object : PostAdapterListener {
             override fun deletePost(id: Long) {
                 postViewModel.deletePost(id)
@@ -70,7 +73,29 @@ class PostsFragment : Fragment() {
                     })
 
             }
-        })
+
+
+            override fun playAudio(url: String?) {
+                if (mediaObserver.musicNow == url) {
+                    if (mediaObserver.isPlayed) {
+                        mediaObserver.mediaPlayer?.pause()
+                        mediaObserver.isPlayed = false
+                    } else {
+                        mediaObserver.mediaPlayer?.start()
+                        mediaObserver.isPlayed = true
+                    }
+                } else {
+                    mediaObserver.mediaPlayer?.reset()
+                    mediaObserver.apply {
+                        mediaPlayer?.setDataSource(url)
+                    }.play()
+                    mediaObserver.isPlayed = true
+                    mediaObserver.musicNow = url!!
+                }
+
+            }
+
+        }, MediaController(requireActivity()))
         binding.recyclerPost.adapter = adapter.withLoadStateHeader(
             header =
             PostsLoadStateAdapter()
@@ -132,7 +157,7 @@ class PostsFragment : Fragment() {
                 PostErrorType.LikePostError -> {
                     showToast("Like error. Please try later.")
                 }
-                PostErrorType.NetworkError ->{
+                PostErrorType.NetworkError -> {
                     showToast("Check internet connection and repeat")
                 }
                 else -> {}
@@ -184,6 +209,7 @@ class PostsFragment : Fragment() {
     private fun showToast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
     }
+
     private fun alertDialogShow() {
         AlertDialog.Builder(requireContext())
             .setTitle("Authentication error")
