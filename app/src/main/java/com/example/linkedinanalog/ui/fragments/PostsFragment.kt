@@ -16,6 +16,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.media.MediaLifecycleObserver
+import com.example.linkedinanalog.data.media.mediaModels.PlayState
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
 import com.example.linkedinanalog.exceptions.JobErrorType
@@ -24,6 +25,7 @@ import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapterListener
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostsLoadStateAdapter
+import com.example.linkedinanalog.viewModels.AudioViewModel
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
 import com.google.gson.Gson
@@ -35,6 +37,7 @@ class PostsFragment : Fragment() {
     private lateinit var binding: FragmentPostsBinding
     private lateinit var adapter: PostAdapter
     private val mediaObserver = MediaLifecycleObserver()
+    private val audioViewModel: AudioViewModel by activityViewModels()
     private val authViewModel: AuthViewModel by activityViewModels()
     private val postViewModel: PostViewModel by activityViewModels()
     override fun onCreateView(
@@ -80,9 +83,12 @@ class PostsFragment : Fragment() {
                     if (mediaObserver.isPlayed) {
                         mediaObserver.mediaPlayer?.pause()
                         mediaObserver.isPlayed = false
+                        audioViewModel.playState = PlayState(isPlay = false, nameTrack = url)
+
                     } else {
                         mediaObserver.mediaPlayer?.start()
                         mediaObserver.isPlayed = true
+                        audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
                     }
                 } else {
                     mediaObserver.mediaPlayer?.reset()
@@ -91,6 +97,7 @@ class PostsFragment : Fragment() {
                     }.play()
                     mediaObserver.isPlayed = true
                     mediaObserver.musicNow = url!!
+                    audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
                 }
 
             }
@@ -128,6 +135,11 @@ class PostsFragment : Fragment() {
             adapter.refresh()
         }
 
+        audioViewModel.playStateLiveData.observe(viewLifecycleOwner) {
+            if (it.nameTrack == "null") {
+                mediaObserver.mediaPlayer?.reset()
+            }
+        }
 
         lifecycleScope.launchWhenCreated {
             postViewModel.pagingData.collectLatest {
