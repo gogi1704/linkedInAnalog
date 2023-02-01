@@ -46,7 +46,7 @@ class ShowUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentShowUserBinding.inflate(layoutInflater, container, false)
-        jobAdapter = JobAdapter()
+        jobAdapter = JobAdapter(null)
         wallAdapter = WallAdapter(object : WallAdapter.WallAdapterListener {
             override fun likePost(id: Long, likedByMe: Boolean) {
                 wallViewModel.like(id, likedByMe)

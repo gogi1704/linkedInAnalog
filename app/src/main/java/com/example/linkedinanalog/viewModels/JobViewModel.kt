@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JobViewModel @Inject constructor(
-    private val authRepository: AuthRepositoryImpl,
     private val jobRepository: JobRepositoryImpl,
     application: Application
 ) : AndroidViewModel(application) {
@@ -88,6 +87,23 @@ class JobViewModel @Inject constructor(
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
             }
+        }
+        jobErrorState = JobErrorState()
+    }
+
+    fun deleteJob(id: Long) {
+        viewModelScope.launch {
+            try {
+                jobRepository.deleteJob(id)
+                myJobData = myJobData.filter {
+                    it.id != id.toInt()
+                }
+            } catch (io: IOException) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.NetworkError)
+            } catch (e: Exception) {
+                jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
+            }
+
         }
         jobErrorState = JobErrorState()
     }

@@ -39,7 +39,7 @@
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/new_posts_container"
         android:layout_width="wrap_content"
         android:background="@color/design_default_color_on_primary"

@@ -51,4 +51,17 @@ class JobRepositoryImpl @Inject constructor(private val jobApiService: JobApiSer
         }
 
     }
+
+    override suspend fun deleteJob(id: Long) {
+        try {
+            val response = jobApiService.deleteJob(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
+        } catch (io: IOException) {
+            throw NetworkError()
+        } catch (e: Exception) {
+            throw com.example.linkedinanalog.exceptions.UnknownError()
+        }
+    }
 }

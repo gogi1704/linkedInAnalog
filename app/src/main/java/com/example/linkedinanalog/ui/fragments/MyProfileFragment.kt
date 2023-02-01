@@ -35,7 +35,12 @@ class MyProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMyProfileBinding.inflate(layoutInflater, container, false)
-        adapter = JobAdapter()
+        adapter = JobAdapter(object :JobAdapter.JobListener{
+            override fun deleteJob(id: Long) {
+                jobViewModel.deleteJob(id)
+            }
+
+        })
         binding.recyclerJob.adapter = adapter
 
         with(binding) {

@@ -3,6 +3,7 @@ package com.example.linkedinanalog.api
 import com.example.linkedinanalog.data.models.job.JobModel
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -17,4 +18,7 @@ interface JobApiService {
 
     @GET("/api/{id}/jobs/")
     suspend fun getJobById(@Path("id") id:Long):Response<List<JobModel>>
+
+    @DELETE("/api/my/jobs/{job_id}/")
+    suspend fun deleteJob(@Path("job_id")id: Long):Response<Unit>
 }
