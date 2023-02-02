@@ -4,11 +4,8 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-
 import androidx.room.Query
-
 import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
-import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -24,7 +21,7 @@ interface PostDao {
     suspend fun insertPost(posts: List<PostEntity>)
 
     @Query("SELECT * FROM PostEntity")
-    fun getAll():Flow<List<PostEntity>>
+    fun getAll(): Flow<List<PostEntity>>
 
     @Query(
         """
@@ -37,9 +34,7 @@ interface PostDao {
     suspend fun removeAll()
 
     @Query("SELECT * FROM PostEntity WHERE id =:id")
-    suspend fun getPostById(id:Long):PostEntity
-
-
+    suspend fun getPostById(id: Long): PostEntity
 
 
 }

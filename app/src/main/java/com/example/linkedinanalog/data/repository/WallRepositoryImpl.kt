@@ -12,7 +12,6 @@ import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.wallDao.WallDao
 import com.example.linkedinanalog.data.db.dao.wallDao.WallRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
-import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.remoteMediators.WallRemoteMediator
 import com.example.linkedinanalog.exceptions.ApiError
 import com.example.linkedinanalog.exceptions.DbError

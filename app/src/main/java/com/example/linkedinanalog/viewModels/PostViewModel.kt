@@ -58,8 +58,6 @@ class PostViewModel @Inject constructor(
         }
     private val _audioLiveData = MutableLiveData(audioModel)
 
-    val audioLiveData
-        get() = _audioLiveData
 
     val newerCount: LiveData<Int> = _dataFlow.switchMap { it ->
         val id = it.lastOrNull()?.id?.toLong() ?: 0L
@@ -122,9 +120,6 @@ class PostViewModel @Inject constructor(
         photoModel = PhotoModel(uri, file)
     }
 
-    fun changeAudio(uri: Uri? , file: File?){
-        audioModel = AudioModel(uri, file)
-    }
 
     fun like(id: Long, likeByMe: Boolean) {
         viewModelScope.launch {

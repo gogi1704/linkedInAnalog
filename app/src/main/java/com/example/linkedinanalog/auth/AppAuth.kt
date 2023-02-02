@@ -1,7 +1,6 @@
 package com.example.linkedinanalog.auth
 
 import android.content.Context
-import com.example.linkedinanalog.data.models.user.UserModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

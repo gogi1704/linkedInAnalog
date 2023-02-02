@@ -5,10 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.linkedinanalog.data.models.job.JobModel
-import com.example.linkedinanalog.data.repository.AuthRepositoryImpl
 import com.example.linkedinanalog.data.repository.JobRepositoryImpl
-import com.example.linkedinanalog.exceptions.EventErrorState
-import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.exceptions.JobErrorState
 import com.example.linkedinanalog.exceptions.JobErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel

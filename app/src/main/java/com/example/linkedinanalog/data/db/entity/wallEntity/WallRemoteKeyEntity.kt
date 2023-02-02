@@ -2,7 +2,6 @@ package com.example.linkedinanalog.data.db.entity.wallEntity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.linkedinanalog.data.db.entity.postEntity.PostRemoteKeyEntity
 
 @Entity
 data class WallRemoteKeyEntity(

@@ -4,7 +4,6 @@ import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.EventType
 import com.example.linkedinanalog.data.models.user.UserModel
-import com.example.linkedinanalog.data.models.user.UsersPreview
 
 data class EventModel(
     val id: Int,
@@ -27,7 +26,6 @@ data class EventModel(
     val ownedByMe: Boolean,
     val users: UserModel
 ) {
-    fun toEventCreateRequest(): EventCreateRequest =
-        EventCreateRequest(id, content, datetime, coords, type, attachment, link, speakerIds)
+   
 }
 

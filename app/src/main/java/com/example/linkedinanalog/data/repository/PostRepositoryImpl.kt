@@ -1,7 +1,6 @@
 package com.example.linkedinanalog.data.repository
 
 import android.database.SQLException
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
 import com.example.linkedinanalog.api.MediaApiService
 import com.example.linkedinanalog.api.PostApiService
@@ -124,8 +123,7 @@ class PostRepositoryImpl @Inject constructor(
             } catch (sql: SQLException) {
                 throw DbError()
             } catch (e: Exception) {
-                //todo
-             //   throw UnknownError()
+                throw UnknownError()
             }
 
         }

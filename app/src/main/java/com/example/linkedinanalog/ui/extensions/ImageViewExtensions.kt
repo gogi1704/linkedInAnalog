@@ -21,11 +21,3 @@ fun ImageView.loadImage(url: String) {
         .into(this)
 }
 
-fun ImageView.loadFitCenter(url: String) {
-    Glide.with(this)
-        .load(url)
-        .timeout(10_000)
-        .fitCenter()
-        .into(this)
-
-}

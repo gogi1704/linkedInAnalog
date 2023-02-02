@@ -17,7 +17,6 @@ import com.example.linkedinanalog.data.models.AttachmentType
 import com.example.linkedinanalog.data.models.Media
 import com.example.linkedinanalog.data.models.MediaUpload
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
-import com.example.linkedinanalog.data.models.event.EventModel
 import com.example.linkedinanalog.data.remoteMediators.EventRemoteMediator
 import com.example.linkedinanalog.exceptions.ApiError
 import com.example.linkedinanalog.exceptions.DbError

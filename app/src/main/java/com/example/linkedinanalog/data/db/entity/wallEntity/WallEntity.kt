@@ -2,7 +2,6 @@ package com.example.linkedinanalog.data.db.entity.wallEntity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import com.example.linkedinanalog.data.models.Attachment
 import com.example.linkedinanalog.data.models.Coordinates
 import com.example.linkedinanalog.data.models.post.PostModel
@@ -90,6 +89,5 @@ data class WallEntity(
 
 }
 
-fun List<WallEntity>.toDto(): List<PostModel> = map { it.toDto() }
 fun List<PostModel>.toWallEntity(): List<WallEntity> = map { WallEntity.fromDto(it) }
 

@@ -11,7 +11,6 @@ import com.example.linkedinanalog.api.WallApiService
 import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.wallDao.WallDao
 import com.example.linkedinanalog.data.db.dao.wallDao.WallRemoteKeyDao
-import com.example.linkedinanalog.data.db.entity.postEntity.toPostEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallRemoteKeyEntity
 import com.example.linkedinanalog.data.db.entity.wallEntity.toWallEntity

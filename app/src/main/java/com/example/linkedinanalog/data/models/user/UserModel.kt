@@ -12,8 +12,5 @@ data class UserModel(
 
 
 
-    companion object{
-        fun fromEntity(user: UserEntity):UserModel = UserModel(user.id , user.login , user.name , user.avatar)
-    }
 }
 

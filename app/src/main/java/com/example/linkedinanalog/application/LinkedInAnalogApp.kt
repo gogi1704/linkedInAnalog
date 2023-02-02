@@ -1,4 +1,4 @@
-package com.example.linkedinanalog.Application
+package com.example.linkedinanalog.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

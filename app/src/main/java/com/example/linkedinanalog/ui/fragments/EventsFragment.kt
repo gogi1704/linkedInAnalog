@@ -140,7 +140,7 @@ class EventsFragment : Fragment() {
                         )
                     })
             }
-            .setNegativeButton("Register") { _, _ ->
+            .setNegativeButton(getString(R.string.Registration)) { _, _ ->
                 findNavController().navigate(
                     R.id.action_homeFragment_to_authFragment,
                     Bundle().apply {
