@@ -12,6 +12,7 @@ import com.example.linkedinanalog.data.db.dao.postDao.PostRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.postEntity.PostEntity
 import com.example.linkedinanalog.data.db.entity.postEntity.PostRemoteKeyEntity
 import com.example.linkedinanalog.data.db.entity.postEntity.toPostEntity
+import com.example.linkedinanalog.exceptions.ApiError
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -46,8 +47,7 @@ class PostsRemoteMediator @Inject constructor(
                 }
             }
             if (!response.isSuccessful) {
-                //TODO
-                throw Exception()
+                throw throw ApiError(response.code() , response.message())
             }
             val body = response.body() ?: throw Exception()
             db.withTransaction {
@@ -93,8 +93,8 @@ class PostsRemoteMediator @Inject constructor(
             }
             return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
         } catch (e: Exception) {
-            //TODO
             return MediatorResult.Error(e)
+
         }
 
     }

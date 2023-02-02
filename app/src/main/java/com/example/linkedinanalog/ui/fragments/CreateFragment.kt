@@ -99,7 +99,6 @@ class CreateFragment : Fragment() {
 
 
         when (requireArguments().getString(OPEN_FRAGMENT_KEY)) {
-            //todo
             POST_OPEN -> {
                 binding.postGroup.visibility = View.VISIBLE
                 binding.buttonPanel.visibility = View.VISIBLE

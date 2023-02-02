@@ -26,6 +26,6 @@ data class EventModel(
     val ownedByMe: Boolean,
     val users: UserModel
 ) {
-   
+
 }
 

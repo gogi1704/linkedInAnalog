@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">linkedInAnalog</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="avatar_desc">avatar_desc</string>
     <string name="delete_desc">delete_desc</string>
     <string name="photo_desc">photo_desc</string>
