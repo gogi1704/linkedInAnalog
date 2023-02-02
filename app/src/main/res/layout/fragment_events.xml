@@ -27,7 +27,7 @@
             android:id="@+id/button_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="close"
+            android:text="@string/close"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,5 +50,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_baseline_create_24" />
+        android:src="@drawable/ic_baseline_create_24"
+        android:contentDescription="@string/bt_create_desc" />
 </FrameLayout>

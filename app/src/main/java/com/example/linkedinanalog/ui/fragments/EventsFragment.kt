@@ -1,7 +1,6 @@
 package com.example.linkedinanalog.ui.fragments
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
 import com.example.linkedinanalog.exceptions.EventErrorType
-import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventListener
@@ -100,11 +98,11 @@ class EventsFragment : Fragment() {
 
             when (it.errorType) {
                 EventErrorType.ParticipantError -> {
-                    makeToast("error. Please retry")
+                    makeToast(getString(R.string.Error_retry))
                     eventAdapter.refresh()
                 }
-                EventErrorType.NetworkError->{
-                    makeToast("Check Internet connection and repeat ")
+                EventErrorType.NetworkError -> {
+                    makeToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }
@@ -128,10 +126,10 @@ class EventsFragment : Fragment() {
 
     private fun alertDialogShow() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Authentication error")
-            .setMessage("Sign in to create events")
+            .setTitle(R.string.Authentication_error)
+            .setMessage(getString(R.string.SignToCreate))
             .setPositiveButton(
-                "Sign in"
+                getString(R.string.SignIn)
             ) { _, _ ->
                 findNavController().navigate(
                     R.id.action_homeFragment_to_authFragment,

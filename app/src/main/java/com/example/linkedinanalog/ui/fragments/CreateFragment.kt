@@ -3,13 +3,9 @@ package com.example.linkedinanalog.ui.fragments
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.icu.util.Calendar
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
-import android.telecom.Connection.VideoProvider
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.models.*
 import com.example.linkedinanalog.data.models.event.EventCreateRequest
 import com.example.linkedinanalog.data.models.job.JobModel
@@ -45,7 +42,6 @@ import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -195,7 +191,7 @@ class CreateFragment : Fragment() {
                                         link = inputLink.text.toString()
                                     )
                                     jobViewModel.addJob(job)
-                                } else showToast("field with,,*,, must not be empty")
+                                } else showToast(getString(R.string.fieldWith))
                             }
 
                         }
@@ -246,11 +242,11 @@ class CreateFragment : Fragment() {
 
                             btChooseSpeakers.setOnClickListener {
                                 if (usersRecyclerContainer.isVisible) {
-                                    btChooseSpeakers.text = "Choose speakers"
+                                    btChooseSpeakers.setText(R.string.choose_speakers_hint)
                                     usersRecyclerContainer.visibility = View.GONE
 
                                 } else {
-                                    btChooseSpeakers.text = "CLOSE"
+                                    btChooseSpeakers.setText(R.string.close)
                                     usersRecyclerContainer.visibility = View.VISIBLE
                                 }
                                 authViewModel.getAllUsers()
@@ -278,7 +274,7 @@ class CreateFragment : Fragment() {
                                             listOf()
                                         ), mediaUpload = upLoad
                                     )
-                                } else showToast("field with,,*,, must not be empty")
+                                } else showToast(getString(R.string.fieldWith))
 
                             }
                         }
@@ -335,10 +331,10 @@ class CreateFragment : Fragment() {
                     findNavController().navigateUp()
                 }
                 PostErrorType.AddPostError -> {
-                    showToast("Create post error.Please try later.")
+                    showToast(getString(R.string.CreatingError))
                 }
                 PostErrorType.NetworkError -> {
-                    showToast("Check Internet connection and repeat ")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }
@@ -350,10 +346,10 @@ class CreateFragment : Fragment() {
                     findNavController().navigateUp()
                 }
                 EventErrorType.CreateError -> {
-                    showToast("Creating error. Please try later")
+                    showToast(getString(R.string.CreatingError))
                 }
                 EventErrorType.NetworkError -> {
-                    showToast("Check Internet connection and repeat ")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }
@@ -362,14 +358,14 @@ class CreateFragment : Fragment() {
         jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 JobErrorType.AddJobError -> {
-                    showToast("Add job error.Please retry")
+                    showToast(getString(R.string.CreatingError))
                 }
                 JobErrorType.AddJobComplete -> {
-                    showToast("complete")
+                    showToast(getString(R.string.complete))
                     findNavController().navigateUp()
                 }
                 JobErrorType.NetworkError -> {
-                    showToast("Check Internet connection and repeat ")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }

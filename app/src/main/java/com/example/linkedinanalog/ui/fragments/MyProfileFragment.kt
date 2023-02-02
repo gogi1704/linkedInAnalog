@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
@@ -83,10 +82,10 @@ class MyProfileFragment : Fragment() {
         jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 JobErrorType.GetJobError -> {
-                    showToast("Load data error.Please try later")
+                    showToast(getString(R.string.LoadDataError))
                 }
                 JobErrorType.NetworkError ->{
-                    showToast("Check internet connection and repeat")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }

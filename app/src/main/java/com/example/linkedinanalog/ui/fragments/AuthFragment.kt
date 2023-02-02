@@ -13,6 +13,7 @@ import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.user.UserRequestModel
 import com.example.linkedinanalog.databinding.FragmentAuthBinding
@@ -59,11 +60,11 @@ class AuthFragment : Fragment() {
             when (requireArguments().getString(AUTH_BUNDLE_KEY)) {
                 AUTH_BUNDLE_VALUE_REG -> {
                     binding.groupRegister.visibility = View.VISIBLE
-                    binding.authTitle.text = "Registration"
+                    binding.authTitle.setText(R.string.Registration)
                 }
                 AUTH_BUNDLE_VALUE_SIGN_IN -> {
                     binding.groupRegister.visibility = View.GONE
-                    binding.authTitle.text = "Sign in"
+                    binding.authTitle.setText(R.string.Sign_in)
                 }
             }
 
@@ -78,13 +79,13 @@ class AuthFragment : Fragment() {
                 ) {
                     Toast.makeText(
                         requireContext(),
-                        "Login and password must be longer than 4 characters",
+                        getString(R.string.toast_long4Symbols),
                         Toast.LENGTH_LONG
                     ).show()
                 } else if (inputPassword.text.toString() != inputRepeatPass.text.toString() && groupRegister.isVisible) {
                     Toast.makeText(
                         requireContext(),
-                        "Passwords are different",
+                        getString(R.string.Passwords_are_different),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
@@ -137,16 +138,16 @@ class AuthFragment : Fragment() {
         authViewModel.errorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 AuthErrorType.AuthError -> {
-                    showToast("Check login or password and repeat")
+                    showToast(getString(R.string.CheckLogPass))
                 }
                 AuthErrorType.RegisterError -> {
-                    showToast("Maybe the name is already taken)")
+                    showToast(getString(R.string.MaybeNameTaken))
                 }
                 AuthErrorType.AuthOk -> {
                     findNavController().navigateUp()
                 }
                 AuthErrorType.NetworkError -> {
-                    showToast("Check Internet connection and repeat")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }

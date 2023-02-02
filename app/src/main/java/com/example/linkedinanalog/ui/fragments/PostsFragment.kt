@@ -19,7 +19,6 @@ import com.example.linkedinanalog.data.media.MediaLifecycleObserver
 import com.example.linkedinanalog.data.media.mediaModels.PlayState
 import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.databinding.FragmentPostsBinding
-import com.example.linkedinanalog.exceptions.JobErrorType
 import com.example.linkedinanalog.exceptions.PostErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.postAdapter.PostAdapter
@@ -164,13 +163,13 @@ class PostsFragment : Fragment() {
         postViewModel.postErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 PostErrorType.DeletePostError -> {
-                    showToast("Delete error. Please try later.")
+                    showToast(getString(R.string.DeleteError))
                 }
                 PostErrorType.LikePostError -> {
-                    showToast("Like error. Please try later.")
+                    showToast(getString(R.string.LikeError))
                 }
                 PostErrorType.NetworkError -> {
-                    showToast("Check internet connection and repeat")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }
@@ -224,10 +223,10 @@ class PostsFragment : Fragment() {
 
     private fun alertDialogShow() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Authentication error")
-            .setMessage("Sign in to create events")
+            .setTitle(getString(R.string.Authentication_error))
+            .setMessage(getString(R.string.SignToCreate))
             .setPositiveButton(
-                "Sign in"
+                getString(R.string.SignIn)
             ) { _, _ ->
                 findNavController().navigate(
                     R.id.action_homeFragment_to_authFragment,
@@ -238,7 +237,7 @@ class PostsFragment : Fragment() {
                         )
                     })
             }
-            .setNegativeButton("Register") { _, _ ->
+            .setNegativeButton(getString(R.string.Registration)) { _, _ ->
                 findNavController().navigate(
                     R.id.action_homeFragment_to_authFragment,
                     Bundle().apply {

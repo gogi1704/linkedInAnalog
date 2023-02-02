@@ -9,7 +9,7 @@
 
     <Button
         android:id="@+id/button_userJobs"
-        android:text="User jobs"
+        android:text="@string/user_jobs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -25,14 +25,15 @@
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/avatar_desc" />
 
 
     <TextView
         android:id="@+id/text_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="List of Jobs is empty"
+        android:text="@string/list_of_jobs_is_empty"
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +48,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:singleLine="false"
-        android:text="User name"
+        android:text="@string/user_name"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -97,7 +98,8 @@
             android:layout_margin="4dp"
             android:src="@drawable/ic_clear_24"
             app:layout_constraintEnd_toEndOf="@+id/jobs_recycler"
-            app:layout_constraintTop_toTopOf="@+id/jobs_recycler" />
+            app:layout_constraintTop_toTopOf="@+id/jobs_recycler"
+            android:contentDescription="@string/delete_desc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

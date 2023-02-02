@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">linkedInAnalog</string>
+    <string name="avatar_desc">avatar_desc</string>
+    <string name="delete_desc">delete_desc</string>
+    <string name="photo_desc">photo_desc</string>
+    <string name="image_desc">image_desc</string>
+    <string name="post_create_avatar_desc">post_create_avatar</string>
+    <string name="calendar_finish_desc">calendar_finish_desc</string>
+    <string name="calendar_start_desc">calendar_start_desc</string>
+    <string name="audio_desc_desc">audio_desc</string>
+    <string name="bt_create_desc">bt_create_desc</string>
+    <string name="bt_stop_desc">bt_stop_desc</string>
+    <string name="add_job_desc">add_job_desc</string>
+    <string name="speaker_desc">speaker_desc</string>
+    <string name="play_desc">play_desc</string>
+    <string name="participants_desc">participants_desc</string>
+    <string name="up_desc">up_desc</string>
+
+
+
+
+    <string name="login_hint">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="ok">OK</string>
+    <string name="repeat_password_hint">Повторите пароль</string>
+    <string name="name_hint">Имя</string>
+    <string name="post_content_hint">Содержимое поста*</string>
+    <string name="link_hint">Ссылка*</string>
+    <string name="job_start_hint">С*</string>
+    <string name="position_hint">По*</string>
+    <string name="job_name_hint">Должность*</string>
+    <string name="job_finish_hint">Окончил</string>
+    <string name="job_link_hint">Ссылка</string>
+    <string name="event_content_hint">Содержимое ивента*</string>
+    <string name="choose_date_hint">Выберите дату*</string>
+    <string name="link_hint2">Ссылка*</string>
+    <string name="please_choose_type_hint">Выберите тип*</string>
+    <string name="online_hint">ONLINE</string>
+    <string name="offline_hint">OFFLINE</string>
+    <string name="choose_speakers_hint">Выберите спикеров</string>
+    <string name="choose_time_hint">Выбрать время *</string>
+    <string name="close">Закрыть</string>
+    <string name="musicname">Название трека</string>
+    <string name="list_of_jobs_is_empty">Карьерный лист пуст</string>
+    <string name="user_name">Имя пользователя</string>
+    <string name="new_posts_hint">Новые посты</string>
+    <string name="user_jobs">Карьера пользователя</string>
+    <string name="start_event_hint">Начало события :</string>
+    <string name="_hint">Тип события :</string>
+    <string name="content_hint">Содержимое</string>
+    <string name="link_hint3">Ссылка :</string>
+    <string name="job_name_hint2">Компания :</string>
+    <string name="job_position_hint">Должность :</string>
+    <string name="start_hint">Начало :</string>
+    <string name="finish_hint">Конец :</string>
+    <string name="link_hint4">Сылка :</string>
+    <string name="Registration">Регистрация</string>
+    <string name="Sign_in">Войти</string>
+    <string name="toast_long4Symbols">Логин и пароль должны содержать более 4 символов!</string>
+    <string name="Passwords_are_different">Пароли отличаются</string>
+    <string name="CheckLogPass">Проверьте логин и пароль и повторите</string>
+    <string name="MaybeNameTaken">Возможно этот ник занят)</string>
+    <string name="CheckInternet">Проверьте интернет соеденение и повторите</string>
+    <string name="fieldWith">Поля с ,,*,, не должны пустовать</string>
+    <string name="CreatingError">Ошибка добавления.Попробуйте позже</string>
+    <string name="complete">Готово</string>
+    <string name="Error_retry">Ошибка.Повторите позже.</string>
+    <string name="Authentication_error">Ошибка аутентификации.</string>
+    <string name="SignToCreate">Войдите или создайте учетную запись.</string>
+    <string name="SignIn">Войти.</string>
+    <string name="LoadDataError">Ошибка загрузки.Попробуйте позже</string>
+    <string name="DeleteError">Ошибка удаления.Попробуйте позже</string>
+    <string name="LikeError">Не удалось лайкнуть.Попробуйте позже</string>
+    <string name="LoadError">Ошибка загрузки</string>
+    <string name="Retry">Повторить</string>
+
+
+
+
+
+
+</resources>

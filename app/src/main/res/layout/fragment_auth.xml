@@ -26,7 +26,8 @@
         android:src="@drawable/avatar_placeholder"
         app:layout_constraintEnd_toEndOf="@id/authTitle"
         app:layout_constraintStart_toStartOf="@id/authTitle"
-        app:layout_constraintTop_toBottomOf="@id/authTitle" />
+        app:layout_constraintTop_toBottomOf="@id/authTitle"
+        android:contentDescription="@string/avatar_desc" />
 
     <ImageView
         android:id="@+id/deleteImage"
@@ -35,7 +36,8 @@
         android:src="@drawable/ic_clear_24"
         app:layout_constraintEnd_toEndOf="@id/add_imageAvatar"
         app:layout_constraintStart_toStartOf="@id/add_PhotoAvatar"
-        app:layout_constraintTop_toBottomOf="@id/imageAvatar" />
+        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
+        android:contentDescription="@string/delete_desc" />
 
     <ImageView
         android:id="@+id/add_PhotoAvatar"
@@ -43,7 +45,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_a_photo_24"
         app:layout_constraintStart_toStartOf="@id/imageAvatar"
-        app:layout_constraintTop_toBottomOf="@id/imageAvatar" />
+        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
+        android:contentDescription="@string/photo_desc" />
 
     <ImageView
         android:id="@+id/add_imageAvatar"
@@ -51,7 +54,8 @@
         app:layout_constraintTop_toBottomOf="@id/imageAvatar"
         app:layout_constraintEnd_toEndOf="@id/imageAvatar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/image_desc" />
 
     <EditText
         android:id="@+id/inputLogin"
@@ -59,11 +63,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="16"
-        android:hint="login"
+        android:hint="@string/login_hint"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deleteImage" />
+        app:layout_constraintTop_toBottomOf="@+id/deleteImage"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/inputPassword"
@@ -71,22 +77,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="16"
-        android:hint="password"
+        android:hint="@string/password"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/inputLogin"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/button_signIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="OK"
+        android:text="@string/ok"
+        android:textColor="#3E2723"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/inputName" />
 
     <EditText
         android:id="@+id/inputName"
@@ -94,13 +102,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="16"
-        android:hint="name"
+        android:hint="@string/name_hint"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_repeatPass"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/input_repeatPass"
@@ -108,13 +118,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="16"
-        android:hint="repeat_password"
+        android:hint="@string/repeat_password_hint"
         android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputPassword"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:autofillHints="" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_register"

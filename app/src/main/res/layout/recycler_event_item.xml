@@ -22,7 +22,8 @@
         android:layout_height="72dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/avatar_desc" />
 
     <ImageView
         android:id="@+id/deleteEvent"
@@ -33,14 +34,15 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/checkBox_participatedByMe"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/published" />
+        app:layout_constraintTop_toBottomOf="@+id/published"
+        android:contentDescription="@string/delete_desc" />
 
     <TextView
         android:id="@+id/text_AuthorName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Vasya Stepanenko"
+        tools:text="Vasya Stepanenko"
         app:layout_constraintStart_toEndOf="@+id/imageAvatar"
         app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
 
@@ -49,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Start event : "
+        android:text="@string/start_event_hint"
         app:layout_constraintStart_toStartOf="@+id/text_AuthorJob"
         app:layout_constraintTop_toBottomOf="@+id/text_AuthorJob" />
 
@@ -57,7 +59,7 @@
         android:id="@+id/eventStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="02.02.2023"
+        tools:text="02.02.2023"
         app:layout_constraintBottom_toBottomOf="@+id/eventStart_hint"
         app:layout_constraintStart_toEndOf="@+id/eventStart_hint"
         app:layout_constraintTop_toTopOf="@+id/eventStart_hint" />
@@ -68,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4sp"
-        android:text="01.01.2023"
+        tools:text="01.01.2023"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Event type : "
+        android:text="@string/_hint"
         app:layout_constraintStart_toStartOf="@+id/eventStart_hint"
         app:layout_constraintTop_toBottomOf="@+id/eventStart_hint" />
 
@@ -86,7 +88,7 @@
         android:id="@+id/eventType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Online"
+        tools:text="Online"
         app:layout_constraintStart_toEndOf="@+id/eventType_hint"
         app:layout_constraintTop_toTopOf="@id/eventType_hint" />
 
@@ -114,7 +116,7 @@
         android:paddingStart="4dp"
         android:paddingTop="8dp"
         android:paddingEnd="4dp"
-        android:text="Content"
+        android:hint="@string/content_hint"
         app:layout_constraintTop_toBottomOf="@id/button_speakers"
         tools:layout_editor_absoluteX="261dp"
         tools:layout_editor_absoluteY="65dp"
@@ -130,7 +132,8 @@
         app:layout_constraintEnd_toEndOf="@id/content"
         app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/content"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:contentDescription="@string/image_desc" />
 
 
     <ImageView
@@ -143,7 +146,8 @@
         android:src="@drawable/ic_baseline_speaker_group_24"
         app:layout_constraintEnd_toStartOf="@+id/button_participants"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userCard_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
+        android:contentDescription="@string/speaker_desc" />
 
     <ImageView
         android:id="@+id/button_participants"
@@ -156,7 +160,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/button_speakers"
         app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
-        tools:layout_editor_absoluteY="60dp" />
+        tools:layout_editor_absoluteY="60dp"
+        android:contentDescription="@string/participants_desc" />
 
     <TextView
         android:id="@+id/link"
@@ -166,7 +171,7 @@
         android:ellipsize="end"
         android:linksClickable="true"
         android:maxLines="1"
-        android:text="https://github.com/netology-code/and-diploma"
+        tools:text="https://github.com/netology-code/and-diploma"
         app:layout_constraintStart_toEndOf="@id/link_hint"
         app:layout_constraintTop_toTopOf="@id/link_hint"
         tools:ignore="TouchTargetSizeCheck" />
@@ -175,7 +180,7 @@
         android:id="@+id/link_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Link : "
+        android:text="@string/link_hint3"
         app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/attachment_image"
         tools:layout_editor_absoluteX="317dp"

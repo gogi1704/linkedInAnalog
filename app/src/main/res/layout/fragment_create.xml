@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="ui.fragments.CreateFragment">
 
+
     <!--   postGroup     -->
     <FrameLayout
         android:id="@+id/post_group"
@@ -16,7 +17,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,8 +33,10 @@
                         android:id="@+id/text_content_post"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:autofillHints=""
                         android:gravity="top"
-                        android:hint="post content*"
+                        android:hint="@string/post_content_hint"
+                        android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +45,9 @@
                         android:id="@+id/text_link_post"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="link*"
+                        android:autofillHints=""
+                        android:hint="@string/link_hint"
+                        android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_content_post" />
@@ -59,6 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/post_create_avatar_desc"
                         tools:src="@tools:sample/avatars" />
 
                     <ImageView
@@ -66,45 +72,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
+                        android:contentDescription="@string/delete_post_desc"
                         android:padding="16dp"
                         android:src="@drawable/ic_clear_24" />
 
 
                 </FrameLayout>
 
-
             </LinearLayout>
+
         </ScrollView>
-
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/buttonPanel"-->
-        <!--            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="bottom"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/take_image"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:contentDescription="TODO"-->
-        <!--                android:padding="12dp"-->
-        <!--                android:src="@drawable/ic_add_image_24" />-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/create_image"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:contentDescription="TODO"-->
-        <!--                android:padding="12dp"-->
-        <!--                android:src="@drawable/ic_add_a_photo_24" />-->
-
-
-        <!--        </LinearLayout>-->
-
-
     </FrameLayout>
     <!--    jobGroup     -->
     <FrameLayout
@@ -112,13 +89,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
-
+        tools:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -128,6 +103,7 @@
                     android:id="@+id/calendar_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/calendar_start_desc"
                     android:src="@drawable/ic_baseline_calendar_month_24"
                     app:layout_constraintBottom_toBottomOf="@id/input_start"
                     app:layout_constraintStart_toEndOf="@id/input_start"
@@ -137,6 +113,7 @@
                     android:id="@+id/calendar_finish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/calendar_finish_desc"
                     android:src="@drawable/ic_baseline_calendar_month_24"
                     app:layout_constraintBottom_toBottomOf="@id/input_finish"
                     app:layout_constraintStart_toEndOf="@id/input_finish"
@@ -148,7 +125,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:hint="Job name*"
+                    android:autofillHints=""
+                    android:hint="@string/job_name_hint"
+                    android:inputType="text"
+                    android:textColorHint="#757575"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -159,7 +139,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:hint="Position*"
+                    android:autofillHints=""
+                    android:hint="@string/position_hint"
+                    android:inputType="text"
+                    android:minHeight="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/input_jobName" />
@@ -169,8 +152,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:hint="Job start*"
+                    android:autofillHints=""
+                    android:hint="@string/job_start_hint"
+                    android:inputType="date"
+                    android:minHeight="48dp"
+                    android:textColorHint="#757575"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/input_position" />
 
@@ -179,8 +165,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:hint="Job finish"
+                    android:autofillHints=""
+                    android:hint="@string/job_finish_hint"
+                    android:inputType="date"
+                    android:minHeight="48dp"
+                    android:textColorHint="#757575"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/input_start" />
 
@@ -190,14 +179,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:hint="Job link"
+                    android:autofillHints=""
+                    android:hint="@string/job_link_hint"
+                    android:inputType="text"
+                    android:minHeight="48dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/input_finish" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </ScrollView>
 
@@ -208,15 +199,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -228,8 +219,10 @@
                         android:id="@+id/text_content_event"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:autofillHints=""
                         android:gravity="top"
-                        android:hint="event content*"
+                        android:hint="@string/event_content_hint"
+                        android:inputType="text"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -239,17 +232,20 @@
                         android:id="@+id/text_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:focusable="false"
-                        android:hint="choose date*"
+                        android:hint="@string/choose_date_hint"
+                        android:inputType="datetime"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_content_event" />
 
                     <EditText
                         android:id="@+id/text_link_event"
                         android:layout_width="0dp"
-
                         android:layout_height="wrap_content"
-                        android:hint="link*"
+                        android:autofillHints=""
+                        android:hint="@string/link_hint2"
+                        android:inputType="textUri"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_date" />
@@ -258,6 +254,7 @@
                         android:id="@+id/eventDate_calendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/calendar_finish_desc"
                         android:src="@drawable/ic_baseline_calendar_month_24"
                         app:layout_constraintStart_toEndOf="@id/text_date"
                         app:layout_constraintTop_toBottomOf="@id/text_content_event" />
@@ -266,6 +263,7 @@
                         android:id="@+id/eventTime_calendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/calendar_start_desc"
                         android:src="@drawable/ic_baseline_calendar_month_24"
                         app:layout_constraintEnd_toStartOf="@+id/text_time"
                         app:layout_constraintTop_toTopOf="@id/eventDate_calendar" />
@@ -274,8 +272,10 @@
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:focusable="false"
-                        android:hint="choose time*"
+                        android:hint="@string/choose_time_hint"
+                        android:inputType="time"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/text_date" />
 
@@ -284,7 +284,7 @@
                         android:id="@+id/choose_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Please choose type*"
+                        android:text="@string/please_choose_type_hint"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="@+id/bt_Online"
                         app:layout_constraintEnd_toStartOf="@+id/bt_Offline"
@@ -297,7 +297,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:background="#528C6363"
-                        android:text="ONLINE"
+                        android:text="@string/online_hint"
                         android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_link_event" />
@@ -308,7 +308,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:background="@color/grey"
-                        android:text="OFFLINE"
+                        android:text="@string/offline_hint"
                         android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/text_link_event" />
@@ -321,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:text="Choose speakers" />
+                    android:text="@string/choose_speakers_hint" />
 
                 <FrameLayout
                     android:id="@+id/usersRecycler_container"
@@ -351,6 +351,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/image_desc"
                         tools:src="@tools:sample/avatars" />
 
                     <ImageView
@@ -358,17 +359,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|bottom"
+                        android:contentDescription="@string/delete_desc"
                         android:padding="16dp"
                         android:src="@drawable/ic_clear_24" />
 
 
                 </FrameLayout>
-
-
             </LinearLayout>
         </ScrollView>
-
-
     </FrameLayout>
 
     <LinearLayout
@@ -377,13 +375,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/myPrimary_dark"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/take_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/image_desc"
             android:padding="12dp"
             android:src="@drawable/ic_add_image_24" />
 
@@ -391,7 +390,7 @@
             android:id="@+id/create_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/photo_desc"
             android:padding="12dp"
             android:src="@drawable/ic_add_a_photo_24" />
 
@@ -399,6 +398,7 @@
             android:id="@+id/add_audio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/audio_desc_desc"
             android:padding="12dp"
             android:src="@drawable/ic_baseline_audio_file_24" />
 
@@ -412,6 +412,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="4dp"
+        android:contentDescription="@string/bt_create_desc"
         android:src="@drawable/ic_baseline_check_circle_outline_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

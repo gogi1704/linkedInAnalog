@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/job_name_hint"
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:text="Job Name : "
+        android:text="@string/job_name_hint2"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,14 +24,15 @@
         android:padding="8dp"
         android:src="@drawable/ic_clear_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/delete_desc" />
 
     <TextView
         android:id="@+id/jobName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Google"
+        tools:text="Google"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/job_name_hint"
         app:layout_constraintStart_toEndOf="@id/job_name_hint" />
@@ -40,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Job Position : "
+        android:text="@string/job_position_hint"
         app:layout_constraintStart_toStartOf="@id/job_name_hint"
         app:layout_constraintTop_toBottomOf="@id/job_name_hint" />
 
@@ -49,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="Manager"
+        tools:text="Manager"
         app:layout_constraintBottom_toBottomOf="@id/job_position_hint"
         app:layout_constraintStart_toEndOf="@id/job_position_hint" />
 
@@ -59,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Start : "
+        android:text="@string/start_hint"
         app:layout_constraintStart_toStartOf="@id/job_position_hint"
         app:layout_constraintTop_toBottomOf="@id/job_position_hint" />
 
@@ -68,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="12/04/2021"
+        tools:text="12/04/2021"
         app:layout_constraintStart_toEndOf="@id/jobStart_hint"
         app:layout_constraintTop_toTopOf="@id/jobStart_hint" />
 
@@ -76,7 +78,7 @@
         android:id="@+id/jobFinish_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Finish : "
+        android:text="@string/finish_hint"
         app:layout_constraintStart_toStartOf="@+id/jobStart_hint"
         app:layout_constraintTop_toBottomOf="@id/jobStart_hint" />
 
@@ -85,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:text="-----"
+        tools:text="-----"
         app:layout_constraintBottom_toBottomOf="@id/jobFinish_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -102,7 +104,7 @@
         android:id="@+id/link_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Link : "
+        android:text="@string/link_hint4"
         app:layout_constraintStart_toStartOf="@id/jobStart_hint"
         app:layout_constraintTop_toBottomOf="@id/jobFinish" />
 
@@ -115,7 +117,7 @@
         android:ellipsize="end"
         android:linksClickable="true"
         android:maxLines="1"
-        android:text="www.asdwdwe.ru"
+        tools:text="www.asdwdwe.ru"
         app:layout_constraintBottom_toBottomOf="@id/link_hint"
         app:layout_constraintStart_toEndOf="@id/link_hint"
         app:layout_constraintTop_toTopOf="@id/link_hint" />

@@ -34,7 +34,6 @@ class PostsLoadStateAdapter :
         fun bind(loadState: LoadState) {
             binding.apply {
                 progress.isVisible = loadState is LoadState.Loading
-                progress.isVisible = loadState is LoadState.Error
 
             }
 

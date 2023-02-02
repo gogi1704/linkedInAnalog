@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:text="OOO 'GAZprom'"
+        tools:text="OOO 'GAZprom'"
         app:layout_constraintEnd_toStartOf="@+id/button_menu"
         app:layout_constraintStart_toStartOf="@+id/text_AuthorName"
         app:layout_constraintTop_toBottomOf="@id/text_AuthorName" />
@@ -23,7 +23,8 @@
         android:layout_height="72dp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/avatar_desc" />
 
     <TextView
         android:id="@+id/text_AuthorName"
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        android:text="Vasya Stepanenko"
+        tools:text="Vasya Stepanenko"
         app:layout_constraintEnd_toStartOf="@id/button_menu"
         app:layout_constraintStart_toEndOf="@+id/imageAvatar"
         app:layout_constraintTop_toTopOf="@+id/imageAvatar" />
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4sp"
-        android:text="01.01.2023"
+        tools:text="01.01.2023"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/content"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -64,11 +65,10 @@
         android:paddingStart="4dp"
         android:paddingTop="8dp"
         android:paddingEnd="4dp"
-        android:text="Content"
+        android:hint="@string/content_hint"
         app:layout_constraintTop_toBottomOf="@id/userCard_barrier"
         tools:layout_editor_absoluteX="261dp"
-        tools:layout_editor_absoluteY="65dp"
-        tools:text="userCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrieruserCard_barrier" />
+        tools:layout_editor_absoluteY="65dp"/>
 
 
     <TextView
@@ -79,8 +79,7 @@
         android:ellipsize="end"
         android:linksClickable="true"
         android:maxLines="1"
-        android:text="https://github.com/netology-code/and-diploma"
-
+        tools:text="https://github.com/netology-code/and-diploma"
         app:layout_constraintStart_toEndOf="@id/link_hint"
         app:layout_constraintTop_toTopOf="@id/link_hint"
         tools:ignore="TouchTargetSizeCheck" />
@@ -89,7 +88,7 @@
         android:id="@+id/link_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Link : "
+        android:text="@string/link_hint3"
         app:layout_constraintStart_toStartOf="@id/content"
         app:layout_constraintTop_toBottomOf="@id/content"
         tools:layout_editor_absoluteX="317dp"
@@ -130,7 +129,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/link"
-        app:srcCompat="@drawable/avatar_placeholder" />
+        app:srcCompat="@drawable/avatar_placeholder"
+        android:contentDescription="@string/image_desc" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -150,14 +150,15 @@
             android:src="@drawable/ic_baseline_play_circle_filled_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/play_desc" />
 
         <TextView
             android:id="@+id/text_name_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:hint="3 sentyabrya"
+            tools:hint="3 sentyabrya"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/play_audio"
@@ -193,7 +194,8 @@
             android:src="@drawable/ic_baseline_play_circle_filled_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/videoStop"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="@string/play_desc" />
 
         <ImageView
             android:id="@+id/videoStop"
@@ -202,7 +204,8 @@
             android:src="@drawable/ic_baseline_stop_circle_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/videoPlay" />
+            app:layout_constraintStart_toEndOf="@id/videoPlay"
+            android:contentDescription="@string/bt_stop_desc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

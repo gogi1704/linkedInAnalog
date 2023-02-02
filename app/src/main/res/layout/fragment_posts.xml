@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_baseline_create_24">
+        android:src="@drawable/ic_baseline_create_24"
+        android:contentDescription="@string/bt_create_desc">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
@@ -42,7 +43,7 @@
         android:visibility="gone"
         android:id="@+id/new_posts_container"
         android:layout_width="wrap_content"
-        android:background="@color/design_default_color_on_primary"
+        android:background="@color/myPrimary_dark"
         android:layout_height="wrap_content"
         android:layout_gravity="center|top">
 
@@ -54,13 +55,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/up_desc" />
 
         <TextView
             android:id="@+id/new_posts_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NEW POSTS"
+            android:text="@string/new_posts_hint"
             android:layout_marginStart="4dp"
             app:layout_constraintEnd_toEndOf="@id/imageView_up"
             app:layout_constraintStart_toEndOf="@id/newPosts_count"

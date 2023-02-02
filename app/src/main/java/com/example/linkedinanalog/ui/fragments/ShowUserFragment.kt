@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentShowUserBinding
 import com.example.linkedinanalog.exceptions.AuthErrorType
 import com.example.linkedinanalog.exceptions.JobErrorType
@@ -78,7 +79,7 @@ class ShowUserFragment : Fragment() {
         jobViewModel.jobErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 JobErrorType.GetJobError -> {
-                    showToast("Load data error.Please try later")
+                    showToast(getString(R.string.LoadDataError))
                 }
                 else -> {}
             }
@@ -92,14 +93,14 @@ class ShowUserFragment : Fragment() {
             when (it.errorType) {
                 AuthErrorType.GetUserError -> {
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Load error")
-                        .setMessage("Load data of user error! Please retry")
-                        .setPositiveButton("Retry") { _, _ ->
+                        .setTitle(getString(R.string.LoadError))
+                        .setMessage(R.string.LoadDataError)
+                        .setPositiveButton(getString(R.string.Retry)) { _, _ ->
                             authViewModel.getUserById(requireArguments().getLong(SHOW_USER_KEY))
                         }.show()
                 }
                 AuthErrorType.NetworkError -> {
-                    showToast("Check internet connection and repeat")
+                    showToast(getString(R.string.CheckInternet))
                 }
 
                 else -> {}
@@ -109,10 +110,10 @@ class ShowUserFragment : Fragment() {
         wallViewModel.wallErrorStateLiveData.observe(viewLifecycleOwner) {
             when (it.errorType) {
                 WallErrorType.WallLikeError -> {
-                    showToast("Error like. Please retry or try later")
+                    showToast(getString(R.string.LikeError))
                 }
                 WallErrorType.NetworkError -> {
-                    showToast("Check internet connection and repeat")
+                    showToast(getString(R.string.CheckInternet))
                 }
                 else -> {}
             }
