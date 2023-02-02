@@ -92,13 +92,15 @@ class AuthViewModel @Inject constructor(
 
 
     fun getAllUsers() {
-        try {
-            viewModelScope.launch {
+
+        viewModelScope.launch {
+            try {
                 usersData = repository.getAllUsers()
+            } catch (net: NetworkError) {
+                errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
             }
-        } catch (net: NetworkError) {
-            errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
         }
+
     }
 
 

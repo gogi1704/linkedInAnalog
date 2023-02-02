@@ -6,17 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
+import com.example.linkedinanalog.data.media.MediaLifecycleObserver
+import com.example.linkedinanalog.data.media.mediaModels.PlayState
 import com.example.linkedinanalog.databinding.FragmentEventsBinding
 import com.example.linkedinanalog.exceptions.EventErrorType
 import com.example.linkedinanalog.ui.constans.*
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventAdapter
 import com.example.linkedinanalog.ui.recyclerAdapters.eventAdapter.EventListener
 import com.example.linkedinanalog.ui.recyclerAdapters.userAdapter.UserAdapter
+import com.example.linkedinanalog.viewModels.AudioViewModel
 import com.example.linkedinanalog.viewModels.AuthViewModel
 import com.example.linkedinanalog.viewModels.EventViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +31,8 @@ class EventsFragment : Fragment() {
     private lateinit var binding: FragmentEventsBinding
     private lateinit var eventAdapter: EventAdapter
     private lateinit var userAdapter: UserAdapter
+    private val mediaObserver = MediaLifecycleObserver()
+    private val audioViewModel: AudioViewModel by activityViewModels()
     private val eventViewModel: EventViewModel by activityViewModels()
     private val authViewModel: AuthViewModel by activityViewModels()
 
@@ -61,7 +67,30 @@ class EventsFragment : Fragment() {
                 eventViewModel.deleteEvent(id)
             }
 
-        })
+            override fun playAudio(url: String?) {
+                if (mediaObserver.musicNow == url) {
+                    if (mediaObserver.isPlayed) {
+                        mediaObserver.mediaPlayer?.pause()
+                        mediaObserver.isPlayed = false
+                        audioViewModel.playState = PlayState(isPlay = false, nameTrack = url)
+
+                    } else {
+                        mediaObserver.mediaPlayer?.start()
+                        mediaObserver.isPlayed = true
+                        audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
+                    }
+                } else {
+                    mediaObserver.mediaPlayer?.reset()
+                    mediaObserver.apply {
+                        mediaPlayer?.setDataSource(url)
+                    }.play()
+                    mediaObserver.isPlayed = true
+                    mediaObserver.musicNow = url!!
+                    audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
+                }
+            }
+
+        }, MediaController(requireActivity()))
         userAdapter = UserAdapter(null)
 
         binding.recyclerEvent.adapter = eventAdapter
