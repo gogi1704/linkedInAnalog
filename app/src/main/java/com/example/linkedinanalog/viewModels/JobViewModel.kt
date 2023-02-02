@@ -65,7 +65,7 @@ class JobViewModel @Inject constructor(
     }
 
     fun getJobById(id: Long) {
-        viewModelScope.launch() {
+        viewModelScope.launch {
             try {
                 userShowJobData = jobRepository.getJobById(id)
             } catch (io: IOException) {

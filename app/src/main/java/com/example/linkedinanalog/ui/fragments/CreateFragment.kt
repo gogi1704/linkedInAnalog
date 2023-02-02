@@ -451,7 +451,7 @@ class CreateFragment : Fragment() {
                 val time = "$hourOfDay:$minute"
                 textInput.text = time
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true
-        ).show();
+        ).show()
     }
 
     private fun showToast(text: String) {

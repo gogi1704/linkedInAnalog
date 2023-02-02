@@ -8,7 +8,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedinanalog.databinding.LoadStateLayoutBinding
 
-class PostsLoadStateAdapter() :
+class PostsLoadStateAdapter :
     LoadStateAdapter<PostsLoadStateAdapter.PostsLoadStateViewHolder>() {
 
 

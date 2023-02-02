@@ -22,7 +22,7 @@ import com.example.linkedinanalog.data.db.entity.wallEntity.WallRemoteKeyEntity
         UserEntity::class, EventEntity::class, EventRemoteKeyEntity::class],
     version = 1
 )
-abstract class AppDb() : RoomDatabase() {
+abstract class AppDb : RoomDatabase() {
     abstract fun postDao(): PostDao
     abstract fun wallDao(): WallDao
     abstract fun userDao(): UserDao

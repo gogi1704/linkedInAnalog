@@ -81,7 +81,7 @@
             android:layout_height="480dp"
             android:layout_gravity="center"
             android:layout_margin="4dp"
-            android:background="@color/colorOnPrimary2"
+            android:background="@color/cardview_light_background"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

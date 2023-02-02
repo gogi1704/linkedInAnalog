@@ -12,4 +12,20 @@
     <color name="red_like">#C10404</color>
     <color name="default_color">#6C6868</color>
     <color name="Alpha1">#006C6868</color>
+
+
+    <color name="myPrimary">#8b968c</color>
+    <color name="myPrimary_light">#bbc7bc</color>
+    <color name="myPrimary_dark">#5e685f</color>
+    <color name="mySecondary">#a8a541</color>
+    <color name="mySecondary_light">#dcd670</color>
+    <color name="mySecondary_dark">#76760e</color>
+
+
+    <color name="myPrimary_night">#FF6F00</color>
+    <color name="myPrimary_light_night">#333333</color>
+    <color name="myPrimary_dark_night">#000000</color>
+    <color name="mySecondary_night">#d1b432</color>
+    <color name="mySecondary_light_night">#ffe665</color>
+    <color name="mySecondary_dark_night">#9c8500</color>
 </resources>
