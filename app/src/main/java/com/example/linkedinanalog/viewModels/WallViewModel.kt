@@ -45,8 +45,9 @@ class WallViewModel @Inject constructor(
             } catch (e: Exception) {
                 wallErrorState = WallErrorState(errorType = WallErrorType.WallRemoveError)
             }
+            wallErrorState = WallErrorState()
+
         }
-        wallErrorState = WallErrorState()
     }
 
     fun like(id: Long, likeByMe: Boolean) {
@@ -58,8 +59,9 @@ class WallViewModel @Inject constructor(
             } catch (e: Exception) {
                 wallErrorState = WallErrorState(errorType = WallErrorType.WallLikeError)
             }
+            wallErrorState = WallErrorState()
+
         }
-        wallErrorState = WallErrorState()
     }
 
 

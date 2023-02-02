@@ -60,9 +60,8 @@ class EventViewModel @Inject constructor(
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
             }
-
+            eventErrorState = EventErrorState()
         }
-        eventErrorState = EventErrorState()
     }
 
     fun deleteEvent(id: Long) {
@@ -73,7 +72,9 @@ class EventViewModel @Inject constructor(
                 eventErrorState = EventErrorState(errorType = EventErrorType.NetworkError)
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.CreateError)
+
             }
+            eventErrorState = EventErrorState()
         }
     }
 
@@ -86,8 +87,9 @@ class EventViewModel @Inject constructor(
             } catch (e: Exception) {
                 eventErrorState = EventErrorState(errorType = EventErrorType.ParticipantError)
             }
+            eventErrorState = EventErrorState()
         }
-        eventErrorState = EventErrorState()
+
     }
 
 }

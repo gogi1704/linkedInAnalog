@@ -148,12 +148,10 @@ class PostsFragment : Fragment() {
         }
 
         postViewModel.newerCount.observe(viewLifecycleOwner) {
-            //todo
-//            if (it != 0) {
-//                binding.newPostsContainer.visibility = View.VISIBLE
-//                binding.newPostsCount.text = it.toString()
-//            }
-//            adapter.refresh()
+            if (it != 0) {
+                binding.newPostsContainer.visibility = View.VISIBLE
+                binding.newPostsCount.text = it.toString()
+            }
         }
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {

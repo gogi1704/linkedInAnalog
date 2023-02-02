@@ -400,7 +400,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/audio_desc_desc"
             android:padding="12dp"
-            android:src="@drawable/ic_baseline_audio_file_24" />
+            android:src="@drawable/ic_baseline_audio_file_24"
+            android:visibility="gone" />
 
 
     </LinearLayout>

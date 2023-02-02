@@ -57,8 +57,9 @@ class JobViewModel @Inject constructor(
 
                 jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
             }
+            jobErrorState = JobErrorState()
+
         }
-        jobErrorState = JobErrorState()
     }
 
     fun getJobById(id: Long) {
@@ -70,8 +71,9 @@ class JobViewModel @Inject constructor(
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.GetJobError)
             }
+            jobErrorState = JobErrorState()
+
         }
-        jobErrorState = JobErrorState()
     }
 
     fun addJob(job: JobModel) {
@@ -84,8 +86,8 @@ class JobViewModel @Inject constructor(
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
             }
+            jobErrorState = JobErrorState()
         }
-        jobErrorState = JobErrorState()
     }
 
     fun deleteJob(id: Long) {
@@ -100,9 +102,9 @@ class JobViewModel @Inject constructor(
             } catch (e: Exception) {
                 jobErrorState = JobErrorState(errorType = JobErrorType.AddJobError)
             }
+            jobErrorState = JobErrorState()
 
         }
-        jobErrorState = JobErrorState()
     }
 
 }

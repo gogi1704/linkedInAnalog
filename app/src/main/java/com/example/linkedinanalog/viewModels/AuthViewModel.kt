@@ -99,6 +99,7 @@ class AuthViewModel @Inject constructor(
             } catch (net: NetworkError) {
                 errorState = AuthErrorState(errorType = AuthErrorType.NetworkError)
             }
+            errorState = AuthErrorState()
         }
 
     }
@@ -119,8 +120,8 @@ class AuthViewModel @Inject constructor(
             } catch (e: Exception) {
                 errorState = errorState.copy(errorType = AuthErrorType.RegisterError)
             }
+            errorState = AuthErrorState()
         }
-        errorState = AuthErrorState()
     }
 
 
@@ -136,8 +137,9 @@ class AuthViewModel @Inject constructor(
             } catch (e: UnknownError) {
                 errorState = AuthErrorState(errorType = AuthErrorType.AuthError)
             }
+            errorState = AuthErrorState()
         }
-        errorState = AuthErrorState()
+
     }
 
     fun changePhoto(uri: Uri?, file: File?) {
@@ -160,9 +162,9 @@ class AuthViewModel @Inject constructor(
             } catch (e: Exception) {
                 errorState = AuthErrorState(errorType = AuthErrorType.GetUserError)
             }
-
+            errorState = AuthErrorState()
         }
-        errorState = AuthErrorState()
+
     }
 
     fun getUsersList(listId: List<Int>) {

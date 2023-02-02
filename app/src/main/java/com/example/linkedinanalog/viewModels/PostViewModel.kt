@@ -96,10 +96,10 @@ class PostViewModel @Inject constructor(
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
             }
-
+            postErrorState = PostErrorState()
+            photoLiveData.value = PhotoModel()
         }
-        postErrorState = PostErrorState()
-        photoLiveData.value = PhotoModel()
+
     }
 
     fun deletePost(id: Long) {
@@ -111,14 +111,16 @@ class PostViewModel @Inject constructor(
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.DeletePostError)
             }
+            postErrorState = PostErrorState()
         }
-        postErrorState = PostErrorState()
+
     }
 
 
     fun changePhoto(uri: Uri?, file: File?) {
         photoModel = PhotoModel(uri, file)
     }
+
 
 
     fun like(id: Long, likeByMe: Boolean) {
@@ -130,8 +132,9 @@ class PostViewModel @Inject constructor(
             } catch (e: Exception) {
                 postErrorState = PostErrorState(errorType = PostErrorType.LikePostError)
             }
+            postErrorState = PostErrorState()
         }
-        postErrorState = PostErrorState()
+
 
     }
 

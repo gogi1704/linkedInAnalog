@@ -128,7 +128,7 @@ class PostRepositoryImpl @Inject constructor(
 
         }
     }
-        .catch { }
+        .catch {e -> throw AppError.from(e) }
         .flowOn(Dispatchers.Default)
 
     override suspend fun likeItem(id: Long, likeByMe: Boolean) {
