@@ -94,7 +94,7 @@ class EventRemoteMediator @Inject constructor(
             }
             return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
         } catch (e: Exception) {
-            println(e)
+            e.printStackTrace()
             return MediatorResult.Error(e)
         }
 

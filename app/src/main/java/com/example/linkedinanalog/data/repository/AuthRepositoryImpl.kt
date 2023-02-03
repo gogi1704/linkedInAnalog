@@ -36,7 +36,6 @@ class AuthRepositoryImpl @Inject constructor(
         get() = auth.isAuth
 
 
-
     override suspend fun registerUser(user: UserRequestModel): AuthState {
         try {
             val response = authApiService.registerUser(user.login, user.pass, user.name, null)
@@ -94,7 +93,7 @@ class AuthRepositoryImpl @Inject constructor(
             } else throw throw ApiError(response.code(), response.message())
         } catch (io: IOException) {
             throw NetworkError()
-        }catch (sql: SQLException) {
+        } catch (sql: SQLException) {
             throw DbError()
         } catch (e: Exception) {
             throw UnknownError()
@@ -116,10 +115,18 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     suspend fun updateMyUser(): UserModel {
-        val userId = context.getSharedPreferences("auth", Context.MODE_PRIVATE).getLong("id", 0)
-        return if (userId != 0L) {
-            getUserById(userId)
-        } else UserModel(0, "", "", "")
+        val user: UserModel = try {
+            val userId = context.getSharedPreferences("auth", Context.MODE_PRIVATE).getLong("id", 0)
+            if (userId != 0L) {
+                getUserById(userId)
+            } else UserModel(0, "", "", "")
+        } catch (io: NetworkError) {
+            io.printStackTrace()
+            UserModel(0, "", "", "")
+        } catch (e: Exception) {
+            throw UnknownError()
+        }
+        return user
 
     }
 

@@ -19,6 +19,7 @@ interface EventListener {
     fun showSpeakers(listId: List<Int>)
     fun showParticipants(listId: List<Int>)
     fun participateByMe(id: Long, isParticipatedByMe: Boolean)
+    fun showUser(userId:Long)
     fun deleteEvent(id: Long)
     fun playAudio(url: String?)
 }
@@ -108,6 +109,10 @@ class EventAdapter(
                     audioGroup.visibility = View.GONE
                     videoGroup.visibility = View.GONE
                     attachmentImage.visibility = View.GONE
+                }
+
+                imageAvatar.setOnClickListener {
+                    listener.showUser(item.authorId.toLong())
                 }
 
                 buttonSpeakers.setOnClickListener {

@@ -73,8 +73,7 @@
     <string name="LikeError">Like error. Please try later.</string>
     <string name="LoadError">Load error</string>
     <string name="Retry">Retry</string>
-
-
+    <string name="empty_list">Empty List</string>
 
 
 </resources>

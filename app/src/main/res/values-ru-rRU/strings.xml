@@ -74,10 +74,7 @@
     <string name="LikeError">Не удалось лайкнуть.Попробуйте позже</string>
     <string name="LoadError">Ошибка загрузки</string>
     <string name="Retry">Повторить</string>
-
-
-
-
+    <string name="empty_list">Пусто</string>
 
 
 </resources>

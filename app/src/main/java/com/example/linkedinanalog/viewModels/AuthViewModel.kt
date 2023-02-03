@@ -92,7 +92,6 @@ class AuthViewModel @Inject constructor(
 
 
     fun getAllUsers() {
-
         viewModelScope.launch {
             try {
                 usersData = repository.getAllUsers()

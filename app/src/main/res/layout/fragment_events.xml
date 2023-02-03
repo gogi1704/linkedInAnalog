@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        tools:visibility="visible"
         android:background="@color/colorOnPrimary"
         android:visibility="gone">
 
@@ -32,6 +33,7 @@
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/participants_recycler"
             android:layout_width="match_parent"
@@ -42,6 +44,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/button_close"
             tools:listitem="@layout/recycler_user_item" />
+
+        <TextView
+            android:id="@+id/emptyList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="32sp"
+            android:text="@string/empty_list"
+            app:layout_constraintBottom_toBottomOf="@+id/participants_recycler"
+            app:layout_constraintEnd_toEndOf="@+id/participants_recycler"
+            app:layout_constraintStart_toStartOf="@+id/participants_recycler"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

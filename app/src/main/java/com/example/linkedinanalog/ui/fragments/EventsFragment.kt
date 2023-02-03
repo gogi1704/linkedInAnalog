@@ -1,6 +1,7 @@
 package com.example.linkedinanalog.ui.fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -61,6 +62,17 @@ class EventsFragment : Fragment() {
                 } else {
                     alertDialogShow()
                 }
+            }
+
+            override fun showUser(userId: Long) {
+                requireContext().getSharedPreferences(USER_ID_PREFS, Context.MODE_PRIVATE)
+                    .edit().putLong(SHOW_USER_KEY, userId)
+                    .apply()
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_showUserFragment,
+                    Bundle().apply {
+                        putLong(SHOW_USER_KEY, id.toLong())
+                    })
             }
 
             override fun deleteEvent(id: Long) {
@@ -138,6 +150,9 @@ class EventsFragment : Fragment() {
         }
 
         authViewModel.participantsOrSpeakerLiveData.observe(viewLifecycleOwner) {
+            if (it.isNullOrEmpty()) {
+                binding.emptyList.visibility = View.VISIBLE
+            } else binding.emptyList.visibility = View.GONE
             userAdapter.submitList(it)
         }
 
