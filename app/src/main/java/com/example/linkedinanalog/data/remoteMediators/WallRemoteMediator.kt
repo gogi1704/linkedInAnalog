@@ -40,19 +40,14 @@ class WallRemoteMediator @Inject constructor(
                 .getLong(SHOW_USER_KEY, 0).toInt()
             val response = when (loadType) {
                 LoadType.REFRESH -> {
-                    wallApiService.getLatest(userId, state.config.pageSize)
+                    wallApiService.getLatest(userId, state.config.initialLoadSize)
                 }
 
                 LoadType.PREPEND -> {
                     val id = wallRemoteKeyDao.max() ?: return MediatorResult.Success(
                         endOfPaginationReached = false
                     )
-                    if (wallApiService.getAfter(userId, id.toInt(), state.config.pageSize).body()
-                            ?.last()?.id?.toLong() == id
-                    ) {
-                        null
-                    } else
-                        wallApiService.getAfter(userId, id.toInt(), state.config.pageSize)
+                    wallApiService.getAfter(userId, id.toInt(), state.config.pageSize)
                 }
                 LoadType.APPEND -> {
                     val id = wallRemoteKeyDao.min() ?: return MediatorResult.Success(
@@ -62,8 +57,8 @@ class WallRemoteMediator @Inject constructor(
                 }
             }
 
-            if (!response?.isSuccessful!!) {
-                throw ApiError(response.code() , response.message())
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
             }
             val body = response.body() ?: throw Exception()
             db.withTransaction {
@@ -87,8 +82,8 @@ class WallRemoteMediator @Inject constructor(
                     LoadType.PREPEND -> {
                         wallRemoteKeyDao.insert(
                             WallRemoteKeyEntity(
-                                type = WallRemoteKeyEntity.KeyType.BEFORE,
-                                id = body.last().id.toLong()
+                                type = WallRemoteKeyEntity.KeyType.AFTER,
+                                id = body.first().id.toLong()
                             )
                         )
 
@@ -96,8 +91,8 @@ class WallRemoteMediator @Inject constructor(
                     LoadType.APPEND -> {
                         wallRemoteKeyDao.insert(
                             WallRemoteKeyEntity(
-                                type = WallRemoteKeyEntity.KeyType.AFTER,
-                                id = body.first().id.toLong()
+                                type = WallRemoteKeyEntity.KeyType.BEFORE,
+                                id = body.last().id.toLong()
                             )
                         )
 

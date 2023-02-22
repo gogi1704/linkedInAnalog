@@ -90,12 +90,12 @@ class PostsFragment : Fragment() {
                         audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
                     }
                 } else {
-                    mediaObserver.mediaPlayer?.reset()
                     mediaObserver.apply {
+                        mediaPlayer?.reset()
                         mediaPlayer?.setDataSource(url)
-                    }.play()
+                    }.play(url!!)
                     mediaObserver.isPlayed = true
-                    mediaObserver.musicNow = url!!
+                    mediaObserver.musicNow = url
                     audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
                 }
 
@@ -123,10 +123,7 @@ class PostsFragment : Fragment() {
                 }
 
             }
-            newPostsContainer.setOnClickListener {
-                recyclerPost.smoothScrollToPosition(0)
-                newPostsContainer.visibility = View.GONE
-            }
+
         }
 
 
@@ -147,12 +144,6 @@ class PostsFragment : Fragment() {
             adapter.refresh()
         }
 
-        postViewModel.newerCount.observe(viewLifecycleOwner) {
-            if (it != 0) {
-                binding.newPostsContainer.visibility = View.VISIBLE
-                binding.newPostsCount.text = it.toString()
-            }
-        }
 
         authViewModel.authLiveData.observe(viewLifecycleOwner) {
             adapter.refresh()

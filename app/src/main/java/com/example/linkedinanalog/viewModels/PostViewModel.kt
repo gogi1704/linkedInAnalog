@@ -12,8 +12,6 @@ import com.example.linkedinanalog.data.models.post.PostCreateRequest
 import com.example.linkedinanalog.data.repository.PostRepositoryImpl
 import com.example.linkedinanalog.exceptions.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.io.File
@@ -37,7 +35,6 @@ class PostViewModel @Inject constructor(
         get() = _pagingData
 
 
-    private val _dataFlow = repository.dataFlow.asLiveData(Dispatchers.Default)
 
 
     private var photoModel = PhotoModel()
@@ -59,14 +56,14 @@ class PostViewModel @Inject constructor(
     private val _audioLiveData = MutableLiveData(audioModel)
 
 
-    val newerCount: LiveData<Int> = _dataFlow.switchMap { it ->
-        val id = it.lastOrNull()?.id?.toLong() ?: 0L
-        repository.getNewerItems((id))
-            .catch {
-                it.printStackTrace()
-            }
-            .asLiveData(Dispatchers.Default)
-    }
+//    val newerCount: LiveData<Int> = _dataFlow.switchMap { it ->
+//        val id = it.lastOrNull()?.id?.toLong() ?: 0L
+//        repository.getNewerItems((id))
+//            .catch {
+//                it.printStackTrace()
+//            }
+//            .asLiveData(Dispatchers.Default)
+//    }
 
     private var postErrorState = PostErrorState()
         set(value) {

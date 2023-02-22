@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.repository.WallRepositoryImpl
 import com.example.linkedinanalog.exceptions.WallErrorState
 import com.example.linkedinanalog.exceptions.WallErrorType
@@ -37,6 +38,13 @@ class WallViewModel @Inject constructor(
     val wallErrorStateLiveData
         get() = _wallErrorStateLiveData
 
+    var data = listOf<PostModel>()
+    set(value) {
+        field = value
+        liveData.value = value
+    }
+    val liveData = MutableLiveData(data)
+
 
     fun removeAll() {
         viewModelScope.launch {
@@ -50,11 +58,20 @@ class WallViewModel @Inject constructor(
         }
     }
 
+    fun getAll(id: Long) {
+
+
+        viewModelScope.launch {
+            data = wallRepository.getAll(id)
+        }
+
+    }
+
     fun like(id: Long, likeByMe: Boolean) {
         viewModelScope.launch {
             try {
                 wallRepository.likeItem(id, likeByMe)
-            }catch (io:IOException){
+            } catch (io: IOException) {
                 wallErrorState = WallErrorState(errorType = WallErrorType.NetworkError)
             } catch (e: Exception) {
                 wallErrorState = WallErrorState(errorType = WallErrorType.WallLikeError)

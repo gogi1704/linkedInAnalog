@@ -42,9 +42,7 @@ class JobViewModel @Inject constructor(
     val jobErrorStateLiveData
         get() = _jobErrorStateLiveData
 
-    fun clearMyUserJob() {
-        myJobData = listOf()
-    }
+
 
 
     fun getAllJobs() {
@@ -88,6 +86,11 @@ class JobViewModel @Inject constructor(
             }
             jobErrorState = JobErrorState()
         }
+    }
+
+
+    fun deleteAllMyJobs(){
+        myJobData = listOf()
     }
 
     fun deleteJob(id: Long) {

@@ -3,9 +3,7 @@ package com.example.linkedinanalog.ui.fragments
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.ContentProvider
 import android.icu.util.Calendar
-import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,9 +17,7 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.linkedinanalog.PickRingtone
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.media.mediaModels.PhotoModel
 import com.example.linkedinanalog.data.models.*
@@ -43,12 +39,9 @@ import com.example.linkedinanalog.viewModels.JobViewModel
 import com.example.linkedinanalog.viewModels.PostViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
-import com.google.android.gms.common.util.IOUtils.copyStream
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
@@ -66,7 +59,6 @@ class CreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateBinding.inflate(layoutInflater, container, false)
-
 
 
         val pickPhotoLauncher =
@@ -100,7 +92,9 @@ class CreateFragment : Fragment() {
                                     val postRequest = PostCreateRequest(
                                         content = textContentPost.text.toString(),
                                         coords = null,
-                                        link = textLinkPost.text.toString(),
+                                        link = if (textLinkPost.text.toString()
+                                                .isNotEmpty()
+                                        ) textLinkPost.text.toString() else null,
                                         attachment = if (postViewModel.photoLiveData.value != PhotoModel()) Attachment(
                                             "",
                                             AttachmentType.IMAGE
@@ -259,7 +253,9 @@ class CreateFragment : Fragment() {
                                                 "",
                                                 AttachmentType.IMAGE
                                             ) else null,
-                                            textLinkEvent.text.toString(),
+                                            if (textLinkEvent.text.toString()
+                                                    .isNotEmpty()
+                                            ) textLinkEvent.text.toString() else null,
                                             listOf()
                                         ), mediaUpload = upLoad
                                     )
@@ -390,14 +386,14 @@ class CreateFragment : Fragment() {
         with(binding) {
             return textDate.text.toString().isNotEmpty() && textTime.text.toString().isNotEmpty()
                     && textContentEvent.text.toString().isNotEmpty()
-                    && textLinkEvent.text.toString().isNotEmpty()
+
         }
     }
 
     private fun checkCreatingPost(): Boolean {
         with(binding) {
             return textContentPost.text.toString()
-                .isNotEmpty() && textLinkPost.text.toString().isNotEmpty()
+                .isNotEmpty()
         }
     }
 

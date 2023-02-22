@@ -12,7 +12,7 @@
     <string name="calendar_finish_desc">calendar_finish_desc</string>
     <string name="calendar_start_desc">calendar_start_desc</string>
     <string name="post_content_hint">post content*</string>
-    <string name="link_hint">link*</string>
+    <string name="link_hint">link</string>
     <string name="job_start_hint">Job start*</string>
     <string name="position_hint">Position*</string>
     <string name="job_name_hint">Job name*</string>
@@ -22,7 +22,7 @@
     <string name="delete_post_desc" translatable="false">delete_post_desc</string>
     <string name="event_content_hint">event content*</string>
     <string name="choose_date_hint">choose date*</string>
-    <string name="link_hint2">link*</string>
+    <string name="link_hint2">link</string>
     <string name="choose_time_hint">choose time*</string>
     <string name="please_choose_type_hint">Please choose type*</string>
     <string name="online_hint">ONLINE</string>

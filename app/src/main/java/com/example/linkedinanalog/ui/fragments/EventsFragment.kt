@@ -95,9 +95,9 @@ class EventsFragment : Fragment() {
                     mediaObserver.mediaPlayer?.reset()
                     mediaObserver.apply {
                         mediaPlayer?.setDataSource(url)
-                    }.play()
+                    }.play(url!!)
                     mediaObserver.isPlayed = true
-                    mediaObserver.musicNow = url!!
+                    mediaObserver.musicNow = url
                     audioViewModel.playState = PlayState(isPlay = true, nameTrack = url)
                 }
             }

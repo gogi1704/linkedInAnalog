@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_authFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_showUserFragment"
+            app:destination="@id/showUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/createFragment"
@@ -44,5 +47,8 @@
         <action
             android:id="@+id/action_showUserFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_showUserFragment_to_authFragment"
+            app:destination="@id/authFragment" />
     </fragment>
 </navigation>

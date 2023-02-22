@@ -26,7 +26,7 @@
     <string name="repeat_password_hint">Повторите пароль</string>
     <string name="name_hint">Имя</string>
     <string name="post_content_hint">Содержимое поста*</string>
-    <string name="link_hint">Ссылка*</string>
+    <string name="link_hint">Ссылка</string>
     <string name="job_start_hint">С*</string>
     <string name="position_hint">По*</string>
     <string name="job_name_hint">Должность*</string>
@@ -34,7 +34,7 @@
     <string name="job_link_hint">Ссылка</string>
     <string name="event_content_hint">Содержимое ивента*</string>
     <string name="choose_date_hint">Выберите дату*</string>
-    <string name="link_hint2">Ссылка*</string>
+    <string name="link_hint2">Ссылка</string>
     <string name="please_choose_type_hint">Выберите тип*</string>
     <string name="online_hint">ONLINE</string>
     <string name="offline_hint">OFFLINE</string>

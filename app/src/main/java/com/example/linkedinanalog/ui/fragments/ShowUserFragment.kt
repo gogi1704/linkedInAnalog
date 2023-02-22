@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.linkedinanalog.R
 import com.example.linkedinanalog.databinding.FragmentShowUserBinding
 import com.example.linkedinanalog.exceptions.AuthErrorType
@@ -38,6 +39,8 @@ class ShowUserFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         wallViewModel.removeAll()
+
+
         super.onCreate(savedInstanceState)
     }
 
@@ -46,16 +49,24 @@ class ShowUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val userId = requireParentFragment().context?.getSharedPreferences(
+            USER_ID_PREFS,
+            Context.MODE_PRIVATE
+        )?.getLong(SHOW_USER_KEY, 0)
         binding = FragmentShowUserBinding.inflate(layoutInflater, container, false)
         jobAdapter = JobAdapter(null)
         wallAdapter = WallAdapter(object : WallAdapter.WallAdapterListener {
             override fun likePost(id: Long, likedByMe: Boolean) {
-                wallViewModel.like(id, likedByMe)
+                if (authViewModel.isAuth) {
+                    wallViewModel.like(id, likedByMe)
+                } else alertDialogShow()
+
             }
 
         })
         binding.recyclerUserWall.adapter = wallAdapter
         binding.jobsRecycler.adapter = jobAdapter
+        wallViewModel.getAll(userId!!)
         authViewModel.getUserById(requireArguments().getLong(SHOW_USER_KEY))
 
 
@@ -120,6 +131,7 @@ class ShowUserFragment : Fragment() {
         }
 
 
+
         lifecycleScope.launchWhenCreated {
             wallViewModel.pagingData.collectLatest {
                 wallAdapter.submitData(it)
@@ -147,5 +159,33 @@ class ShowUserFragment : Fragment() {
 
     private fun showToast(text: String) {
         Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+    }
+
+    private fun alertDialogShow() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.Authentication_error))
+            .setMessage(getString(R.string.SignToCreate))
+            .setPositiveButton(
+                getString(R.string.SignIn)
+            ) { _, _ ->
+                findNavController().navigate(
+                    R.id.action_showUserFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_SIGN_IN
+                        )
+                    })
+            }
+            .setNegativeButton(getString(R.string.Registration)) { _, _ ->
+                findNavController().navigate(
+                    R.id.action_showUserFragment_to_authFragment,
+                    Bundle().apply {
+                        putString(
+                            AuthViewModel.AUTH_BUNDLE_KEY,
+                            AuthViewModel.AUTH_BUNDLE_VALUE_REG
+                        )
+                    })
+            }.show()
     }
 }

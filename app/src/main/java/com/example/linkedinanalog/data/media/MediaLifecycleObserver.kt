@@ -4,21 +4,23 @@ import android.media.MediaPlayer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 
 
 class MediaLifecycleObserver : LifecycleEventObserver {
 
     var isPlayed = false
-    var musicNow:String = ""
-
+    var musicNow: String = ""
 
 
     var mediaPlayer: MediaPlayer? = MediaPlayer()
 
-    fun play() {
+
+    fun play(url:String) {
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
+            mediaPlayer = MediaPlayer().apply {
+                this.setDataSource(url)
+            }
+
         }
         mediaPlayer?.setOnPreparedListener {
             it.start()
@@ -37,9 +39,11 @@ class MediaLifecycleObserver : LifecycleEventObserver {
             }
             Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
 
+
             else -> Unit
         }
     }
+
 
 
 }

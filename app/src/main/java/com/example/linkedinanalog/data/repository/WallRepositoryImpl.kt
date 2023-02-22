@@ -6,12 +6,15 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+
 import com.example.linkedinanalog.api.PostApiService
 import com.example.linkedinanalog.api.WallApiService
 import com.example.linkedinanalog.data.db.AppDb
 import com.example.linkedinanalog.data.db.dao.wallDao.WallDao
 import com.example.linkedinanalog.data.db.dao.wallDao.WallRemoteKeyDao
 import com.example.linkedinanalog.data.db.entity.wallEntity.WallEntity
+import com.example.linkedinanalog.data.db.entity.wallEntity.toWallEntity
+import com.example.linkedinanalog.data.models.post.PostModel
 import com.example.linkedinanalog.data.remoteMediators.WallRemoteMediator
 import com.example.linkedinanalog.exceptions.ApiError
 import com.example.linkedinanalog.exceptions.DbError
@@ -24,6 +27,7 @@ class WallRepositoryImpl @Inject constructor(
     application: Application,
     wallApiService: WallApiService,
     private val postApiService: PostApiService,
+    private val wallApi: WallApiService,
     wallRemoteKeyDao: WallRemoteKeyDao,
     db: AppDb,
     private val wallDao: WallDao
@@ -31,7 +35,7 @@ class WallRepositoryImpl @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     val pagingData: Flow<PagingData<WallEntity>> = Pager(
-        config = PagingConfig(10),
+        config = PagingConfig(5),
         remoteMediator = WallRemoteMediator(
             application,
             db,
@@ -42,6 +46,16 @@ class WallRepositoryImpl @Inject constructor(
         pagingSourceFactory = wallDao::pagingSource
     )
         .flow
+
+
+    suspend fun getAll(id: Long): List<PostModel> {
+        val response = wallApi.getAll(id)
+        if (response.isSuccessful) {
+            val body = response.body() ?: throw ApiError(response.code(), response.message())
+            wallDao.insertWall(body.toWallEntity())
+            return body
+        } else throw ApiError(response.code(), response.message())
+    }
 
     override suspend fun removeAll() {
         try {

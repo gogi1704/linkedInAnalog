@@ -65,7 +65,6 @@ class MyProfileFragment : Fragment() {
                 binding.buttonAddJob.visibility = View.VISIBLE
             } else {
                 binding.buttonAddJob.visibility = View.GONE
-                jobViewModel.clearMyUserJob()
             }
 
         }
@@ -144,6 +143,7 @@ class MyProfileFragment : Fragment() {
                 setOnMenuItemClickListener { itemView ->
                     when (itemView.itemId) {
                         R.id.sign_out -> {
+                            jobViewModel.deleteAllMyJobs()
                             authViewModel.signOut()
                             true
                         }

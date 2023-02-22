@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
-import com.example.linkedinanalog.R
 import com.example.linkedinanalog.data.media.mediaModels.PlayState
 import com.example.linkedinanalog.databinding.FragmentHomeBinding
 import com.example.linkedinanalog.ui.pagerAdapter.PagerAdapter
@@ -56,6 +55,11 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onStop() {
+        audioViewModel.playState = PlayState()
+        super.onStop()
     }
 
 }
