@@ -75,6 +75,8 @@
     <string name="LoadError">Ошибка загрузки</string>
     <string name="Retry">Повторить</string>
     <string name="empty_list">Пусто</string>
+    <string name="retry">retry</string>
+    <string name="jobs_history">Jobs history</string>
 
 
 </resources>

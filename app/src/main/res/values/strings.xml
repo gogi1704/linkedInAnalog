@@ -74,6 +74,8 @@
     <string name="LoadError">Load error</string>
     <string name="Retry">Retry</string>
     <string name="empty_list">Empty List</string>
+    <string name="retry">retry</string>
+    <string name="jobs_history">Jobs history</string>
 
 
 </resources>

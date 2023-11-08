@@ -13,7 +13,7 @@
 
     <style name="Widget.Material3.Button.Like" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="iconTint">@color/like_icon_selector</item>
-        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textColor">@color/seed</item>
 
     </style>
 
